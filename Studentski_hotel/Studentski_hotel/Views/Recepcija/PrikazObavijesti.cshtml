@@ -1,0 +1,82 @@
+﻿
+<style>
+    .news-section {
+        width: 100%;
+        border-bottom: 1px solid grey;
+        padding: 5px;
+        margin-top: 10px;
+    }
+
+    .news-txt {
+        margin-bottom: 3px;
+        font-size: 15px;
+    }
+
+    a {
+        float: right;
+        color: red;
+    }
+
+    h3:hover {
+        color: darkgreen;
+    }
+
+    .naslov {
+        border-bottom: 1px dashed green;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 40px;
+        padding-bottom: 22px;
+    }
+
+    h2 {
+        text-align: left;
+    }
+
+    #InputBox {
+        width: 220px;
+    }
+
+    .news-header {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+@{
+    ViewData["Controller"] = "Recepcija";
+    ViewData["Action"] = "PrikazObavijesti";
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+}
+
+@model cloudscribe.Pagination.Models.PagedResult<Studentski_hotel.Models.Recepcija.PrikazObavijesti.Row>
+@addTagHelper *, cloudscribe.Web.Pagination
+
+<div class="naslov">
+    <h2>Obavijesti Studentskog hotela</h2>
+
+
+    <input id="InputBox" type="text" class="form-control" placeholder="Pretraga po naslovu" name="pretraga" />
+
+</div>
+
+@foreach (var item in Model.Data)
+{
+    <div class="news-section">
+        <div class="news-header">
+            <h3 onclick="window.location='/Recepcija/PregledObavijesti?obavijestID='+@item.obavijestID">
+                @item.Naslov
+            </h3>
+            <button class="btn btn-success" onclick="window.location='/Recepcija/EditObavijest?obavijestID=@item.obavijestID'">Edit Obavijest</button>
+        </div>
+        <span style="font-size:1em; color:grey">@item.DatumObj  @item.ImeRecepcionera </span>
+        <br />
+        <br />
+        <p class="news-txt">@item.Text</p>
+        <a href="/Recepcija/Obrisi?obavijestID=@item.obavijestID">Obrisi obavijest</a>
+        <br />
+    </div>
+}
+<partial name="_PaginationPartial" view-data="ViewData" model="Model" />

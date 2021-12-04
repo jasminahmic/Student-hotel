@@ -1,0 +1,127 @@
+﻿@model Studentski_hotel.Models.Recepcija.DetaljiPrikazSobavm
+
+<style>
+    div input {
+        border: none;
+        padding: 5px;
+        /*width: 300px;*/
+    }
+
+    #NapomenaID {
+        width: 50%;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    h3 {
+        font-weight: bold;
+    }
+    #AjaxDiv {
+        position: absolute;
+        width: 33%;
+        left: 33%;
+        top: 25%;
+        /*background-color: #001f3f;*/
+        background-color: white;
+        border-radius: 5px;
+/*        color: white;
+*/        z-index: 999;
+    }
+    #parentDisable {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #000;
+        opacity: 0.8;
+        z-index: 998;
+        height: 100%;
+        width: 100%;
+        display:none;
+    }
+    input {
+        background-color: #aefdbb;
+    }
+    
+    
+</style>
+<form>
+    <h3>Soba @Model.Broj_Sobe</h3>
+    <div>
+        <label>Broj sobe : </label>
+        <input asp-for="Broj_Sobe" readonly />
+
+        <input asp-for="ID" hidden  id="SobaID"/>
+    </div>
+    <div>
+        <label>Broj kreveta : </label>
+        <input asp-for="bROJ_Kreveta" readonly />
+    </div>
+    <div>
+        <label>Sprat : </label>
+        <input asp-for="Sprat" readonly />
+    </div>
+    <div>
+        <label>Balkon : </label>
+        <input asp-for="ImaBalkon" readonly />
+    </div>
+
+    <div>
+        <label>Studenti : </label>
+        @foreach (var item in Model.studenti)
+        {
+            <span onclick="PretraziStudenta(@item.ID)">@item.Ime,</span>
+        }
+    </div>
+
+    <div>
+        <label>Napomena : </label>
+        <div id="NapomenaID">
+            <span>@Model.Napomena</span>
+        </div>
+    </div>
+
+</form>
+<div style="margin-top:20px">
+    @if (!Model.Popunjena)
+    {
+        <button class="btn btn-danger" onclick="DodajStudentaSoba() ">Dodaj Studente</button>
+
+    }
+    else
+    {
+        <button class="btn btn-danger" disabled>Dodaj Studente</button>
+
+    }
+</div>
+<div id="parentDisable" onclick="Zatvori()"></div>
+    <div id="AjaxDiv"></div>
+
+<script>
+    var PretraziStudenta = (ID) => {
+        console.log(ID);
+    }
+
+
+    var DodajStudentaSoba = () => {
+        var sobaID = document.getElementById("SobaID").value;
+        document.getElementById("AjaxDiv").style.display = "block";
+        document.getElementById("parentDisable").style.display = "block";
+
+
+        $.get("/Recepcija/DodajUsobu", { SobaID: sobaID }, function (data) {
+            $("#AjaxDiv").html(data);
+        })
+    }
+    var Zatvori = () => {
+        if (document.getElementById("AjaxDiv").style.display == "block") {
+
+            document.getElementById("AjaxDiv").style.display = "none";
+            document.getElementById("parentDisable").style.display = "none";
+
+
+        }
+    }
+    
+</script>

@@ -1,0 +1,195 @@
+﻿@using Studentski_hotel.Models.Referent
+@model DetaljiPrikazPrijavaVM
+@{
+    var admir = Model.MjestoStanovanja;
+}
+<style>
+    input {
+        border: none;
+        padding: 5px;
+        width: 300px;
+    }
+
+    .wrapDiv {
+        display: flex;
+        flex-flow: column;
+        float: left;
+        margin-bottom: 20px;
+    }
+    #ocjena input{
+        width:250px;
+    }
+    
+</style>
+<form asp-action="SnimiPrimljenogStudenta" method="post">
+    <fieldset>
+        <legend>Licni podaci</legend>
+        <div>
+            <div class="wrapDiv">
+                <div>
+                    <label>Ime : </label>
+                    <input asp-for="Ime" readonly />
+                    <input asp-for="ID" readonly hidden />
+                </div>
+                <div>
+                    <label>Prezime : </label>
+                    <input asp-for="Prezime" readonly />
+                </div>
+                <div>
+                    <label>Ime Oca : </label>
+                    <input asp-for="ImeOca" readonly />
+                </div>
+                <div>
+
+                    <label>Mjesto Rodjenja : </label>
+                    <input asp-for="MjestoRodjenja" readonly />
+                    <input asp-for="MjestoRodjenjaID" readonly hidden />
+
+                </div>
+
+                <div>
+                    <label>Zanimanje roditelja : </label>
+                    <input asp-for="ZanimanjeRoditelja" readonly />
+                </div>
+
+                <div>
+                    <label>Pol : </label>
+                    <input asp-for="Pol" readonly />
+                    <input asp-for="PolID" readonly hidden />
+                </div>
+            </div>
+            <div class="wrapDiv">
+                <div>
+                    <label>JMBG : </label>
+                    <input asp-for="JMBG" readonly />
+                </div>
+                <div>
+                    <label>Lična karta : </label>
+                    <input asp-for="LicnaKarta" readonly />
+                </div>
+                <div>
+                    <label>Datum Rodjenja</label>
+                    <input asp-for="DatumRodjenja" readonly />
+                </div>
+                <div>
+                    <label>Mobitel : </label>
+                    <input asp-for="Mobitel" readonly />
+                </div>
+
+                <div>
+                    <label>Email : </label>
+                    <input asp-for="Email" readonly />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Prebivaliste</legend>
+
+        <div class="wrapDiv">
+            <div>
+                <label>Adresa : </label>
+                <input asp-for="Adresa" readonly />
+            </div>
+            <div>
+                <label>Opstina : </label>
+                <input asp-for="MjestoStanovanja" readonly />
+                <input asp-for="MjestoStanovanjaID" readonly hidden />
+            </div>
+            <div>
+                <label>Kanton : </label>
+                <input asp-for="Kanton" readonly />
+                <input asp-for="KantonID" readonly hidden />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Školovanje</legend>
+        <div class="wrapDiv">
+            <div>
+                <label>Fakultet : </label>
+                <input asp-for="Fakultet" readonly />
+                <input asp-for="FakultetID" readonly hidden />
+            </div>
+            <div>
+                <label>Tip Kandidata : </label>
+                <input asp-for="TipKandidata" readonly />
+                <input asp-for="TipKandidataID" readonly hidden />
+            </div>
+            <div>
+                <label>Broj Indeksa : </label>
+                <input asp-for="BrojIndeksa" readonly />
+            </div>
+            <div>
+                <label>Ciklus studija : </label>
+                <input asp-for="CiklusStudija" readonly />
+                <input asp-for="CiklusStudijaID" readonly hidden />
+            </div>
+            <div>
+                <label>Godina studija : </label>
+                <input asp-for="GodinaStudija" readonly />
+                <input asp-for="GodinaStudijaID" readonly hidden />
+            </div>
+        </div>
+    </fieldset>
+    <fieldset style="border:1px solid black;padding:20px;margin-bottom:30px; width:60%">
+        <legend style="width:150px;text-align:center">Ocjenjivanje</legend>
+        <div class="wrapDiv" id="ocjena">
+           
+            <div class="row">
+                <div class="col">
+                    <label>Bodovi</label>
+                    <input asp-for="Bodovi" class="form-control form-control-sm" />
+                </div>
+                <div class="col">
+                    <br />
+                    <span class="btn btn-primary" style="cursor:pointer" onclick="Prikazi_Sakrij()">Promijeni status</span>
+                </div>
+            </div>
+            <div id="rezultat">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select asp-for="VrsteStanjaKonkursaID" asp-items="@Model.VrsteStanjaKonkursa" id="StanjeID" class="form-control form-control-sm" onchange="prikaz()">
+                        <option disabled selected>--- SELECT ---</option>
+                    </select>
+                </div>
+                <div class="form-group" id="RazlogID">
+                    <label>Razlog</label>
+                    <select asp-for="VrstaRazlogaOdbijanjaID" asp-items="@Model.VrstaRazlogaOdbijanja" class="form-control form-control-sm"></select>
+                </div>
+                @*<span class="btn btn-danger small" >Ponisti</span>*@
+            </div>
+        </div>
+    </fieldset>
+    <div>
+        <button class="btn btn-danger" >  Sačuvaj  </button>
+    </div>
+</form>
+<script>
+    var prikaz = () => {
+        if (document.getElementById("StanjeID").value == 4) {
+            document.getElementById("RazlogID").style.display = "block";
+
+        } else {
+            document.getElementById("RazlogID").style.display = "none";
+        }
+    }
+    prikaz();
+
+    if (document.getElementById("StanjeID").value > 0) {
+        document.getElementById("rezultat").style.display = "block"
+
+    } else {
+        document.getElementById("rezultat").style.display = "none";
+    }
+    var Prikazi_Sakrij = () => {
+        if (document.getElementById("rezultat").style.display == "none") {
+            document.getElementById("rezultat").style.display = "block"
+        } else {
+            document.getElementById("rezultat").style.display = "none"
+        }
+    }
+
+</script>

@@ -1,0 +1,48 @@
+﻿<style>
+
+    .sidenav {
+        height: 100%;
+        width: 210px;
+        position: fixed;
+        z-index: 1;
+        bottom: 0;
+        left: 0;
+        /*        background-color: #41B3A3;
+*/ background-color: #263829;
+        overflow-x: hidden;
+        padding-top: 0.45%;
+        text-align: center;
+        color: white;
+        display: flex;
+        flex-direction: column;
+    }
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+display: block;
+}
+
+    .active, .sidenav a:hover {
+        color: #263829;
+        background-color: #aefdbb;
+        transition: 0.5s;
+    }
+
+
+
+@@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+
+<div class="sidenav">
+    <span class="nav-link" style="font-size:x-large;" href="/Recepcija/PrikazObavijesti">StudentHotel</span>
+    <a class="nav-link" href="/Recepcija/PrikazObavijesti">Obavijesti</a>
+    <a class="nav-link" href="/Recepcija/FilterSoba">Pregled</a>
+    <a class="nav-link" href="#clients">Uplate</a>
+    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Postavke</a>
+</div>

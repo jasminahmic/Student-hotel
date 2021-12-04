@@ -1,0 +1,19 @@
+﻿@model Studentski_hotel.Models.Student.PosaljiZahtjevVM
+
+<form method="post" asp-action="SnimiZahtjev" asp-controller="Student">
+    <div class="form-group  ">
+        <label>Vrsta zahtjeva</label>
+        <select asp-for="VrstaZahtjevaID" asp-items="@Model.VrstaZahtjeva" class="form-control form-control-sm"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Text</label>
+        <input asp-for="Text" type="text" class="form-control form-control-sm" />
+    </div>
+
+    <input type="submit" class="btn btn-danger" value="Posalji" />
+</form>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/site2.js" asp-append-version="true"></script>

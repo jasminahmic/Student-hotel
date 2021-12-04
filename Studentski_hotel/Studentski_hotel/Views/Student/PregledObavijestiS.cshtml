@@ -1,0 +1,56 @@
+﻿@using Studentski_hotel.Models.Student
+
+@model PregledObavijestiS
+
+
+<style>
+    body {
+        margin-left: 20%;
+    }
+
+    .sekcija {
+        border-bottom: 1px solid lightblue;
+    }
+
+    .tekst {
+        text-align: left;
+        margin-top: 11px;
+    }
+
+    .sve {
+        width: 70%;
+        padding: 5px;
+    }
+
+    span {
+        color: grey;
+    }
+
+    button {
+        float: right;
+    }
+
+    .ostale {
+        border-bottom: 1px solid lightblue;
+        width: 70%;
+    }
+
+    .din {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+    }
+</style>
+
+<div class="sve">
+    <div class="sekcija">
+        <h4>Obavijesti/@Model.Naslov</h4>
+        <span>@Model.DatumObj @Model.ImeRecepcionera</span>
+    </div>
+    <div class="tekst">
+        @Model.Text
+    </div>
+    <br />
+</div>
+<br />
+<br />

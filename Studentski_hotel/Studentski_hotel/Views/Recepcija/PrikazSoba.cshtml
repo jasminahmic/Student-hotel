@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+}
+@model Studentski_hotel.Models.Recepcija.PregledSobaVM
+
+<style>
+    .klasa2 {
+        background-color: #567d5d;
+        color: white;
+    }
+        .klasa2:hover {
+            color:white;
+            background-color: #263829;
+        }
+</style>
+<table class="table table-borderless table-striped" style="color: #131c14">
+    <thead>
+        <tr>
+            <th>Soba</th>
+            <th>Broj kreveta</th>
+            <th>Studenti</th>
+            <th></th>
+        </tr>
+    </thead>
+        @foreach (var item in Model.Sobe)
+        {
+    <tr>
+        <td>@item.BrojSobe</td>
+        @if (item.Popunjena)
+        {
+            <td style="color:red">@item.BrojKreveta</td>
+
+        }
+        else
+        {
+            <td>@item.BrojKreveta</td>
+
+        }
+        <td>@item.Studenti</td>
+        <td><button class="btn klasa2" onclick="window.location='/Recepcija/DetaljiPrikazSoba?SobaID='+@item.ID">Pregled</button></td>
+    </tr>
+        }
+
+
+</table>

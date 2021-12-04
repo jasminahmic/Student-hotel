@@ -1,0 +1,29 @@
+﻿<style>
+
+    #TabelaDiv {
+        width: 100%;
+    }
+</style>
+<div class="naslov">
+    <h2>Obavijesti Studentskog hotela</h2>
+
+
+    <input id="InputBox" type="text" class="form-control" placeholder="Pretraga po naslovu" name="pretraga" oninput="Pretraga()" />
+
+</div>
+
+<div id="TabelaDiv">
+
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    var Pretraga = () => {
+
+        $.get("/Student/PrikazObavijestiStudent", { pretraga: $("#InputBox").val() }, function (data) {
+            $("#TabelaDiv").html(data);
+        })
+    }
+    Pretraga();
+
+
+</script>

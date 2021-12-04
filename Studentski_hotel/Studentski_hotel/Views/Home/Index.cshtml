@@ -1,0 +1,144 @@
+﻿@*@{
+        ViewData["Title"] = "Home Page";
+    }
+
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>*@
+
+@{
+    ViewData["Title"] = "Home Page";
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<style>
+    body {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-image: url("https://cf.bstatic.com/images/hotel/max1024x768/266/266481519.jpg");
+        margin: 0;
+        /*        https: //scontent.ftzl2-1.fna.fbcdn.net/v/t1.0-9/29541542_1741761279224216_7753409244891709440_o.jpg?_nc_cat=111&ccb=2&_nc_sid=e3f864&_nc_ohc=Cj4_f3380VIAX_5c8lj&_nc_ht=scontent.ftzl2-1.fna&oh=9c0e2bb87a95d618829ec8b1083bc246&oe=5FF96A6B
+    */
+    }
+
+    .backNesto {
+        /*  position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        cursor: pointer;*/
+    }
+
+    .kontejner {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        height: 100vh;
+    }
+
+    .kontejner2 {
+        display: flex;
+        flex-flow: row;
+        justify-content: right;
+    }
+
+    .login {
+        width: 300px;
+        /*height: 450px;*/
+        background-color: white;
+        justify-content: right;
+        margin-right: 50px;
+    }
+
+    .login2 {
+        width: 300px;
+        height: 370px;
+        background-color: white;
+        position: absolute;
+        right: 5%;
+        border-radius: 10px;
+        display: none;
+    }
+
+
+    .left {
+        display: flex;
+        flex-flow: row;
+        width: 80%;
+        height: 65vh;
+        border: 1px solid white;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .leftdiv {
+        width: 50%;
+        height: 50vh;
+        border-radius: 20px;
+        color: white;
+        padding: 10px;
+    }
+
+
+    .rightdiv {
+        width: 50%;
+        height: 50vh;
+        border-radius: 20px;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        text-align: center;
+        color: white;
+    }
+</style>
+@{
+
+}
+<div id="ajaxTabela" class="login2"></div>
+<div class="kontejner2">
+    <div id="ajaxTabela" class="login"></div>
+</div>
+
+
+<div class="kontejner" onclick="ZatvoriDiv()">
+
+    <div class="left">
+        <div class="leftdiv">
+            <h3 style="margin-bottom:40px;margin-top:10px">Studentski hotel Mostar</h3>
+            <p style="margin-bottom:40px">Studentski hotel Mostar raspolaže smještajnim kapacitetom od 960 ležajeva. Studentski dom ima 192 dvokrevetne i 192 trokrevetne sobe koje raspolažu vlastitim higijensko-sanitarnim čvorom. Kvadratura dvokrevetnih soba je 14,40 m2 a trokrevetnih 18 m2. U domu postoji prostor za edukativne sadržaje, čitaonica, biblioteka, multimedijalni centar sa priručnom bibliotekom, fitnes, vešeraj, kopirnica, stomatološka ordinacija, studentska ambulanta, uredno uređeni parkovi, prostor za obavljanje vjerskih aktivnosti i restoran sa kuhinjom.</p>
+            <button class="btn btn-primary" onclick="window.location='/Konkurss/KonkursForma'">Postani stanar</button>
+
+        </div>
+
+        <div class="leftdiv">
+            <h3 style="margin-bottom:40px;margin-top:10px;margin-left:25px;">Sadržaj doma:</h3>
+            <ul>
+                <li>čitaonica</li>
+                <li>biblioteka</li>
+                <li>multimedijalni centar sa priručnom bibliotekom</li>
+                <li>fitnes</li>
+                <li>vešeraj</li>
+                <li>kopirnica</li>
+                <li>prostor za obavljanje vjerskih aktivnosti</li>
+                <li>caffe bar</li>
+                <li>restoran</li>
+
+
+            </ul>
+        </div>
+
+
+    </div>
+</div>
+
+

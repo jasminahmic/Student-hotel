@@ -1,0 +1,153 @@
+﻿    @using Studentski_hotel.Models.Konkurss;
+@{
+    Layout = null;
+
+}
+@model SnimiVM
+<style>
+    .Podaci {
+        width: 60%;
+        padding: 30px;
+        border:1px solid black;
+        border-radius:20px;
+        margin-bottom:20px;
+    }
+        .Podaci div {
+            margin-bottom: 5px;
+        }
+
+    .PrebivalisteSkolovanje{
+        width:40%;
+    }
+</style>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<button class="btn btn-light" onclick="window.location='/'"><--</button>
+<form class="container" asp-action="Snimi" method="post">
+    <fieldset class="d-flex small Podaci">
+        <legend style="font-size:20px;width:120px;text-align:center">Lični podaci</legend>
+        <div style="margin-right:30px">
+            <div class="form-group  ">
+                <label>Ime</label>
+                <input asp-for="Ime" class="form-control form-control-sm"/>
+            </div>
+            <div class="form-group">
+                <label>Prezime</label>
+                <input asp-for="Prezime" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Ime Oca</label>
+                <input asp-for="ImeOca" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Mjesto Rodjenja</label>
+                <select asp-for="MjestoRodjenjaID" asp-items="@Model.MjestoRodjenja" class="form-control form-control-sm" ></select>
+            </div>
+
+            <div class="form-group">
+                <label>Zanimanje roditelja</label>
+                <input asp-for="ZanimanjeRoditelja" class="form-control form-control-sm" />
+            </div>
+
+            <div class="form-group">
+                <label>Pol</label>
+                <select asp-for="PolID" asp-items="@Model.Pol" class="form-control form-control-sm" ></select>
+            </div>
+
+        </div>
+        <div>
+            <div class="form-group">
+                <label>JMBG</label>
+                <input asp-for="JMBG" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Lična karta</label>
+                <input asp-for="LicnaKarta" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Datum Rodjenja</label>
+                <input asp-for="DatumRodjenja" type="date" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Mobitel</label>
+                <input asp-for="Mobitel" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input asp-for="Email" class="form-control form-control-sm" />
+            </div>
+
+
+        </div>
+
+    </fieldset>
+
+    <fieldset class="d-flex small Podaci PrebivalisteSkolovanje">
+        <legend style="font-size:20px;width:120px;text-align:center">Prebivaliste</legend>
+        <div style="margin-right:30px">
+            <div class="form-group  ">
+                <label>Adresa</label>
+                <input asp-for="Adresa" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Opstina</label>
+                <select asp-for="MjestoStanovanjaID" asp-items="@Model.MjestoStanovanja" id="StanovanjeID" class="form-control form-control-sm">
+                  
+                </select>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label>Kanton</label>
+                <select asp-for="KantonID" asp-items="@Model.Kanton" class="form-control form-control-sm" id="KantonID"></select>
+            </div>
+        </div>
+
+    </fieldset>
+
+    <fieldset class="d-flex small Podaci PrebivalisteSkolovanje">
+        <legend style="font-size:20px;width:120px;text-align:center">Školovanje</legend>
+        <div style="margin-right:30px">
+            <div class="form-group  ">
+                <label>Fakultet</label>
+                <select asp-for="FakultetID" asp-items="@Model.Fakultet" class="form-control form-control-sm"></select>
+            </div>
+            <div class="form-group">
+                <label>Tip Kandidata</label>
+                <select asp-for="TipKandidataID" asp-items="@Model.TipKandidata" class="form-control form-control-sm"></select>
+            </div>
+            <div class="form-group">
+                <label>Broj Indeksa</label>
+                <input asp-for="BrojIndeksa" class="form-control form-control-sm" />
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label>Ciklus studija</label>
+                <select asp-for="CiklusStudijaID" asp-items="@Model.CiklusStudija" class="form-control form-control-sm"></select>
+            </div>
+            <div class="form-group">
+                <label>Godina studija</label>
+                <select asp-for="GodinaStudijaID" asp-items="@Model.GodinaStudija" class="form-control form-control-sm"></select>
+            </div>
+        </div>
+
+    </fieldset>
+    <input type="submit" class="btn btn-danger" value="Submit" />
+</form>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#KantonID").change(function () {
+            $.get("/Konkurss/PrikazOpstina", { KantonID: $("#KantonID").val() }, function (data) {
+                $("#StanovanjeID").empty();
+                $.each(data, function (i, item) {
+                    $("#StanovanjeID").append("<option value='" + item.value + "'>" + item.text + "</option>");
+                   
+                  
+                });
+
+            }); 
+        })
+    });
+</script>

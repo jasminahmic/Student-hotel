@@ -1,0 +1,83 @@
+﻿<style>
+    #TabelaDiv {
+        width: 100%;
+    }
+
+    #PrimanjeDiv {
+        padding: 20px;
+        padding-left: 0px;
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col" style="width:90%">
+        <input type="text" placeholder="Pretraga" id="InputBox" oninput="Pretraga()" class="form-control" />
+    </div>
+    <div class="col">
+        <select class="form-control" id="sortID" onchange="Pretraga()">
+            <option selected disabled>-- Sortiranje --</option>
+            <option value="1">Bodovi</option>
+            <option value="2">Abecedno</option>
+            <option value="3" selected>DatumPrijavljivanja</option>
+        </select>
+    </div>
+    <div class="col">
+        <select class="form-control" id="StatusID" onchange="Pretraga()">
+
+            <option value="1">Pregledan</option>
+            <option value="2">Primljen</option>
+            <option value="3">Primljen, na cekanju</option>
+            <option value="4">Odbijen</option>
+            <option value="0" selected>Svi Statusi</option>
+        </select>
+    </div>
+    <div class="col">
+        <button class="btn btn-success" onclick="Dodavanje()">Primi studente</button>
+    </div>
+</div>
+<form style="width:20%" method="post" action="/Referent/SnimiPrimljeneStudente" id="PrimanjeDiv">
+    <div class="form-group">
+        <label>Minimalan broj bodova</label>
+        <input type="number" class="form-control" id="MinBrojBodova" name="minBodova" />
+    </div>
+    <div class="form-group">
+        <label>Broj studenata</label>
+
+        <input type="number" class="form-control" id="BrojStudenata" name="BrojStudenata"/>
+    </div>
+    <div>
+        <input type="submit" value="Dodaj" class="btn btn-danger" />
+    </div>
+</form>
+<div id="TabelaDiv">
+
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+
+    var Pretraga = () => {
+        var indeks = document.getElementById("sortID").value;
+        var status = document.getElementById("StatusID").value;
+        $.get("/Referent/PrikazPrijava", { pretraga: $("#InputBox").val(), sort: indeks, Status: status }, function (data) {
+            $("#TabelaDiv").html(data);
+        })
+    }
+    Pretraga();
+
+    var Dodavanje = () => {
+        if (document.getElementById("PrimanjeDiv").style.display == "none")
+            document.getElementById("PrimanjeDiv").style.display = "block";
+        else {
+            document.getElementById("PrimanjeDiv").style.display = "none";
+
+        }
+    }
+    Dodavanje();
+
+    //var Snimanje = () => {
+    //    $.get("/Referent/SnimiPrimljeneStudente", { minBodova: $("#BrojStudenata").val(), BrojStudenata: $("#MinBrojBodova").val()}, function (data) {
+    //    })
+            
+    //}
+</script>

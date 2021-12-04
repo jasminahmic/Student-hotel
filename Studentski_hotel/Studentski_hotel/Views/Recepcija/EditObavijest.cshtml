@@ -1,0 +1,44 @@
+﻿@using Studentski_hotel.Models.Recepcija
+
+@model DodajObavijestVM
+<style>
+    form{
+        margin-top:5%;
+    }
+
+</style>
+<form asp-action="Snimi" asp-controller="Recepcija">
+    <div style="display:none">
+        <label></label>
+        <br/>
+        <input asp-for="obavijestID" />
+    </div>
+    <div class="form-group">
+        <label for="Naslov">Naslov</label>
+        <input asp-for="Naslov" type="text" class="form-control" id="Naslov" aria-describedby="naslov" placeholder="Unesite naslov">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1"> Tekst Obavijesti</label>
+        <textarea asp-for="Text" maxlength="1000" class="form-control" id="exampleFormControlTextarea1" rows="3" style="height:200px"></textarea>
+    </div>
+
+
+     <input type="submit" value="Snimi" class="btn btn-info"  style="float:right"/>
+</form>
+
+<script>
+    function SnimiObavijest() {
+        var forma = $("#NovaObavijest");
+
+        var url = "/Recepcija/Snimi";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: forma.serialize(),
+            success: function (d) {
+                $("#ajaxPoziv").html(d);
+            }
+        })
+        alert("Uspjesno snimljeno");
+    }
+</script>

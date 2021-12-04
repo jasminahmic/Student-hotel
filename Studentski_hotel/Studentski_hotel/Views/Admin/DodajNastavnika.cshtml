@@ -1,0 +1,191 @@
+﻿@using Studentski_hotel.Models.Admin;
+@{
+
+
+}
+@model DodajNastavnikaVM
+<style>
+    .Podaci {
+        width: 60%;
+        padding: 30px;
+        border: 1px solid black;
+        border-radius: 20px;
+        margin-bottom: 20px;
+    }
+
+        .Podaci div {
+            margin-bottom: 5px;
+        }
+
+    .PrebivalisteSkolovanje {
+        width: 40%;
+    }
+
+    .pass {
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 5px;
+    }
+</style>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<button class="btn btn-light" onclick="window.location='/'">Nazad</button>
+<form class="container" asp-action="Snimi" method="post">
+    <fieldset class="d-flex small Podaci">
+        <legend style="font-size:20px;width:120px;text-align:center">Lični podaci</legend>
+        <div style="margin-right:30px">
+            <div class="form-group  ">
+                <label>Ime</label>
+                <input asp-for="Ime" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Prezime</label>
+                <input asp-for="Prezime" class="form-control form-control-sm" />
+            </div>
+
+
+
+            <div class="form-group">
+                <label>Pol</label>
+                <select asp-for="PolID" asp-items="@Model.Pol" class="form-control form-control-sm"></select>
+            </div>
+
+        </div>
+        <div>
+            @*<div class="form-group">
+            <label>JMBG</label>
+            <input asp-for="JMBG" class="form-control form-control-sm" />
+        </div>
+        <div class="form-group">
+            <label>Lična karta</label>
+            <input asp-for="LicnaKarta" class="form-control form-control-sm" />
+        </div>*@
+            <div class="form-group">
+                <label>Datum Rodjenja</label>
+                <input asp-for="DatumRodjenja" type="date" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Mobitel</label>
+                <input asp-for="mobitel" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>DatumZaposlenja</label>
+                <input asp-for="DatumZaposlenja" class="form-control form-control-sm" type="date"/>
+            </div>
+
+
+        </div>
+
+    </fieldset>
+
+    <fieldset class="d-flex small Podaci PrebivalisteSkolovanje">
+        <legend style="font-size:20px;width:120px;text-align:center">Prebivaliste</legend>
+        <div style="margin-right:30px">
+            <div class="form-group  ">
+                <label>Adresa</label>
+                <input asp-for="Adresa" class="form-control form-control-sm" />
+            </div>
+        <div class="form-group  ">
+            <label>Poštanski broj</label>
+            <input asp-for="PostanskiBroj" class="form-control form-control-sm" />
+        </div>
+            <div class="form-group">
+                <label>Opstina</label>
+                <select asp-for="MjestoStanovanjaID" asp-items="@Model.MjestoStanovanja" id="StanovanjeID" class="form-control form-control-sm">
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <div class="form-group">
+                <label>Kanton</label>
+                <select asp-for="KantonID" asp-items="@Model.Kanton" class="form-control form-control-sm" id="KantonID"></select>
+            </div>
+        </div>
+
+
+
+    </fieldset>
+    <fieldset class="d-flex small Podaci PrebivalisteSkolovanje">
+        <legend style="font-size:20px;width:120px;text-align:center">Login podaci</legend>
+        <div style="margin-right:30px">
+            @*---------------*@
+
+            <div class="form-group" hidden>
+                <input asp-for="KorisnikID" />
+            </div>
+            <div class="form-group" hidden>
+                <input asp-for="ID" />
+            </div>
+            <div class="form-group" hidden>
+                <input asp-for="LokacijaID" />
+            </div>
+
+            @*---------------*@
+            <div class="form-group">
+                <label>E-mail</label>
+                <input asp-for="email" class="form-control form-control-sm" />
+            </div>
+            @if (Model.ID == 0)
+            {
+                <div class="form-group">
+                    @*<label>Password</label>*@
+                    <input asp-for="password" hidden id="passID" class="form-control form-control-sm" />
+                </div>
+                @*<div style="padding:5px">
+                    <span onclick="Genereisi()" class="pass">Generisi novi password</span>
+                </div>*@
+                <div class="form-group">
+                    <label>Tip Korisnika</label>
+                    @* <input asp-for="TipKorisnika" class="form-control form-control-sm" />*@
+                    <select asp-for="TipKorisnika" class="form-control form-control-sm">
+                        <option value="1">Recepcionar</option>
+                        <option value="2">Referent</option>
+                        <option value="3">Kuharica</option>
+                    </select>
+                </div>
+            }
+            else
+            {
+
+                <div class="form-group" hidden>
+                    <label>Tip Korisnika</label>
+                    @* <input asp-for="TipKorisnika" class="form-control form-control-sm" />*@
+                    <select asp-for="TipKorisnika" class="form-control form-control-sm">
+                        <option value="1">Recepcionar</option>
+                        <option value="2">Referent</option>
+                        <option value="3">Kuharica</option>
+                    </select>
+                </div>
+
+            }
+
+
+        </div>
+
+    </fieldset>
+
+    <input type="submit" class="btn btn-danger" value="Submit" />
+</form>
+<script src="~/js/site.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#KantonID").change(function () {
+            $.get("/Konkurss/PrikazOpstina", { KantonID: $("#KantonID").val() }, function (data) {
+                $("#StanovanjeID").empty();
+                $.each(data, function (i, item) {
+                    $("#StanovanjeID").append("<option value='" + item.value + "'>" + item.text + "</option>");
+
+
+                });
+
+            });
+        })
+    });
+
+   
+        document.getElementById("passID").value = password_generator(8);
+    
+</script>

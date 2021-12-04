@@ -1,0 +1,69 @@
+﻿@using Studentski_hotel.Models.Recepcija
+
+@model PregledObavijesti
+
+
+<style>
+    .sekcija{
+        border-bottom:1px solid lightblue;
+    }
+    .tekst{
+        text-align:left;
+        margin-top: 35px;
+    }
+    .sve {
+        width: 70%;
+        padding:5px;
+        margin: auto;
+        margin-top: 10%;
+    }
+    span{
+        color:grey;
+    }
+    button{
+        float:right;
+    }
+    .ostale {
+        border-bottom: 1px solid lightblue;
+        width:70%;
+    }
+    .din{
+        display:flex;
+        flex-flow:row;
+        justify-content:space-between;
+    }
+</style>
+
+   <div class="sve">
+    <div class="sekcija">
+    <h4>Obavijesti/@Model.Naslov</h4>
+    <span>@Model.DatumObj @Model.ImeRecepcionera</span>
+    </div>
+    <div class="tekst">
+        @Model.Text
+    </div>
+       <br/>
+     <button class="btn btn-outline-info" onclick="window.location='/Recepcija/EditObavijest?obavijestID=' + @Model.obavijestID">Edit Obavijest</button>
+     </div>
+  <br/>
+  <br/>
+ @*<div class="ostale">
+      
+     @foreach (var item in lista)
+     {
+         <div class="din">
+             <p>@item.DatumObj</p>
+             <p>@item.Naslov</p>
+         </div>
+     }
+ </div>*@
+<script>
+    function OtvoriFormu(obavijestID) {
+        var url = "/Recepcija/EditObavijest?obavijestID=" + obavijestID;
+        $.get(url, function (d) {
+            $
+        }
+        )
+    }
+</script>
+

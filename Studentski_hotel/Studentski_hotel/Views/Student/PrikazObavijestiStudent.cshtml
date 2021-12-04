@@ -1,0 +1,89 @@
+﻿@using Studentski_hotel.Models.Student
+
+@model PrikazObavijestiStudent
+
+@{
+    Layout = null;
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+}
+
+<style>
+
+    .obavijest {
+        width: 100%;
+        border-bottom: 1px solid grey;
+        padding: 5px;
+        margin-top: 10px;
+    }
+
+    .tekst {
+        margin-bottom: 3px;
+        font-size: 15px;
+    }
+
+    a {
+        float: right;
+        color: red;
+    }
+
+    h3:hover {
+        color: darkgreen;
+    }
+
+    .naslov {
+        border-bottom: 1px dashed green;
+        clear: both;
+        padding: 50px;
+    }
+
+    h2 {
+        float: left;
+        text-align: left;
+    }
+
+    #InputBox {
+        width: 220px;
+        float: right;
+    }
+
+
+    .line {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+    }
+</style>
+
+
+
+<br />
+<br />
+@foreach (var item in Model.obavijesti)
+{
+
+
+    <div class="obavijest">
+
+        <div class="line">
+            <h3 onclick="window.location='/Student/PregledObavijestiS?obavijestID='+@item.obavijestID">
+                @item.Naslov
+            </h3>
+            
+        </div>
+        <span style="font-size:1em; color:grey">@item.DatumObj  @item.ImeRecepcionera </span>
+        <br />
+        <br />
+
+        <p class="tekst">@item.Text</p>
+
+
+
+       
+
+        <br />
+
+    </div>
+
+
+}

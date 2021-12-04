@@ -1,0 +1,50 @@
+﻿<style>
+    .klasa2 {
+        background-color: #567d5d;
+        color: white;
+    }
+
+        .klasa2:hover {
+            color: white;
+            background-color: #263829;
+        }
+</style>
+@{
+    ViewData["Title"] = "Pretraga zahtjeva";
+    ViewData["Controller"] = "Recepcija";
+    ViewData["Action"] = "PrikazZahtjeva";
+}
+
+@model cloudscribe.Pagination.Models.PagedResult<Studentski_hotel.Models.Recepcija.PrikazZahtjevaVM.Row>
+@addTagHelper *, cloudscribe.Web.Pagination
+
+
+<partial name="_ButtonsPartial" />
+
+
+<table class="table table-borderless table-striped" id="SignalTabela">
+    <thead>
+        <tr>
+            <th>Ime i prezime</th>
+            <th>Zahtjev</th>
+            <th>Datum</th>
+            <th>Broj sobe</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Data)
+    {
+        <tr>
+            <td>@item.ImePrezime</td>
+            <td>@item.Zahtjev</td>
+            <td>@item.Datum</td>
+            <td>@item.Soba</td>
+            <td><button class="btn klasa2">Pregled</button></td>
+        </tr>
+    }
+</table>
+<partial name="_PaginationPartial" view-data="ViewData" model="Model" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/site2.js" asp-append-version="true"></script>

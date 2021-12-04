@@ -1,0 +1,68 @@
+﻿@using Studentski_hotel.Models.Referent
+@{
+    @model PrikazPrijavaVM
+    Layout = null;
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+}
+
+
+@*<form>
+
+        <input name="pretraga" value="@Model.Pretraga" placeholder="Trazi" />
+        <input type="submit" value="Trazi" class="btn btn-primary" />
+
+    </form>*@
+
+<table class="table">
+    <tr>
+        <th>Ime i Prezime</th>
+        <th>Datum Rodjenja</th>
+        <th>Mjesto Stanovanja</th>
+        <th>Status</th>
+        <th>Bodovi</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.Students)
+    {
+<tr>
+    <td>@item.Ime @item.Prezime</td>
+    <td>@item.DatumRodjenja</td>
+    <td>@item.OpstinaPrebivalista</td>
+    <td>@item.Status</td>
+    @{
+        if (item.Status == "Primljen" || item.Status == "Primljen, na cekanju" || item.Status == "Pregledan" || item.Razlog!="Ne pravilno popunjena forma")
+        {
+            <td>@item.Bodovi</td>
+
+        }
+        else
+        {
+            <td>---</td>
+        }
+    }
+    @{
+        if (item.StudentID > 0)
+        {
+            <td style="color:red">Student Primljen</td>
+            <td><button class="btn btn-light" onclick="window.location='/Referent/DetaljiPrikazPrijava?KonkursID='+@item.ID">Uredi</button></td>
+
+        }
+        else
+        {
+            <td><button class="btn btn-primary" onclick="window.location='/Referent/DetaljiPrikazPrijava?KonkursID='+@item.ID">Pregled</button></td>
+
+        }
+    }
+</tr>
+    }
+
+</table>
+@*<script src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Sort").click(function () {
+
+            })
+        })
+    </script>*@

@@ -1,0 +1,23 @@
+.PrikazZaposlenih{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row;
+}
+.PrikazZaposlenih div{
+    width: 90%;
+    /* box-shadow: 1px 5px 8px #888888; */
+
+}
+.PrikazZaposlenih div form input{
+    width: 20%;
+    height: 30px;
+    margin:20px 20px 20px 0px;
+    padding: 20px;
+    box-sizing: border-box;
+    border:1px solid black;
+    border-radius: 5px;
+    font-size:15px ;
+    /* box-shadow: 1px 5px 8px #888888; */
+
+}
