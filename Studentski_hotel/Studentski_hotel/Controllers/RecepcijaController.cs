@@ -34,12 +34,6 @@ namespace Studentski_hotel.Controllers
             _emailService = emailService;
         }
 
-        public IActionResult Index()
-        {
-
-
-            return View();
-        }
         public IActionResult EditObavijest(int obavijestID)
         {
             DodajObavijestVM obj = obavijestID == 0 ? new DodajObavijestVM() :
@@ -50,17 +44,17 @@ namespace Studentski_hotel.Controllers
                     Naslov = o.Naslov,
                     Text = o.Text.Trim(),
                     RecepcionerID = o.OsobljeID,
-                    datum_dodavanja = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"),
+                    datum_dodavanja = DateTime.Now.ToString(),
                 }).Single();
 
 
             return View(obj);
         }
-  
-        public IActionResult PrikazObavijesti(int pageNumber = 1, int pageSize = 4)
+        public IActionResult PrikazObavijesti(string pretraga, int pageNumber = 1, int pageSize = 3)
         {
             int ExcludeRecords = (pageSize * pageNumber) - pageSize;
-            var model = dbContext.Obavijests/*/*.Where(x => pretraga == null || (x.Naslov.ToLower().StartsWith(pretraga.ToLower())))*/
+            PrikazObavijesti all = new PrikazObavijesti();
+            all.obavijesti = dbContext.Obavijests.Where(x => pretraga == null || (x.Naslov.ToLower().StartsWith(pretraga.ToLower())))
             .Select(o => new PrikazObavijesti.Row
             {
                 obavijestID = o.ID,
@@ -70,38 +64,18 @@ namespace Studentski_hotel.Controllers
                 ImeRecepcionera = o.Osoblje.Ime + " " + o.Osoblje.Prezime
             }).OrderByDescending(o => o.DatumObj).Skip(ExcludeRecords).Take(pageSize).AsNoTracking().ToList();
 
-            int brojac = dbContext.Zahtjevs.Count();
+            int brojac = dbContext.Obavijests.Count();
+  
             var result = new PagedResult<PrikazObavijesti.Row>
             {
-                Data = model,
+                Data = all.obavijesti,
+                PageNumber= pageNumber,
                 TotalItems = brojac,
-                PageNumber = pageNumber,
                 PageSize = pageSize,
             };
-
+            
             return View(result);
         }
-
-        //public IActionResult PrikazObavijesti()
-        //{
-        //    PrikazObavijesti all = new PrikazObavijesti();
-        //    all.obavijesti = dbContext.Obavijests/*.Where(x => pretraga == null || (x.Naslov.ToLower().StartsWith(pretraga.ToLower())))*/
-        //    .Select(o => new PrikazObavijesti.Row
-        //    {
-        //        obavijestID = o.ID,
-        //        Naslov = o.Naslov,
-        //        Text = o.Text,
-        //        DatumObj = o.DatumVrijeme,
-        //        ImeRecepcionera = o.Osoblje.Ime + " " + o.Osoblje.Prezime
-
-        //    }).ToList();
-
-        //    all.obavijesti = all.obavijesti.OrderByDescending(x => x.DatumObj).ToList();
-
-        //    //TempData["all"] = all.obavijesti;
-        //    return View(all);
-        //}
-
 
         public async Task<IActionResult> SnimiAsync(DodajObavijestVM obj)
         {
@@ -112,7 +86,7 @@ namespace Studentski_hotel.Controllers
             if (obj.obavijestID == 0)
             {
                 ob = new Obavijest();
-                ob.DatumVrijeme = DateTime.Now.ToString("23.1.2021. 01:02:45");
+                ob.DatumVrijeme = DateTime.Now.ToString();
 
                 dbContext.Add(ob);
             }
@@ -121,10 +95,8 @@ namespace Studentski_hotel.Controllers
                 ob = dbContext.Obavijests.Find(obj.obavijestID);
             }
 
-
             ob.Naslov = obj.Naslov;
             ob.Text = obj.Text;
-
             ob.OsobljeID = referent.Korisnik.Osoblje.ID;
 
             dbContext.SaveChanges();
@@ -138,7 +110,7 @@ namespace Studentski_hotel.Controllers
 
             dbContext.Remove(obrisana);
             dbContext.SaveChanges();
-            return Redirect("/Recepcija/PrikazObavijesti");
+            return Redirect("/Recepcija/RecepcionerPocetna");
         }
 
         public IActionResult PregledObavijesti(int obavijestID)
@@ -154,27 +126,6 @@ namespace Studentski_hotel.Controllers
 
             return View(po);
         }
-
-        //public PartialViewResult PretragaObavijesti(string pretraga)
-        //{
-        //    PrikazObavijesti all = new PrikazObavijesti();
-        //    all.obavijesti = dbContext.Obavijests.Where(x => pretraga == null || (x.Naslov.ToLower().StartsWith(pretraga.ToLower())))
-        //    .Select(o => new PrikazObavijesti.Row
-        //    {
-        //        obavijestID = o.ID,
-        //        Naslov = o.Naslov,
-        //        Text = o.Text,
-        //        DatumObj = o.DatumVrijeme,
-        //        ImeRecepcionera = o.Osoblje.Ime + " " + o.Osoblje.Prezime
-
-        //    }).ToList();
-
-        //    all.obavijesti = all.obavijesti.OrderByDescending(x => x.DatumObj).ToList();
-
-        //    all.pretraga = pretraga;
-
-        //    return PartialView(all);
-        //}
 
         public IActionResult FilterSoba()
         {

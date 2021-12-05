@@ -39,24 +39,22 @@
     h2 {
         text-align: left;
     }
-
 </style>
 
 <div class="naslov">
     <h2>Obavijesti Studentskog hotela</h2>
-    <button class="btn btn-success" onclick="window.location='/Recepcija/EditObavijest'"> Dodaj obavijest +</button>
 </div>
 
 
 
 @{
-    ViewData["Controller"] = "Recepcija";
+    ViewData["Controller"] = "Student";
     ViewData["Action"] = "PrikazObavijesti";
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 }
 
-@model cloudscribe.Pagination.Models.PagedResult<Studentski_hotel.Models.Recepcija.PrikazObavijesti.Row>
+@model cloudscribe.Pagination.Models.PagedResult<Studentski_hotel.Models.Student.PrikazObavijestiStudent.Row>
 @addTagHelper *, cloudscribe.Web.Pagination
 
 
@@ -64,16 +62,14 @@
 {
     <div class="news-section">
         <div class="news-header">
-            <h3 onclick="window.location='/Recepcija/PregledObavijesti?obavijestID='+@item.obavijestID">
+            <h3 onclick="window.location='/Student/PregledObavijesti?obavijestID='+@item.obavijestID">
                 @item.Naslov
             </h3>
-            <button class="btn btn-success" onclick="window.location='/Recepcija/EditObavijest?obavijestID=@item.obavijestID'">Edit Obavijest</button>
         </div>
         <span style="font-size:1em; color:grey">@item.DatumObj  @item.ImeRecepcionera </span>
         <br />
         <br />
         <p class="news-txt">@item.Text</p>
-        <a href="/Recepcija/Obrisi?obavijestID=@item.obavijestID">Obrisi obavijest</a>
         <br />
     </div>
 }

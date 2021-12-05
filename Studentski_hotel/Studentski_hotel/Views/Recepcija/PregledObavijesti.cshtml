@@ -4,59 +4,50 @@
 
 
 <style>
-    .sekcija{
-        border-bottom:1px solid lightblue;
+    .sekcija {
+        border-bottom: 1px solid lightblue;
     }
-    .tekst{
-        text-align:left;
+
+    .tekst {
+        text-align: left;
         margin-top: 35px;
     }
+
     .sve {
         width: 70%;
-        padding:5px;
+        padding: 5px;
         margin: auto;
         margin-top: 10%;
     }
-    span{
-        color:grey;
+
+    span {
+        color: grey;
     }
-    button{
-        float:right;
+
+    button {
+        float: right;
     }
-    .ostale {
-        border-bottom: 1px solid lightblue;
-        width:70%;
-    }
-    .din{
-        display:flex;
-        flex-flow:row;
-        justify-content:space-between;
+
+    .btn-light {
+        position: absolute;
+        top: 80px;
+        left: 260px;
     }
 </style>
 
-   <div class="sve">
+<button class="btn btn-light" onclick="window.location='/Recepcija/PrikazObavijesti'"> Nazad na obavijesti</button>
+
+<div class="sve">
     <div class="sekcija">
-    <h4>Obavijesti/@Model.Naslov</h4>
-    <span>@Model.DatumObj @Model.ImeRecepcionera</span>
+        <h4>Obavijesti/@Model.Naslov</h4>
+        <span>@Model.DatumObj @Model.ImeRecepcionera</span>
     </div>
     <div class="tekst">
         @Model.Text
     </div>
-       <br/>
-     <button class="btn btn-outline-info" onclick="window.location='/Recepcija/EditObavijest?obavijestID=' + @Model.obavijestID">Edit Obavijest</button>
-     </div>
-  <br/>
-  <br/>
- @*<div class="ostale">
-      
-     @foreach (var item in lista)
-     {
-         <div class="din">
-             <p>@item.DatumObj</p>
-             <p>@item.Naslov</p>
-         </div>
-     }
- </div>*@
+    <br />
+    <button class="btn btn-outline-info" onclick="window.location='/Recepcija/EditObavijest?obavijestID=' + @Model.obavijestID">Edit Obavijest</button>
+</div>
 <script>
     function OtvoriFormu(obavijestID) {
         var url = "/Recepcija/EditObavijest?obavijestID=" + obavijestID;

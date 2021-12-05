@@ -42,7 +42,7 @@ namespace Studentski_hotel.Controllers
                 var student = applicationdbcontext.Students.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
                 if (student != null)
                 {
-                    return Redirect(url: "/Student/StudentPocetna");
+                    return Redirect(url: "/Student/PrikazObavijesti");
                 }
                 var osoblje = applicationdbcontext.Osobljes.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
                 if (osoblje.RolaID == 1)

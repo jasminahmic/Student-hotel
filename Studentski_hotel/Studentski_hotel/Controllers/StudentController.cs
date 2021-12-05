@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Studentski_hotel.Data;
 using Studentski_hotel.Helper;
 using Studentski_hotel.Models.Student;
+using cloudscribe.Pagination.Models;
 using Studentski_hotel.notHub;
 
 namespace Studentski_hotel.Controllers
@@ -35,13 +36,10 @@ namespace Studentski_hotel.Controllers
         {
             return View();
         }
-        public IActionResult StudentPocetna()
-        {
-            return View();
 
-        }
-        public IActionResult PrikazObavijestiStudent(string pretraga)
+        public IActionResult PrikazObavijesti(string pretraga, int pageNumber = 1, int pageSize = 3)
         {
+            int ExcludeRecords = (pageSize * pageNumber) - pageSize;
             PrikazObavijestiStudent all = new PrikazObavijestiStudent();
             all.obavijesti = dbContext.Obavijests.Where(x => pretraga == null || (x.Naslov.ToLower().StartsWith(pretraga.ToLower())))
             .Select(o => new PrikazObavijestiStudent.Row
@@ -50,34 +48,31 @@ namespace Studentski_hotel.Controllers
                 Naslov = o.Naslov,
                 Text = o.Text,
                 DatumObj = o.DatumVrijeme,
-                ImeRecepcionera=o.Osoblje.Ime + " " + o.Osoblje.Prezime
-            }).ToList();
+                ImeRecepcionera = o.Osoblje.Ime + " " + o.Osoblje.Prezime
+            }).OrderByDescending(o => o.DatumObj).Skip(ExcludeRecords).Take(pageSize).AsNoTracking().ToList();
 
-            all.obavijesti = all.obavijesti.OrderByDescending(x => x.DatumObj).ToList();
+            int brojac = dbContext.Obavijests.Count();
 
-            all.pretraga = pretraga;
-            //TempData["all"] = all.obavijesti;
-            return View(all);
+            var result = new PagedResult<PrikazObavijestiStudent.Row>
+            {
+                Data = all.obavijesti,
+                PageNumber = pageNumber,
+                TotalItems = brojac,
+                PageSize = pageSize,
+            };
+
+            return View(result);
         }
-        public IActionResult PregledObavijestiS(int obavijestID)
+        public IActionResult PregledObavijesti(int obavijestID)
         {
+            var ob = dbContext.Obavijests.Include(a => a.Osoblje).Where(a => a.ID == obavijestID).FirstOrDefault();
 
-            //var user = await _userManager.GetUserAsync(User);
-            //var referent = dbContext.Recepcioners.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
-            var ob = dbContext.Obavijests.Find(obavijestID);
-            //ob.RecepcioerID = referent.Korisnik.Recepcioer.ID;
-
-
-            PregledObavijestiS po = dbContext.Obavijests.Where(x => x.ID == obavijestID)
-                .Select(ob => new PregledObavijestiS { 
-            obavijestID = ob.ID,
-            Naslov = ob.Naslov,
-            Text = ob.Text,
-            DatumObj = ob.DatumVrijeme,
-            ImeRecepcionera = ob.Osoblje.Ime + " " + ob.Osoblje.Prezime
-        }).Single();
-
-
+            PregledObavijestiS po = new PregledObavijestiS();
+            po.obavijestID = ob.ID;
+            po.Naslov = ob.Naslov;
+            po.Text = ob.Text;
+            po.ImeRecepcionera = ob.Osoblje.Ime + " " + ob.Osoblje.Prezime;
+            po.DatumObj = ob.DatumVrijeme;
 
             return View(po);
         }

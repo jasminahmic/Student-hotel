@@ -2,24 +2,20 @@
 
 @model PregledObavijestiS
 
-
 <style>
-    body {
-        margin-left: 20%;
-    }
-
     .sekcija {
         border-bottom: 1px solid lightblue;
     }
-
     .tekst {
         text-align: left;
-        margin-top: 11px;
+        margin-top: 35px;
     }
 
     .sve {
         width: 70%;
         padding: 5px;
+        margin: auto;
+        margin-top: 10%;
     }
 
     span {
@@ -40,9 +36,16 @@
         flex-flow: row;
         justify-content: space-between;
     }
+    .btn {
+        position: absolute;
+        top: 80px;
+        left: 260px;
+    }
 </style>
 
+    <button class="btn btn-light" onclick="window.location='/Student/PrikazObavijesti'"> Nazad na obavijesti</button>
 <div class="sve">
+
     <div class="sekcija">
         <h4>Obavijesti/@Model.Naslov</h4>
         <span>@Model.DatumObj @Model.ImeRecepcionera</span>
