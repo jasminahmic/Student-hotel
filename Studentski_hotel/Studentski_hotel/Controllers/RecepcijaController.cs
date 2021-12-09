@@ -103,7 +103,14 @@ namespace Studentski_hotel.Controllers
             ob.OsobljeID = referent.Korisnik.Osoblje.ID;
 
             dbContext.SaveChanges();
-            await _hubContext.Clients.All.SendAsync("SlanjeObavijesti", obj.Naslov, obj.Text, user, ob.DatumVrijeme, ob.ID);
+            await _hubContext.Clients.All.SendAsync("SlanjeObavijesti",
+                                                                    obj.Naslov, 
+                                                                    obj.Text,
+                                                                    user.Osoblje.ID, 
+                                                                    ob.DatumVrijeme, 
+                                                                    referent.Ime + "" + referent.Prezime,
+                                                                    obj.obavijestID
+                                                                );
             return Redirect("/Recepcija/PrikazObavijesti");
         }
 
@@ -113,7 +120,7 @@ namespace Studentski_hotel.Controllers
 
             dbContext.Remove(obrisana);
             dbContext.SaveChanges();
-            return Redirect("/Recepcija/RecepcionerPocetna");
+            return Redirect("/Recepcija/PrikazObavijesti");
         }
 
         public IActionResult PregledObavijesti(int obavijestID)
