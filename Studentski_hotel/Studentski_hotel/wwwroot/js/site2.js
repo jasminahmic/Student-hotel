@@ -1,7 +1,8 @@
 ﻿
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/notHub").build();
-connection.on("SlanjeZahtjeva", function (Ime,Zahtjev,Datum,Soba,broj) {
+connection.on("SlanjeZahtjeva", function (Ime, Zahtjev, Datum, Soba, broj) {
+
 
 
     var tabela = document.getElementById("SignalTabela");
@@ -45,9 +46,13 @@ connection.on("SlanjeZahtjeva", function (Ime,Zahtjev,Datum,Soba,broj) {
     tr.appendChild(td3);
     tr.appendChild(td4);
     tr.appendChild(td5).appendChild(button);
+    console.log(tr);
+    console.log(td2);
+
     tabela.insertBefore(tr, tabela.childNodes[0]);
 
 });
+
 
 connection.start().then(function () {
     console.info("started signalR hub");

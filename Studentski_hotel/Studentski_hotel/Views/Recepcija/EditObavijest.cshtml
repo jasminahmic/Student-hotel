@@ -2,15 +2,14 @@
 
 @model DodajObavijestVM
 <style>
-    form{
-        margin-top:5%;
+    form {
+        margin-top: 5%;
     }
-
 </style>
 <form asp-action="Snimi" asp-controller="Recepcija">
     <div style="display:none">
         <label></label>
-        <br/>
+        <br />
         <input asp-for="obavijestID" />
     </div>
     <div class="form-group">
@@ -23,22 +22,8 @@
     </div>
 
 
-     <input type="submit" value="Snimi" class="btn btn-info"  style="float:right"/>
+    <input type="submit" value="Snimi" class="btn btn-info" style="float:right" />
 </form>
 
-<script>
-    function SnimiObavijest() {
-        var forma = $("#NovaObavijest");
-
-        var url = "/Recepcija/Snimi";
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: forma.serialize(),
-            success: function (d) {
-                $("#ajaxPoziv").html(d);
-            }
-        })
-        alert("Uspjesno snimljeno");
-    }
-</script>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/site3.js" asp-append-version="true"></script>

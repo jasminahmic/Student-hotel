@@ -13,6 +13,8 @@ using Studentski_hotel.Helper;
 using Studentski_hotel.Models.Recepcija;
 using cloudscribe.Pagination.Models;
 using Studentski_hotel.Interface;
+using Studentski_hotel.notHub;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Studentski_hotel.Controllers
 {
@@ -23,15 +25,16 @@ namespace Studentski_hotel.Controllers
         private readonly SignInManager<Korisnik> _signInManager;
         private ApplicationDbContext dbContext;
         private IEmailService _emailService;
+        IHubContext<NotHub> _hubContext;
 
-
-
-        public RecepcijaController(UserManager<Korisnik> userManager, SignInManager<Korisnik> signInManager, ApplicationDbContext _dbContext, IEmailService emailService)
+        public RecepcijaController(UserManager<Korisnik> userManager, SignInManager<Korisnik> signInManager, ApplicationDbContext _dbContext, IEmailService emailService, IHubContext<NotHub> hubContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             dbContext = _dbContext;
             _emailService = emailService;
+            _hubContext = hubContext;
+
         }
 
         public IActionResult EditObavijest(int obavijestID)
@@ -100,7 +103,7 @@ namespace Studentski_hotel.Controllers
             ob.OsobljeID = referent.Korisnik.Osoblje.ID;
 
             dbContext.SaveChanges();
-
+            await _hubContext.Clients.All.SendAsync("SlanjeObavijesti", obj.Naslov, obj.Text, user, ob.DatumVrijeme, ob.ID);
             return Redirect("/Recepcija/PrikazObavijesti");
         }
 

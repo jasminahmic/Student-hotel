@@ -75,10 +75,14 @@ function password_generator(len) {
 
 
 //var connection = new signalR.HubConnectionBuilder().withUrl("/notHub").build();
-//connection.on("SlanjeZahtjeva", function (Ime,Zahtjev,Datum,Soba) {
+//connection.on("SlanjeObavijesti", function (Naslov, TxtObavijesti, Korisnik, DatumDodavanja, ObavijestID) {
+//    console.log('dobar si ti lik');
+//    console.info(Naslov, TxtObavijesti, Korisnik, DatumDodavanja, ObavijestID);
+
+//})
 
 
-  
+
 
 //    //var glavni = document.getElementById("glavni");
 //    //var noviCvijet = document.createElement("div");
@@ -112,7 +116,7 @@ function password_generator(len) {
 //});
 
 //connection.start().then(function () {
-//    console.info("started signalR hub");
+//    console.info('dobar si ti lik');
 
 //}).catch(function (err) {
 //    return console.error(err.toString());
