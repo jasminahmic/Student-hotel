@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Studentski_hotel.Models.Konkurss
 {
-    public class SnimiVM
+    public class KonkursPodaciVM
     {
         public int ID { get; set; }
         public string Ime { get; set; }
@@ -20,7 +20,6 @@ namespace Studentski_hotel.Models.Konkurss
         public int PolID { get; set; }
         public string JMBG { get; set; }
         public string LicnaKarta { get; set; }
-        //public string Mjesto_izdavanja_LK { get; set; }
         public DateTime DatumRodjenja { get; set; }
         public string Mobitel { get; set; }
         public string Email { get; set; }

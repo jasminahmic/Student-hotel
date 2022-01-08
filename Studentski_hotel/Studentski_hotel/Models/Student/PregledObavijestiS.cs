@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Studentski_hotel.Models.Student
 {
-    public class PregledObavijestiS
+    public class PregledObavijestiVM
     {
         public int obavijestID { get; set; }
         public string DatumObj { get; set; }

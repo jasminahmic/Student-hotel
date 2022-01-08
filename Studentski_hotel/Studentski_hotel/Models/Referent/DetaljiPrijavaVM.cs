@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Studentski_hotel.Models.Referent
 {
-    public class DetaljiPrikazPrijavaVM
+    public class DetaljiPrijavaVM
     {
         public int ID { get; set; }
         public string Ime { get; set; }

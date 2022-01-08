@@ -29,31 +29,28 @@ namespace Studentski_hotel.Controllers
             _emailService = emailService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Prikaz()
+        public IActionResult AdminPocetna()
         {
 
             return View();
         }
-        public IActionResult PrikazOsoblja(int tip)
+        public IActionResult PrikazOsoblja(int tipOsoblja)
         {
             
-                var osoblje = dbContext.Osobljes.Where(a=>a.RolaID==tip || tip==0).Select(a => new PrikazOsobljaVM.Row
+                var stuff = dbContext.Osobljes.Where(a=>a.RolaID == tipOsoblja || tipOsoblja == 0).Select(a => new PrikazOsobljaVM.Row
                 {
                     ID = a.ID,
                     Ime = a.Ime,
                     Prezime = a.Prezime,
                     DatumRodjenja = a.DatumRodjenja
                 }).ToList();
-                PrikazOsobljaVM osobljes = new PrikazOsobljaVM();
-                osobljes.Osoblje = osoblje;
-                return View(osobljes);
+
+                PrikazOsobljaVM showStuff = new PrikazOsobljaVM();
+                showStuff.Osoblje = stuff;
+                return View(showStuff);
 
         }
-        public IActionResult DodajNastavnika(int RecepcionerID)
+        public IActionResult DodajOsoblje(int RecepcionerID)
         {
             List<SelectListItem> kantoni = dbContext.Kantons.Select(a => new SelectListItem
             {
@@ -71,10 +68,10 @@ namespace Studentski_hotel.Controllers
                 Text = a.Naziv,
                 Value = a.ID.ToString()
             }).ToList();
-            DodajNastavnikaVM osoblje;
+            DodajOsobljeVM osoblje;
             if (RecepcionerID > 0)
             {
-                osoblje = dbContext.Osobljes.Where(a => a.ID == RecepcionerID).Select(a => new DodajNastavnikaVM
+                osoblje = dbContext.Osobljes.Where(a => a.ID == RecepcionerID).Select(a => new DodajOsobljeVM
                 {
                     ID = a.ID,
                     Ime = a.Ime,
@@ -99,7 +96,7 @@ namespace Studentski_hotel.Controllers
             }
             else
             {
-                osoblje = new DodajNastavnikaVM();
+                osoblje = new DodajOsobljeVM();
             }
 
             osoblje.Kanton = kantoni;
@@ -109,29 +106,29 @@ namespace Studentski_hotel.Controllers
             return View(osoblje);
         }
 
-        public async Task<IActionResult> SnimiAsync(DodajNastavnikaVM admir)
+        public async Task<IActionResult> SnimiAsync(DodajOsobljeVM zaposlenik)
         {
             Korisnik korisnik;
             Lokacija lokacija;
 
-            if (admir.ID == 0)
+            if (zaposlenik.ID == 0)
             {
                 korisnik = new Korisnik();
-                korisnik.Email = admir.email;
-                korisnik.UserName = admir.email;
+                korisnik.Email = zaposlenik.email;
+                korisnik.UserName = zaposlenik.email;
                 korisnik.EmailConfirmed = true;
-                korisnik.PhoneNumber = admir.mobitel;
+                korisnik.PhoneNumber = zaposlenik.mobitel;
                 
-                IdentityResult result = _userManager.CreateAsync(korisnik, admir.password).Result;
+                IdentityResult result = _userManager.CreateAsync(korisnik, zaposlenik.password).Result;
                 if (!result.Succeeded)
                 {
                     return Content("errors: " + string.Join('|', result.Errors));
                 }
                 lokacija = new Lokacija();
-                lokacija.Adresa = admir.Adresa;
-                lokacija.PostanskiBroj = admir.PostanskiBroj;
-                lokacija.MjestoStanovanjaID = admir.MjestoStanovanjaID;
-                lokacija.KantonID = admir.KantonID;
+                lokacija.Adresa = zaposlenik.Adresa;
+                lokacija.PostanskiBroj = zaposlenik.PostanskiBroj;
+                lokacija.MjestoStanovanjaID = zaposlenik.MjestoStanovanjaID;
+                lokacija.KantonID = zaposlenik.KantonID;
                 dbContext.Add(lokacija);
                 dbContext.SaveChanges();
 
@@ -139,44 +136,40 @@ namespace Studentski_hotel.Controllers
             }
             else
             {
-                korisnik = dbContext.Korisniks.Where(a => a.Id == admir.KorisnikID).FirstOrDefault();
-                lokacija = dbContext.Lokacijas.Where(a => a.ID == admir.LokacijaID).FirstOrDefault();
+                korisnik = dbContext.Korisniks.Where(a => a.Id == zaposlenik.KorisnikID).FirstOrDefault();
+                lokacija = dbContext.Lokacijas.Where(a => a.ID == zaposlenik.LokacijaID).FirstOrDefault();
             }
 
 
             Osoblje osoblje;
-            if (admir.ID == 0)
+            if (zaposlenik.ID == 0)
             {
                 osoblje = new Osoblje();
                 osoblje.LokacijaID = lokacija.ID;
-                osoblje.RolaID = admir.TipKorisnika;
+                osoblje.RolaID = zaposlenik.TipKorisnika;
                 dbContext.Add(osoblje);
-                await _emailService.SendEmailAsync(admir.email, "Studentski hotel Mostar", "<h1>Poštovani, Vaši pristupni podaci se nalaze u ovom mailu </h1>" +
+                await _emailService.SendEmailAsync(zaposlenik.email, "Studentski hotel Mostar", "<h1>Poštovani, Vaši pristupni podaci se nalaze u ovom mailu </h1>" +
                     $"<p>Vaši pristupni podaci su :</p>"+
-                     $"<p>E-mail : {admir.email}</p>"+
-                    $"<p>Sifra : {admir.password}</p>");
+                     $"<p>E-mail : {zaposlenik.email}</p>"+
+                    $"<p>Sifra : {zaposlenik.password}</p>");
 
             }
             else
             {
-                osoblje = dbContext.Osobljes.Where(a => a.ID == admir.ID).FirstOrDefault();
-                osoblje.LokacijaID = admir.LokacijaID;
+                osoblje = dbContext.Osobljes.Where(a => a.ID == zaposlenik.ID).FirstOrDefault();
+                osoblje.LokacijaID = zaposlenik.LokacijaID;
             }
             osoblje.Korisnik = korisnik;
-            osoblje.Ime = admir.Ime;
-            osoblje.Prezime = admir.Prezime;
-            osoblje.PolID = admir.PolID;
-            osoblje.DatumRodjenja = admir.DatumRodjenja.ToString("MM/dd/yyyy");
-            osoblje.DatumZaposlenja = admir.DatumZaposlenja.ToString("MM/dd/yyyy");
-
-
-
-
+            osoblje.Ime = zaposlenik.Ime;
+            osoblje.Prezime = zaposlenik.Prezime;
+            osoblje.PolID = zaposlenik.PolID;
+            osoblje.DatumRodjenja = zaposlenik.DatumRodjenja.ToString("MM/dd/yyyy");
+            osoblje.DatumZaposlenja = zaposlenik.DatumZaposlenja.ToString("MM/dd/yyyy");
 
             //dbContext.Add(recepcioer);
             dbContext.SaveChanges();
 
-            return Redirect(url: "/Admin/Prikaz");
+            return Redirect(url: "/Admin/AdminPocetna");
         }
     }
 }

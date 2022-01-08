@@ -37,9 +37,9 @@ namespace Studentski_hotel.Controllers
                 var admin = applicationdbcontext.Admins.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
                 if (admin != null)
                 {
-                    return Redirect(url: "/Admin/Prikaz");
+                    return Redirect(url: "/Admin/AdminPocetna");
                 }
-                var student = applicationdbcontext.Students.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
+                   var student = applicationdbcontext.Students.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
                 if (student != null)
                 {
                     return Redirect(url: "/Student/PrikazObavijesti");
@@ -53,8 +53,6 @@ namespace Studentski_hotel.Controllers
                 {
                     return Redirect(url: "/Referent/PrijavePocetna");
                 }
-              
-               
             }
 
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Studentski_hotel.Models.Recepcija
 {
-    public class PrikazObavijesti
+    public class PrikazObavijestiVM
     {
         public class Row
         {

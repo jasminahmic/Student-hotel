@@ -26,35 +26,31 @@ namespace Studentski_hotel.Controllers
 
         public IActionResult KonkursForma()
         {
-            List<SelectListItem> kantoni = dbContext.Kantons.Select(a => new SelectListItem
-            {
-                Text = a.Naziv,
-                Value = a.ID.ToString()
-            }).ToList();
-            List<SelectListItem> opstine = dbContext.Grads.Select(a => new SelectListItem
-            {
-                Text = a.Naziv,
-                Value = a.ID.ToString()
-            }).ToList();
-            List<SelectListItem> CiklusStudija = dbContext.CiklusStudijas.Select(a => new SelectListItem
+            List<SelectListItem> opstina = dbContext.Grads.Select(a => new SelectListItem
             {
                 Text = a.Naziv,
                 Value = a.ID.ToString()
             }).ToList();
 
-            List<SelectListItem> TipKandidata = dbContext.tipKandidatas.Select(a => new SelectListItem
+            List<SelectListItem> ciklusStudija = dbContext.CiklusStudijas.Select(a => new SelectListItem
             {
                 Text = a.Naziv,
                 Value = a.ID.ToString()
             }).ToList();
 
-            List<SelectListItem> Fakultet = dbContext.Fakultets.Select(a => new SelectListItem
+            List<SelectListItem> tipKandidata = dbContext.tipKandidatas.Select(a => new SelectListItem
             {
                 Text = a.Naziv,
                 Value = a.ID.ToString()
             }).ToList();
 
-            List<SelectListItem> GodinaStudija = dbContext.GodinaStudijas.Select(a => new SelectListItem
+            List<SelectListItem> fakultet = dbContext.Fakultets.Select(a => new SelectListItem
+            {
+                Text = a.Naziv,
+                Value = a.ID.ToString()
+            }).ToList();
+
+            List<SelectListItem> godinaStudija = dbContext.GodinaStudijas.Select(a => new SelectListItem
             {
                 Text = a.Naziv,
                 Value = a.ID.ToString()
@@ -71,43 +67,43 @@ namespace Studentski_hotel.Controllers
                 Value = a.ID.ToString()
             }).ToList();
 
-            SnimiVM snimiVM = new SnimiVM();
-            //snimiVM.MjestoStanovanja = opstine;
-            snimiVM.MjestoRodjenja = opstine;
-            snimiVM.CiklusStudija = CiklusStudija;
-            snimiVM.TipKandidata = TipKandidata;
-            snimiVM.Fakultet = Fakultet;
-            snimiVM.GodinaStudija = GodinaStudija;
-            snimiVM.Kanton = kanton;
-            snimiVM.Pol = pol;
+            KonkursPodaciVM konkurs = new KonkursPodaciVM();
+            konkurs.MjestoStanovanja = opstina;
+            konkurs.MjestoRodjenja = opstina;
+            konkurs.CiklusStudija = ciklusStudija;
+            konkurs.TipKandidata = tipKandidata;
+            konkurs.Fakultet = fakultet;
+            konkurs.GodinaStudija = godinaStudija;
+            konkurs.Kanton = kanton;
+            konkurs.Pol = pol;
 
-            return View(snimiVM);
+            return View(konkurs);
         }
-        public IActionResult Snimi(SnimiVM admir)
+        public IActionResult SnimiZahtjev(KonkursPodaciVM noviStudent)
         {
             Konkurs konkurs = new Konkurs();
 
-            konkurs.Ime = admir.Ime;
-            konkurs.Prezime = admir.Prezime;
-            konkurs.ImeOca = admir.ImeOca;
-            konkurs.MjestoRodjenjaID = admir.MjestoRodjenjaID;
-            konkurs.ZanimanjeRoditelja = admir.ZanimanjeRoditelja;
-            konkurs.PolID = admir.PolID;
-            konkurs.JMBG = admir.JMBG;
-            konkurs.LicnaKarta = admir.LicnaKarta;
-            konkurs.DatumRodjenja = admir.DatumRodjenja.ToString();
-            konkurs.Mobitel = admir.Mobitel;
-            konkurs.Email = admir.Email;
+            konkurs.Ime = noviStudent.Ime;
+            konkurs.Prezime = noviStudent.Prezime;
+            konkurs.ImeOca = noviStudent.ImeOca;
+            konkurs.MjestoRodjenjaID = noviStudent.MjestoRodjenjaID;
+            konkurs.ZanimanjeRoditelja = noviStudent.ZanimanjeRoditelja;
+            konkurs.PolID = noviStudent.PolID;
+            konkurs.JMBG = noviStudent.JMBG;
+            konkurs.LicnaKarta = noviStudent.LicnaKarta;
+            konkurs.DatumRodjenja = noviStudent.DatumRodjenja.ToString();
+            konkurs.Mobitel = noviStudent.Mobitel;
+            konkurs.Email = noviStudent.Email;
 
-            konkurs.Adresa = admir.Adresa;
-            konkurs.MjestoStanovanjaID = admir.MjestoStanovanjaID;
-            konkurs.KantonID = admir.KantonID;
+            konkurs.Adresa = noviStudent.Adresa;
+            konkurs.MjestoStanovanjaID = noviStudent.MjestoStanovanjaID;
+            konkurs.KantonID = noviStudent.KantonID;
 
-            konkurs.FakultetID = admir.FakultetID;
-            konkurs.TipKandidataID = admir.TipKandidataID;
-            konkurs.BrojIndeksa = admir.BrojIndeksa;
-            konkurs.CiklusStudijaID = admir.CiklusStudijaID;
-            konkurs.GodinaStudijaID = admir.GodinaStudijaID;
+            konkurs.FakultetID = noviStudent.FakultetID;
+            konkurs.TipKandidataID = noviStudent.TipKandidataID;
+            konkurs.BrojIndeksa = noviStudent.BrojIndeksa;
+            konkurs.CiklusStudijaID = noviStudent.CiklusStudijaID;
+            konkurs.GodinaStudijaID = noviStudent.GodinaStudijaID;
             dbContext.Add(konkurs);
             dbContext.SaveChanges();
             return Redirect(url: "/");

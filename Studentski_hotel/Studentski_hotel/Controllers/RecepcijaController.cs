@@ -39,7 +39,7 @@ namespace Studentski_hotel.Controllers
 
         public IActionResult EditObavijest(int obavijestID)
         {
-            DodajObavijestVM obj = obavijestID == 0 ? new DodajObavijestVM() :
+            DodajObavijestVM notification = obavijestID == 0 ? new DodajObavijestVM() :
                 dbContext.Obavijests.Where(x => x.ID == obavijestID).
                 Select(o => new DodajObavijestVM
                 {
@@ -51,14 +51,14 @@ namespace Studentski_hotel.Controllers
                 }).Single();
 
 
-            return View(obj);
+            return View(notification);
         }
         public IActionResult PrikazObavijesti(string pretraga, int pageNumber = 1, int pageSize = 3)
         {
             int ExcludeRecords = (pageSize * pageNumber) - pageSize;
-            PrikazObavijesti all = new PrikazObavijesti();
-            all.obavijesti = dbContext.Obavijests.Where(x => pretraga == null || (x.Naslov.ToLower().StartsWith(pretraga.ToLower())))
-            .Select(o => new PrikazObavijesti.Row
+            PrikazObavijestiVM notificationsList = new PrikazObavijestiVM();
+            notificationsList.obavijesti = dbContext.Obavijests.Where(x => pretraga == null || (x.Naslov.ToLower().StartsWith(pretraga.ToLower())))
+            .Select(o => new PrikazObavijestiVM.Row
             {
                 obavijestID = o.ID,
                 Naslov = o.Naslov,
@@ -69,9 +69,9 @@ namespace Studentski_hotel.Controllers
 
             int brojac = dbContext.Obavijests.Count();
   
-            var result = new PagedResult<PrikazObavijesti.Row>
+            var result = new PagedResult<PrikazObavijestiVM.Row>
             {
-                Data = all.obavijesti,
+                Data = notificationsList.obavijesti,
                 PageNumber= pageNumber,
                 TotalItems = brojac,
                 PageSize = pageSize,
@@ -80,36 +80,36 @@ namespace Studentski_hotel.Controllers
             return View(result);
         }
 
-        public async Task<IActionResult> SnimiAsync(DodajObavijestVM obj)
+        public async Task<IActionResult> SnimiObavijest(DodajObavijestVM notification)
         {
 
             var user = await _userManager.GetUserAsync(User);
             var referent = dbContext.Osobljes.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
-            Obavijest ob;
-            if (obj.obavijestID == 0)
+            Obavijest obavijest;
+            if (notification.obavijestID == 0)
             {
-                ob = new Obavijest();
-                ob.DatumVrijeme = DateTime.Now.ToString();
+                obavijest = new Obavijest();
+                obavijest.DatumVrijeme = DateTime.Now.ToString();
 
-                dbContext.Add(ob);
+                dbContext.Add(obavijest);
             }
             else
             {
-                ob = dbContext.Obavijests.Find(obj.obavijestID);
+                obavijest = dbContext.Obavijests.Find(notification.obavijestID);
             }
 
-            ob.Naslov = obj.Naslov;
-            ob.Text = obj.Text;
-            ob.OsobljeID = referent.Korisnik.Osoblje.ID;
+            obavijest.Naslov = notification.Naslov;
+            obavijest.Text = notification.Text;
+            obavijest.OsobljeID = referent.Korisnik.Osoblje.ID;
 
             dbContext.SaveChanges();
             await _hubContext.Clients.All.SendAsync("SlanjeObavijesti",
-                                                                    obj.Naslov, 
-                                                                    obj.Text,
+                                                                    notification.Naslov, 
+                                                                    notification.Text,
                                                                     user.Osoblje.ID, 
-                                                                    ob.DatumVrijeme, 
+                                                                    obavijest.DatumVrijeme, 
                                                                     referent.Ime + "" + referent.Prezime,
-                                                                    obj.obavijestID
+                                                                    notification.obavijestID
                                                                 );
             return Redirect("/Recepcija/PrikazObavijesti");
         }
@@ -125,16 +125,16 @@ namespace Studentski_hotel.Controllers
 
         public IActionResult PregledObavijesti(int obavijestID)
         {
-            var ob = dbContext.Obavijests.Include(a => a.Osoblje).Where(a => a.ID == obavijestID).FirstOrDefault();
+            var obavijest = dbContext.Obavijests.Include(a => a.Osoblje).Where(a => a.ID == obavijestID).FirstOrDefault();
 
-            PregledObavijesti po = new PregledObavijesti();
-            po.obavijestID = ob.ID;
-            po.Naslov = ob.Naslov;
-            po.Text = ob.Text;
-            po.ImeRecepcionera = ob.Osoblje.Ime + " " + ob.Osoblje.Prezime;
-            po.DatumObj = ob.DatumVrijeme;
+            PregledObavijesti selectedNotification = new PregledObavijesti();
+            selectedNotification.obavijestID = obavijest.ID;
+            selectedNotification.Naslov = obavijest.Naslov;
+            selectedNotification.Text = obavijest.Text;
+            selectedNotification.ImeRecepcionera = obavijest.Osoblje.Ime + " " + obavijest.Osoblje.Prezime;
+            selectedNotification.DatumObj = obavijest.DatumVrijeme;
 
-            return View(po);
+            return View(selectedNotification);
         }
 
         public IActionResult FilterSoba()
@@ -143,14 +143,14 @@ namespace Studentski_hotel.Controllers
         }
         public IActionResult PrikazSoba(string Soba, string Krevet)
         {
-            var db = dbContext.Sobas.Where(a => (Soba == null || a.BrojSobe.StartsWith(Soba)) && (Krevet == "0" || a.BrojKreveta.ToString() == Krevet)).
+            var sobe = dbContext.Sobas.Where(a => (Soba == null || a.BrojSobe.StartsWith(Soba)) && (Krevet == "0" || a.BrojKreveta.ToString() == Krevet)).
                 Select(a => new PregledSobaVM.Row
                 {
                     ID = a.ID,
                     BrojSobe = a.BrojSobe,
                     BrojKreveta = a.BrojKreveta.ToString(),
                 }).ToList();
-            foreach (var item in db)
+            foreach (var item in sobe)
             {
                 var lista = dbContext.Ugovors.Where(x => x.SobaID == item.ID && string.IsNullOrWhiteSpace(x.DatumIseljenja)).Include(a => a.Student).ToList();
                 if (lista.Count == 0)
@@ -173,12 +173,12 @@ namespace Studentski_hotel.Controllers
             }
 
             PregledSobaVM model = new PregledSobaVM();
-            model.Sobe = db;
+            model.Sobe = sobe;
             return View(model);
         }
         public IActionResult DetaljiPrikazSoba(int SobaID)
         {
-            var model = dbContext.Sobas.Where(a => a.ID == SobaID).Select(a => new DetaljiPrikazSobavm
+            var soba = dbContext.Sobas.Where(a => a.ID == SobaID).Select(a => new DetaljiPrikazSobavm
             {
                 ID = a.ID,
                 Broj_Sobe = a.BrojSobe,
@@ -189,14 +189,15 @@ namespace Studentski_hotel.Controllers
 
 
             }).FirstOrDefault();
+
             var studenti = dbContext.Ugovors.Where(a => a.SobaID == SobaID && string.IsNullOrWhiteSpace(a.DatumIseljenja)).Select(a => new DetaljiPrikazSobavm.Studenti
             {
                 ID = a.ID,
                 Ime = a.Student.Ime + " " + a.Student.Prezime
             }).ToList();
-            model.studenti = studenti;
-            model.Popunjena = model.bROJ_Kreveta == studenti.Count.ToString();
-            return View(model);
+            soba.studenti = studenti;
+            soba.Popunjena = soba.bROJ_Kreveta == studenti.Count.ToString();
+            return View(soba);
         }
         public IActionResult DodajUsobu(int SobaID, int StudentID, int KarticaID)
         {
@@ -401,7 +402,6 @@ namespace Studentski_hotel.Controllers
                 Soba = a.Ugovor.Soba.BrojSobe
             }).OrderByDescending(a=>a.Datum).Skip(ExcludeRecords).Take(pageSize);
             int brojac = dbContext.Zahtjevs.Count();
-            //var Model = new PrikazZahtjevaVM();
             var result = new PagedResult<PrikazZahtjevaVM.Row>
             {
                 Data = model.AsNoTracking().ToList(),

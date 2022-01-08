@@ -65,16 +65,16 @@ namespace Studentski_hotel.Controllers
         }
         public IActionResult PregledObavijesti(int obavijestID)
         {
-            var ob = dbContext.Obavijests.Include(a => a.Osoblje).Where(a => a.ID == obavijestID).FirstOrDefault();
+            var obavijest = dbContext.Obavijests.Include(a => a.Osoblje).Where(a => a.ID == obavijestID).FirstOrDefault();
 
-            PregledObavijestiS po = new PregledObavijestiS();
-            po.obavijestID = ob.ID;
-            po.Naslov = ob.Naslov;
-            po.Text = ob.Text;
-            po.ImeRecepcionera = ob.Osoblje.Ime + " " + ob.Osoblje.Prezime;
-            po.DatumObj = ob.DatumVrijeme;
+            PregledObavijestiVM selectedNotification = new PregledObavijestiVM();
+            selectedNotification.obavijestID = obavijest.ID;
+            selectedNotification.Naslov = obavijest.Naslov;
+            selectedNotification.Text = obavijest.Text;
+            selectedNotification.ImeRecepcionera = obavijest.Osoblje.Ime + " " + obavijest.Osoblje.Prezime;
+            selectedNotification.DatumObj = obavijest.DatumVrijeme;
 
-            return View(po);
+            return View(selectedNotification);
         }
         public IActionResult PosaljiZahtjev()
         {

@@ -8,6 +8,6 @@ namespace Studentski_hotel.Interface
 {
     public interface IKonkursService
     {
-        public void DodajStudenta(DetaljiPrikazPrijavaVM detaljiPrikazaVM);
+        public void DodajStudenta(DetaljiPrijavaVM detaljiPrikazaVM);
     }
 }

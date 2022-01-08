@@ -16,7 +16,7 @@ namespace Studentski_hotel.Services
         {
             dbContext = _dbContext;
         }
-        public void DodajStudenta(DetaljiPrikazPrijavaVM admir)
+        public void DodajStudenta(DetaljiPrijavaVM admir)
         {
             Student student = new Student();
             student.Ime = admir.Ime;

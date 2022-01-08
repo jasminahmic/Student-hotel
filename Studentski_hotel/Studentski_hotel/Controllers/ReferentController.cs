@@ -71,7 +71,6 @@ namespace Studentski_hotel.Controllers
             }
             PrikazPrijavaVM model = new PrikazPrijavaVM();
             model.Students = prijave;
-            //model.Pretraga = pretraga;
             return View(model);
 
         }
@@ -84,7 +83,7 @@ namespace Studentski_hotel.Controllers
 
         public IActionResult DetaljiPrikazPrijava(int KonkursID)
         {
-            var student = dbContext.Konkurs.Where(a => KonkursID == a.ID).Select(admir => new DetaljiPrikazPrijavaVM
+            var student = dbContext.Konkurs.Where(a => KonkursID == a.ID).Select(admir => new DetaljiPrijavaVM
             {
                 ID = admir.ID,
                 Ime = admir.Ime,
@@ -136,7 +135,7 @@ namespace Studentski_hotel.Controllers
             student.VrstaRazlogaOdbijanja = razlog;
             return View(student);
         }
-        public IActionResult SnimiPrimljenogStudenta(DetaljiPrikazPrijavaVM admir)
+        public IActionResult SnimiPrimljenogStudenta(DetaljiPrijavaVM admir)
         {
             var konkurs = dbContext.Konkurs.Find(admir.ID);
 
@@ -186,7 +185,7 @@ namespace Studentski_hotel.Controllers
         {
 
             var studenti = dbContext.Konkurs.Where(a => a.RezultatKonkursa.VrstaStanjaKonkursaID == 1 && a.RezultatKonkursa.BrojBodova > minBodova)
-           .Select(admir => new DetaljiPrikazPrijavaVM
+           .Select(admir => new DetaljiPrijavaVM
            {
                ID = admir.ID,
                Ime = admir.Ime,
