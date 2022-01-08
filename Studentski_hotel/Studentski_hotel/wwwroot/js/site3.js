@@ -1,6 +1,6 @@
 ﻿var connection = new signalR.HubConnectionBuilder().withUrl("/notHub").build();
     connection.on("SlanjeObavijesti", function (Naslov, TxtObavijesti, KorisnikID, DatumDodavanja, ImeRecepcionera, ObavijestID) {
-    var novosti = document.getElementById("news-section");
+    var novosti = document.querySelector(".news-section");
 
     var h3 = document.createElement("h3");
     var btnEdit = document.createElement("button");

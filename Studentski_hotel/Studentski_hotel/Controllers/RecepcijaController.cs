@@ -47,7 +47,7 @@ namespace Studentski_hotel.Controllers
                     Naslov = o.Naslov,
                     Text = o.Text.Trim(),
                     RecepcionerID = o.OsobljeID,
-                    datum_dodavanja = DateTime.Now.ToString(),
+                    datum_dodavanja = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss"),
                 }).Single();
 
 
@@ -89,7 +89,7 @@ namespace Studentski_hotel.Controllers
             if (notification.obavijestID == 0)
             {
                 obavijest = new Obavijest();
-                obavijest.DatumVrijeme = DateTime.Now.ToString();
+                obavijest.DatumVrijeme = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
 
                 dbContext.Add(obavijest);
             }
