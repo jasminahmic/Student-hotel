@@ -17,7 +17,5 @@ namespace Studentski_hotel.Models.Recepcija
             public string Text { get; set; }
         }
         public List<Row> obavijesti { get; set; }
-        public string pretraga { get; set; }
-
     }
 }

@@ -1,13 +1,21 @@
 ﻿<!DOCTYPE html>
 <style>
-    .main {
-        margin-left: 210px; /* Same as the width of the sidenav */
-        /* Increased text to enable scrolling */
-        padding: 0px 10px;
+    .wrapper {
+        margin-left: 210px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        height: 100vh;
     }
 
-    .footer {
+    footer {
         text-align: center;
+        width: 100%;
+        line-height: 60px;
+    }
+
+    .privacy {
+        float: none;
     }
 
     
@@ -22,44 +30,28 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body style="background-color: #aefdbb">
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3" style="        background-color: #263829;">
-            <div class="container">
-                @*<a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">StudentHotel</a>*@
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <partial name="_FixedNavBarPartial" />
+
+    <div class="wrapper">
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3" style="background-color: #263829;">
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    @*<ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Obavijesti</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Recepcija" asp-action="FilterSoba">Pregled</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Uplate</a>
-                        </li>
-                    </ul>*@
+
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <partial name="_FixedNavBarPartial" />
+            </nav>
+        </header>
 
-        <main role="main" class="pb-3 main">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Studentski_hotel - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <main role="main" class="pb-3 main">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
+
+        <footer class="border-top text-muted">
+            &copy; 2021 - Studentski_hotel - <a class="privacy" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,6 +1,7 @@
 ﻿<style>
-    #AjaxTabela {
-        width: 100%;
+    td:last-of-type {
+        display: flex;
+        justify-content: flex-end;
     }
 </style>
 <div style="display:flex;flex-flow:row; justify-content:space-between">
@@ -23,9 +24,7 @@
 <script>
     var Pretraga = () => {
         var indeks = document.getElementById("TipOsoblja").value;
-        //var status = document.getElementById("StatusID").value;
-        //{ pretraga: $("#InputBox").val(), sort: indeks, Status: status }
-        $.get("/Admin/PrikazOsoblja", {tip:indeks}, function (data) {
+        $.get("/Admin/PrikazOsoblja", { tipOsoblja:indeks }, function (data) {
             $("#AjaxTabela").html(data);
         })
     }

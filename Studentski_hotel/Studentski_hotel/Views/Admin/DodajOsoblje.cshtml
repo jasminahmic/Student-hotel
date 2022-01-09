@@ -1,11 +1,8 @@
 ﻿@using Studentski_hotel.Models.Admin;
-@{
-
-
-}
 @model DodajOsobljeVM
+
 <style>
-    .Podaci {
+    .personal {
         width: 60%;
         padding: 30px;
         border: 1px solid black;
@@ -13,26 +10,20 @@
         margin-bottom: 20px;
     }
 
-        .Podaci div {
-            margin-bottom: 5px;
-        }
-
-    .PrebivalisteSkolovanje {
-        width: 40%;
+    .personal div {
+        margin-bottom: 5px;
     }
 
-    .pass {
-        border: 1px solid lightgray;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 5px;
+    .residence {
+        width: 40%;
     }
 </style>
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/site.css" />
-<button class="btn btn-light" onclick="window.location='/'">Nazad</button>
+<partial name="_BackButtonPartial" />
+
 <form class="container" asp-action="Snimi" method="post">
-    <fieldset class="d-flex small Podaci">
+    <fieldset class="d-flex small personal">
         <legend style="font-size:20px;width:120px;text-align:center">Lični podaci</legend>
         <div style="margin-right:30px">
             <div class="form-group  ">
@@ -53,14 +44,6 @@
 
         </div>
         <div>
-            @*<div class="form-group">
-            <label>JMBG</label>
-            <input asp-for="JMBG" class="form-control form-control-sm" />
-        </div>
-        <div class="form-group">
-            <label>Lična karta</label>
-            <input asp-for="LicnaKarta" class="form-control form-control-sm" />
-        </div>*@
             <div class="form-group">
                 <label>Datum Rodjenja</label>
                 <input asp-for="DatumRodjenja" type="date" class="form-control form-control-sm" />
@@ -71,7 +54,7 @@
             </div>
             <div class="form-group">
                 <label>DatumZaposlenja</label>
-                <input asp-for="DatumZaposlenja" class="form-control form-control-sm" type="date"/>
+                <input asp-for="DatumZaposlenja" class="form-control form-control-sm" type="date" />
             </div>
 
 
@@ -79,17 +62,17 @@
 
     </fieldset>
 
-    <fieldset class="d-flex small Podaci PrebivalisteSkolovanje">
+    <fieldset class="d-flex small personal residence">
         <legend style="font-size:20px;width:120px;text-align:center">Prebivaliste</legend>
         <div style="margin-right:30px">
             <div class="form-group  ">
                 <label>Adresa</label>
                 <input asp-for="Adresa" class="form-control form-control-sm" />
             </div>
-        <div class="form-group  ">
-            <label>Poštanski broj</label>
-            <input asp-for="PostanskiBroj" class="form-control form-control-sm" />
-        </div>
+            <div class="form-group  ">
+                <label>Poštanski broj</label>
+                <input asp-for="PostanskiBroj" class="form-control form-control-sm" />
+            </div>
             <div class="form-group">
                 <label>Opstina</label>
                 <select asp-for="MjestoStanovanjaID" asp-items="@Model.MjestoStanovanja" id="StanovanjeID" class="form-control form-control-sm">
@@ -107,7 +90,7 @@
 
 
     </fieldset>
-    <fieldset class="d-flex small Podaci PrebivalisteSkolovanje">
+    <fieldset class="d-flex small personal residence">
         <legend style="font-size:20px;width:120px;text-align:center">Login podaci</legend>
         <div style="margin-right:30px">
             @*---------------*@
@@ -133,12 +116,8 @@
                     @*<label>Password</label>*@
                     <input asp-for="password" hidden id="passID" class="form-control form-control-sm" />
                 </div>
-                @*<div style="padding:5px">
-                    <span onclick="Genereisi()" class="pass">Generisi novi password</span>
-                </div>*@
                 <div class="form-group">
                     <label>Tip Korisnika</label>
-                    @* <input asp-for="TipKorisnika" class="form-control form-control-sm" />*@
                     <select asp-for="TipKorisnika" class="form-control form-control-sm">
                         <option value="1">Recepcionar</option>
                         <option value="2">Referent</option>
@@ -151,7 +130,6 @@
 
                 <div class="form-group" hidden>
                     <label>Tip Korisnika</label>
-                    @* <input asp-for="TipKorisnika" class="form-control form-control-sm" />*@
                     <select asp-for="TipKorisnika" class="form-control form-control-sm">
                         <option value="1">Recepcionar</option>
                         <option value="2">Referent</option>
@@ -185,7 +163,7 @@
         })
     });
 
-   
-        document.getElementById("passID").value = password_generator(8);
-    
+
+    document.getElementById("passID").value = password_generator(8);
+
 </script>
