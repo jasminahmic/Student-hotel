@@ -331,7 +331,7 @@ namespace Studentski_hotel.Controllers
                Ime = b.Ime,
                Prezime = b.Prezime,
                Uselio = b.Uselio,
-               Soba = dbContext.Ugovors.Where(c => c.StudentID == b.ID && c.DatumIseljenja==null).Select(a => a.Soba.BrojSobe).FirstOrDefault(),
+               Soba = dbContext.Ugovors.Where(c => c.StudentID == b.ID && c.DatumIseljenja == null).Select(a => a.Soba.BrojSobe).FirstOrDefault(),
                BrojKartice = dbContext.Ugovors.Where(c => c.StudentID == b.ID).Select(a => a.Kartica.BrojKartice).FirstOrDefault(),
 
            }).ToList();

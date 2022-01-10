@@ -4,7 +4,6 @@
     div input {
         border: none;
         padding: 5px;
-        /*width: 300px;*/
     }
 
     #NapomenaID {
@@ -18,18 +17,18 @@
     h3 {
         font-weight: bold;
     }
+
     #AjaxDiv {
         position: absolute;
         width: 33%;
         left: 33%;
         top: 25%;
-        /*background-color: #001f3f;*/
         background-color: white;
         border-radius: 5px;
-/*        color: white;
-*/        z-index: 999;
+        z-index: 999;
     }
-    #parentDisable {
+
+    #close-modal {
         position: fixed;
         top: 0;
         left: 0;
@@ -40,6 +39,7 @@
         width: 100%;
         display:none;
     }
+
     input {
         background-color: #aefdbb;
     }
@@ -84,18 +84,10 @@
 
 </form>
 <div style="margin-top:20px">
-    @if (!Model.Popunjena)
-    {
-        <button class="btn btn-danger" onclick="DodajStudentaSoba() ">Dodaj Studente</button>
-
-    }
-    else
-    {
-        <button class="btn btn-danger" disabled>Dodaj Studente</button>
-
-    }
+    <button class="btn btn-danger"  disabled="@Model.Popunjena" onclick="DodajStudentaSoba()">Dodaj Studente</button>
 </div>
-<div id="parentDisable" onclick="Zatvori()"></div>
+
+<div id="close-modal" onclick="Zatvori()"></div>
     <div id="AjaxDiv"></div>
 
 <script>
@@ -107,7 +99,7 @@
     var DodajStudentaSoba = () => {
         var sobaID = document.getElementById("SobaID").value;
         document.getElementById("AjaxDiv").style.display = "block";
-        document.getElementById("parentDisable").style.display = "block";
+        document.getElementById("close-modal").style.display = "block";
 
 
         $.get("/Recepcija/DodajUsobu", { SobaID: sobaID }, function (data) {
@@ -118,8 +110,7 @@
         if (document.getElementById("AjaxDiv").style.display == "block") {
 
             document.getElementById("AjaxDiv").style.display = "none";
-            document.getElementById("parentDisable").style.display = "none";
-
+            document.getElementById("close-modal").style.display = "none";
 
         }
     }

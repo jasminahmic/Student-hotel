@@ -4,14 +4,15 @@
 @model Studentski_hotel.Models.Recepcija.PrikazStudenataVM
 
 <style>
-    .klasa2 {
+    .btn-pregled{
         background-color: #567d5d;
         color: white;
     }
-        .klasa2:hover {
-            color: white;
-            background-color: #263829;
-        }
+
+    .btn-pregled:hover {
+        color: white;
+        background-color: #263829;
+    }
 </style>
 <table class="table table-borderless table-striped">
     <thead>
@@ -42,18 +43,9 @@
                 <td>/</td>
                 <td>/</td>
             }
-            <td><button class="btn klasa2" onclick="window.location='/Recepcija/DetaljiPrikazStudenata?StudentID='+@item.ID">Pregled</button></td>
+            <td><button class="btn btn-pregled" onclick="window.location='/Recepcija/DetaljiPrikazStudenata?StudentID='+@item.ID">Pregled</button></td>
         </tr>
     }
 
 
 </table>
-
-@*<cs-pager cs-paging-pagenumber="(int)Model.PageNumber"
-          cs-paging-totalitems="(int)Model.TotalItems"
-          cs-paging-pagesize="Model.PageSize"
-          cs-pagenumber-param="pagenumber"
-          asp-controller="Recepcija"
-          asp-action="PrikazZahtjeva">
-
-</cs-pager>*@
