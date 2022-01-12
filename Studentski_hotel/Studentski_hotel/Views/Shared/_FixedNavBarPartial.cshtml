@@ -1,14 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using DBdata.EntityModels;
-@inject UserManager<Korisnik> UserManager
-@using Studentski_hotel.Helper;
-
-@{var user = await UserManager.GetUserAsync(User);}
-
-
-
-
-<div class="sidenav">
+﻿<div class="sidenav">
     <span class="nav-link" style="font-size:x-large;" href="/Recepcija/PrikazObavijesti">StudentHotel</span>
     <a class="nav-link" href="/Recepcija/PrikazObavijesti">Obavijesti</a>
     <a class="nav-link" href="/Recepcija/FilterSoba">Pregled</a>
