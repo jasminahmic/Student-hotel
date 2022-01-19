@@ -108,6 +108,24 @@ namespace Studentski_hotel.Controllers
             return Redirect(url: "/Student/PosaljiZahtjev");
         }
 
+        public IActionResult PregledLicniPodataka()
+        {
+
+            LicniPodaciVM personalData = new LicniPodaciVM();
+            personalData.Ime = "Tesni Mesha";
+            personalData.Prezime = "Test";
+            personalData.Prebivaliste = "Bugojno";
+            personalData.TipStanara = "Starija godina";
+            personalData.ImeOca = "Hasim";
+            personalData.SlikaStanara = "";
+            personalData.BrLicneKarte = "prazna";
+            personalData.BrLicneKarte = "IB180026";
+            personalData.DatumRodjenja = "28/08/2000";
+
+            return View(personalData);
+
+        }
+
     }
 
 }

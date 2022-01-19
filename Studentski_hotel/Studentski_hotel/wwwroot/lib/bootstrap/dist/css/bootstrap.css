@@ -10000,6 +10000,7 @@ a.text-dark:hover, a.text-dark:focus {
   }
   body {
     min-width: 992px !important;
+    margin-bottom: 0px !important;
   }
   .container {
     min-width: 992px !important;

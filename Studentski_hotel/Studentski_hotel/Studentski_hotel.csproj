@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Data\DBdata.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\placeholder-image.svg" />
+  </ItemGroup>
+
 </Project>
