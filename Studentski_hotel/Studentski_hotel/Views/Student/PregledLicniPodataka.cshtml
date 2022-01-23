@@ -6,6 +6,7 @@
     body {
         margin-bottom: 0px !important;
     }
+
     .personal-wrapper {
         display: flex;
         justify-content: space-around;
@@ -20,19 +21,12 @@
         margin-top: 36px;
     }
 
-    .actions {
-        margin-top: 20px;
-    }
-
     .data-wrapper {
         font-size: 21px;
         margin-top: 36px;
     }
-
-    .heading {
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 26px;
+    .active {
+        margin-top: 20px;
     }
 
     img {
@@ -41,30 +35,37 @@
         width: 160px;
         height: 160px;
     }
-
-
-
 </style>
-     <p class="heading">Licni podaci</p>
+
+
+<partial name="_SettingsButtonPartial" />
 
 <div class="personal-wrapper">
 
 
     <div class="image-wrapper">
+
         <div>
-            @if (Model.SlikaStanara.Length <= 0)
+            @if (Model.SlikaStanara == null)
             {
-              <img src="~/images/placeholder-image.svg" alt="Upload new Image" />
-            } else { 
-              <img src="@Model.SlikaStanara" />
+                <img src="~/images/placeholder-image.svg" alt="Upload new Image" />
+            }
+            else
+            {
+                <img src="~/images/student/@Model.SlikaStanara" />
             }
         </div>
-        @if (Model.SlikaStanara.Length > 0)
-         {
-                <button class="btn btn-outline-primary rounded actions">Delete</button>
-         } else {
-           <button class="btn btn-outline-primary rounded actions">Upload</button>
-         }
+
+        @if (Model.SlikaStanara != null)
+        {
+            <button class="btn btn-outline-danger active">Delete photo</button>
+        }
+        else
+        {
+
+            <button onclick="window.location='/Student/DodajSliku'" class="btn btn-outline-primary active">Upload photo</button>
+
+        }
     </div>
 
     <div class="data-wrapper">
@@ -76,8 +77,21 @@
         <p>Prebivaliste: @Model.Prebivaliste</p>
         <p>Broj indeksa: @Model.BrojIndeksa</p>
         <p>Tip studenta: @Model.TipStanara</p>
+        <p>Broj mobitela: @Model.BrMobitela</p>
 
-   
+
+
     </div>
     <br />
 </div>
+@*<script src="/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    $(".custom-file-input").on("change", function (e) {
+        $("#forma").submit();
+        console.log(e.target.files[0], 'ovo drugo');
+
+
+    });
+
+</script>*@

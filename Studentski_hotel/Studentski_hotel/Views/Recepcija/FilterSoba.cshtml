@@ -65,14 +65,13 @@
     .select:hover::after {
         color: white;
     }
-
 </style>
 
 <partial name="_ButtonsPartial" />
 
 <form class="form-inline">
     <div class="roomSearcher">
-        <input type="search" oninput="PrikazSoba()" placeholder="Pretrazi sobe" class="form-control" id="SobaID"/>
+        <input type="search" oninput="PrikazSoba()" placeholder="Pretrazi sobe" class="form-control" id="SobaID" />
     </div>
     <div class="select">
         <select text-white bg-success" id="KrevetID" onchange="PrikazSoba()">

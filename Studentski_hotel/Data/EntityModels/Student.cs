@@ -16,6 +16,8 @@ namespace DBdata.EntityModels
         public Pol Pol { get; set; }
         public int  PolID { get; set; }
         public string JMBG { get; set; }
+        public string Slika { get; set; }
+
         public string LicnaKarta { get; set; }
         public string DatumRodjenja { get; set; }
         public string Mobitel { get; set; }

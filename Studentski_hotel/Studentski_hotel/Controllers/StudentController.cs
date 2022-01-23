@@ -13,6 +13,9 @@ using Studentski_hotel.Helper;
 using Studentski_hotel.Models.Student;
 using cloudscribe.Pagination.Models;
 using Studentski_hotel.notHub;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+
 
 namespace Studentski_hotel.Controllers
 {
@@ -23,14 +26,16 @@ namespace Studentski_hotel.Controllers
         private UserManager<Korisnik> _userManager;
         private readonly SignInManager<Korisnik> _signInManager;
         private ApplicationDbContext dbContext;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         IHubContext<NotHub> _hubContext;
 
-        public StudentController(UserManager<Korisnik> userManager, SignInManager<Korisnik> signInManager, ApplicationDbContext _dbContext, IHubContext<NotHub> hubContext)
+        public StudentController(UserManager<Korisnik> userManager, SignInManager<Korisnik> signInManager, ApplicationDbContext _dbContext, IHubContext<NotHub> hubContext, IWebHostEnvironment webHostEnviroment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             dbContext = _dbContext;
             _hubContext = hubContext;
+            _webHostEnvironment = webHostEnviroment;
         }
         public IActionResult Index()
         {
@@ -108,22 +113,49 @@ namespace Studentski_hotel.Controllers
             return Redirect(url: "/Student/PosaljiZahtjev");
         }
 
-        public IActionResult PregledLicniPodataka()
+        public async Task<IActionResult> PregledLicniPodataka()
         {
+            var user = await _userManager.GetUserAsync(User);
+            var student = dbContext.Students.Include(a => a.MjestoRodjenja)
+                .Include(a => a.TipKandidata)
+            .Where(student => student.Korisnik.Id == user.Id).FirstOrDefault();
 
             LicniPodaciVM personalData = new LicniPodaciVM();
-            personalData.Ime = "Tesni Mesha";
-            personalData.Prezime = "Test";
-            personalData.Prebivaliste = "Bugojno";
-            personalData.TipStanara = "Starija godina";
-            personalData.ImeOca = "Hasim";
-            personalData.SlikaStanara = "";
-            personalData.BrLicneKarte = "prazna";
-            personalData.BrLicneKarte = "IB180026";
-            personalData.DatumRodjenja = "28/08/2000";
+            personalData.Ime = student.Ime;
+            personalData.Prezime = student.Prezime;
+            personalData.Prebivaliste = student.MjestoRodjenja.Naziv;
+            personalData.TipStanara = student.TipKandidata.Naziv;
+            personalData.ImeOca = student.ImeOca;
+            personalData.BrMobitela = student.Mobitel;
+            personalData.SlikaStanara = student.Slika;
+            
+            personalData.BrLicneKarte = student.JMBG;
+            personalData.BrojIndeksa = student.BrojIndeksa;
+            personalData.DatumRodjenja = student.DatumRodjenja;
 
             return View(personalData);
 
+        }
+
+        public IActionResult DodajSliku()
+        {
+            return View();
+        }
+
+        [BindProperty]
+        public DodajSLikuVM NovaSlika { get; set; }
+        [HttpPost]
+        public async Task<IActionResult> DodajSliku(DodajSLikuVM model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var student = dbContext.Students.Include(a => a.MjestoRodjenja)
+                .Include(a => a.TipKandidata)
+            .Where(student => student.Korisnik.Id == user.Id).FirstOrDefault();
+            string uniqueFileName = Image.Upload(model.NovaSlika, _webHostEnvironment, "student");
+            student.Slika = uniqueFileName;
+
+            dbContext.SaveChanges();
+            return Redirect(url: "/Student/PregledLicniPodataka");
         }
 
     }

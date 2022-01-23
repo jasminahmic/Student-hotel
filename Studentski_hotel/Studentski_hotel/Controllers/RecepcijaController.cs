@@ -116,9 +116,9 @@ namespace Studentski_hotel.Controllers
 
         public IActionResult Obrisi(int obavijestID)
         {
-            var obrisana = dbContext.Obavijests.Find(obavijestID);
+            var notification = dbContext.Obavijests.Find(obavijestID);
 
-            dbContext.Remove(obrisana);
+            dbContext.Remove(notification);
             dbContext.SaveChanges();
             return Redirect("/Recepcija/PrikazObavijesti");
         }

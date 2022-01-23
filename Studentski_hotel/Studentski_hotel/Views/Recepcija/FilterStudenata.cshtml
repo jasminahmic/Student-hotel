@@ -3,6 +3,7 @@
         margin: 10px;
         width: 20%;
     }
+
     select {
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -74,10 +75,10 @@
 
 <form class="form-inline">
     <div class="search">
-        <input type="search" oninput="PrikazStudenata()" placeholder="Pretrazi studente" class="form-control"  id="StudentID" />
+        <input type="search" oninput="PrikazStudenata()" placeholder="Pretrazi studente" class="form-control" id="StudentID" />
     </div>
     <div class="select">
-        <select  id="TipID" onchange="PrikazStudenata()">
+        <select id="TipID" onchange="PrikazStudenata()">
             <option value="0">Stanari</option>
             <option value="1">Primljeni</option>
 
