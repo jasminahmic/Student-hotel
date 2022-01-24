@@ -20,8 +20,6 @@ namespace Studentski_hotel.Models.Student
         public string BrMobitela { get; set;  }
 
         public string SlikaStanara { get; set; }
-        public IFormFile NovaSlika { get; set; }
-
 
         public string TipStanara { get; set; }
 

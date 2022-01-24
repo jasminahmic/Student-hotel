@@ -19,22 +19,14 @@
         display: flex;
         flex-direction: column;
         margin-top: 36px;
+        align-items: center;
     }
 
     .data-wrapper {
         font-size: 21px;
         margin-top: 36px;
     }
-    .active {
-        margin-top: 20px;
-    }
-
-    img {
-        border-radius: 50%;
-        border: 1px solid royalblue;
-        width: 160px;
-        height: 160px;
-    }
+    
 </style>
 
 
@@ -44,28 +36,9 @@
 
 
     <div class="image-wrapper">
+        <partial name="_DodajSlikuPartial" model="Model" />
 
-        <div>
-            @if (Model.SlikaStanara == null)
-            {
-                <img src="~/images/placeholder-image.svg" alt="Upload new Image" />
-            }
-            else
-            {
-                <img src="~/images/student/@Model.SlikaStanara" />
-            }
-        </div>
 
-        @if (Model.SlikaStanara != null)
-        {
-            <button class="btn btn-outline-danger active">Delete photo</button>
-        }
-        else
-        {
-
-            <button onclick="window.location='/Student/DodajSliku'" class="btn btn-outline-primary active">Upload photo</button>
-
-        }
     </div>
 
     <div class="data-wrapper">
@@ -84,14 +57,3 @@
     </div>
     <br />
 </div>
-@*<script src="/lib/jquery/dist/jquery.js"></script>
-
-<script>
-    $(".custom-file-input").on("change", function (e) {
-        $("#forma").submit();
-        console.log(e.target.files[0], 'ovo drugo');
-
-
-    });
-
-</script>*@

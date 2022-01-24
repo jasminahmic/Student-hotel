@@ -1,5 +1,72 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿<style>
+    .active, .custom-file {
+        margin-top: 20px;
+        width: 147px;
+    }
+
+    img, .has-photo {
+        border-radius: 50%;
+        border: 1px solid royalblue;
+        width: 160px;
+        height: 160px;
+    }
+
+    .form-control {
+        display: none;
+    }
+
+    .has-photo {
+        display: flex;
+        align-items: center;
+    }
+
+    .slika {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+
+<div>
+    @if (Model.SlikaStanara == null)
+    {   
+       <img src="~/images/placeholder-image.svg" alt="Upload new Image" />
+        
+    }
+    else
+    { <div class="has-photo">
+            <img class="slika" src="~/images/student/@Model.SlikaStanara" />
+        </div>
+    }
+</div>
+
+@if (Model.SlikaStanara != null)
+{
+    <a href="@Url.Action("ObrisiSliku","Student",new { slika = Model.SlikaStanara})" class="btn btn-outline-danger active">Delete photo</a>
 }
+else
+{
+
+    <form id="forma" asp-action="DodajSliku" enctype="multipart/form-data">
+        <div class="custom-file mb-3">
+
+            <input id="file" accept=".jpg,.jpeg,.png" class="custom-file-input" type="file" name="NovaSlika" />
+            <input name="ImeSlike" class="form-control" />
+            <label class="custom-file-label" for="NovaSlika">Upload photo</label>
+
+        </div>
+
+    </form>
+
+}
+
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    $(".custom-file-input").on("change", function (e) {
+        $("#forma").submit();
+
+    });
+
+</script>

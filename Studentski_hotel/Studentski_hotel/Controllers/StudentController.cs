@@ -137,11 +137,6 @@ namespace Studentski_hotel.Controllers
 
         }
 
-        public IActionResult DodajSliku()
-        {
-            return View();
-        }
-
         [BindProperty]
         public DodajSLikuVM NovaSlika { get; set; }
         [HttpPost]
@@ -155,6 +150,24 @@ namespace Studentski_hotel.Controllers
             student.Slika = uniqueFileName;
 
             dbContext.SaveChanges();
+            return Redirect(url: "/Student/PregledLicniPodataka");
+        }
+
+
+        public async Task<IActionResult> ObrisiSliku(string slika)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var student = dbContext.Students.Include(a => a.MjestoRodjenja)
+                .Include(a => a.TipKandidata)
+            .Where(student => student.Korisnik.Id == user.Id).FirstOrDefault();
+            Image.Delete(_webHostEnvironment, "student", slika);
+
+            if (student.Slika == slika)
+            {
+                student.Slika = null;
+                dbContext.SaveChanges();
+            }
+
             return Redirect(url: "/Student/PregledLicniPodataka");
         }
 
