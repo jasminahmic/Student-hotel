@@ -1,0 +1,47 @@
+﻿@model Studentski_hotel.Models.Recepcija.PrikazUplataVm
+
+<style>
+    .btn-pregled {
+        background-color: #567d5d;
+        color: white;
+    }
+
+    .btn-pregled:hover {
+        color: white;
+        background-color: #263829;
+    }
+  
+</style>
+
+<div class="naslov">
+    <h2>Uplate studenata</h2>
+    <button class="btn btn-success" onclick="window.location=''"> Dodaj uplatu +</button>
+</div>
+
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Student</th>
+
+            <th>Datum uplate</th>
+            <th>Iznos</th>
+            <th>Ime recepcionera</th>
+
+            <th>Nacin uplate</th>
+        </tr>
+    </thead>
+    @foreach (var uplata in Model.uplate)
+    {
+        <tr>
+            <td>@uplata.Student</td>
+            
+            <td>@uplata.DatumUplate</td>
+            <td>@uplata.VrijednostUplate</td>
+            <td>@uplata.ImeRecepcionera</td>
+            <td>@uplata.NacinUplate</td>
+           
+            <td><button class="btn btn-pregled" onclick="window.location='/Recepcija/DetaljiUplate?uplataID='+@uplata.uplataID">Pregled</button></td>
+        </tr>
+    }
+
+</table>

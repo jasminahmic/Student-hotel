@@ -323,7 +323,7 @@ namespace Studentski_hotel.Controllers
         }
         public IActionResult PrikazStudenata(string pretraga, string Tip)
         {
-            var tip = Tip == "0" ? true : false;
+            var tip = Tip == "0";
             var prijave = dbContext.Students.Where(a => (pretraga == null || (a.Ime + ' ' + a.Prezime).ToLower().StartsWith(pretraga.ToLower())
            || (a.Prezime + ' ' + a.Ime).ToLower().StartsWith(pretraga.ToLower())) && a.Uselio == tip).Select(b => new PrikazStudenataVM.Row
            {
@@ -417,6 +417,45 @@ namespace Studentski_hotel.Controllers
                      $"<p>E-mail : {mail}</p>" +
                     $"<p>Sifra : {password}</p>");
                
+        }
+
+        public IActionResult PrikazUplata()
+        {
+            PrikazUplataVm paymentList = new PrikazUplataVm();
+            paymentList.uplate = dbContext.Uplatas.Include(x => x.NacinUplate)
+                                                  .Include(x => x.Osoblje)
+                                                  .Include(x => x.Ugovor)
+            .Select(u => new PrikazUplataVm.Row
+            {
+               uplataID = u.ID,
+               Student = u.Ugovor.Student.Ime + "" + u.Ugovor.Student.Prezime,
+               ImeRecepcionera = u.NacinUplate.Naziv == "Na recepciji" ? u.Osoblje.Ime + "" + u.Osoblje.Prezime : "",
+               DatumUplate = u.Datum,
+               NacinUplate = u.NacinUplate.Naziv,
+               VrijednostUplate = u.Stanje.ToString() + "KM"
+
+            }).OrderByDescending(u => u.DatumUplate).ToList();
+
+            return View(paymentList);
+        }
+
+        public IActionResult DetaljiUplate(int uplataID)
+        {
+            var uplata = dbContext.Uplatas.Include(x => x.NacinUplate)
+                                            .Include(x => x.Osoblje)
+                                            .Include(x => x.Ugovor)
+                .Where(u => u.ID == uplataID).FirstOrDefault();
+           
+            DetaljiUplateVM selected = new DetaljiUplateVM();
+            selected.uplataID = uplata.ID;
+            selected.Student = "Edin dzeko";
+            selected.ImeRecepcionera = uplata.NacinUplate.Naziv == "Na recepciji" ? uplata.Osoblje.Ime + "" + uplata.Osoblje.Prezime : "";
+            selected.DatumUplate = uplata.Datum;
+            selected.NacinUplate = uplata.NacinUplate.Naziv;
+            selected.VrijednostUplate = uplata.Stanje.ToString() + "KM";
+            selected.RazlogUplate = uplata.Stanje == 206 ? "Cijeli iznos" : "Ishrana";
+
+            return View(selected);
         }
     }
 }
