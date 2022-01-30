@@ -15,7 +15,5 @@ namespace Studentski_hotel.Models.Recepcija
 
        public string datum_dodavanja { get; set; }
 
-
-
     }
 }

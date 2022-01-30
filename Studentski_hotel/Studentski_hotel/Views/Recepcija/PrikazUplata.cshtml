@@ -10,12 +10,21 @@
         color: white;
         background-color: #263829;
     }
+
+    .btn-success {
+        float: right;
+    }
+
+    a {
+        color: red;
+    }
+
   
 </style>
 
 <div class="naslov">
     <h2>Uplate studenata</h2>
-    <button class="btn btn-success" onclick="window.location=''"> Dodaj uplatu +</button>
+    <button class="btn btn-success" onclick="window.location='/Recepcija/EditUplate'"> Dodaj uplatu +</button>
 </div>
 
 <table class="table table-borderless table-striped">
@@ -32,16 +41,17 @@
     </thead>
     @foreach (var uplata in Model.uplate)
     {
-        <tr>
-            <td>@uplata.Student</td>
-            
-            <td>@uplata.DatumUplate</td>
-            <td>@uplata.VrijednostUplate</td>
-            <td>@uplata.ImeRecepcionera</td>
-            <td>@uplata.NacinUplate</td>
-           
-            <td><button class="btn btn-pregled" onclick="window.location='/Recepcija/DetaljiUplate?uplataID='+@uplata.uplataID">Pregled</button></td>
-        </tr>
+<tr>
+    <td>@uplata.Student</td>
+
+    <td>@uplata.DatumUplate</td>
+    <td>@uplata.VrijednostUplate</td>
+    <td>@uplata.ImeRecepcionera</td>
+    <td>@uplata.NacinUplate</td>
+
+    <td><button class="btn btn-pregled" onclick="window.location='/Recepcija/DetaljiUplate?uplataID='+@uplata.uplataID">Pregled</button></td>
+    <td><a href="/Recepcija/ObrisiUplatu?uplataID=@uplata.uplataID">Obrisi Uplatu</a></td>
+</tr>
     }
 
 </table>

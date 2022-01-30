@@ -428,8 +428,8 @@ namespace Studentski_hotel.Controllers
             .Select(u => new PrikazUplataVm.Row
             {
                uplataID = u.ID,
-               Student = u.Ugovor.Student.Ime + "" + u.Ugovor.Student.Prezime,
-               ImeRecepcionera = u.NacinUplate.Naziv == "Na recepciji" ? u.Osoblje.Ime + "" + u.Osoblje.Prezime : "",
+               Student = u.Ugovor.Student.Ime + " " + u.Ugovor.Student.Prezime,
+               ImeRecepcionera = u.NacinUplate.Naziv == "Na recepciji" ? u.Osoblje.Ime + " " + u.Osoblje.Prezime : " ",
                DatumUplate = u.Datum,
                NacinUplate = u.NacinUplate.Naziv,
                VrijednostUplate = u.Stanje.ToString() + "KM"
@@ -445,11 +445,15 @@ namespace Studentski_hotel.Controllers
                                             .Include(x => x.Osoblje)
                                             .Include(x => x.Ugovor)
                 .Where(u => u.ID == uplataID).FirstOrDefault();
+
+            var student = dbContext.Students.Where(s => s.ID == uplata.Ugovor.StudentID).FirstOrDefault();
            
             DetaljiUplateVM selected = new DetaljiUplateVM();
             selected.uplataID = uplata.ID;
-            selected.Student = "Edin dzeko";
-            selected.ImeRecepcionera = uplata.NacinUplate.Naziv == "Na recepciji" ? uplata.Osoblje.Ime + "" + uplata.Osoblje.Prezime : "";
+            selected.StudentID = uplata.UgovorID;
+            selected.StudentIme = student.Ime + " " + student.Prezime;
+
+            selected.ImeRecepcionera = uplata.NacinUplate.Naziv == "Na recepciji" ? uplata.Osoblje.Ime + " " + uplata.Osoblje.Prezime : " ";
             selected.DatumUplate = uplata.Datum;
             selected.NacinUplate = uplata.NacinUplate.Naziv;
             selected.VrijednostUplate = uplata.Stanje.ToString() + "KM";
@@ -457,5 +461,77 @@ namespace Studentski_hotel.Controllers
 
             return View(selected);
         }
+
+        public IActionResult EditUplate(int uplataID, int NacinUplateID) {
+
+            List<SelectListItem> studenti = dbContext.Ugovors.Where(a => a.DatumIseljenja == null)
+                .Include(x => x.Student).
+                Where(s=> s.Student.Uselio)
+              .Select(a => new SelectListItem
+            {
+                Value = a.ID.ToString(),
+                Text = a.Student.Ime + " " + a.Student.Prezime
+            }).ToList();
+
+            List<SelectListItem> naciniUplate = dbContext.NacinUplates.Select(a => new SelectListItem
+            {
+                Value = a.ID.ToString(),
+                Text = a.Naziv
+            }).ToList();
+
+            DodajUplatuVM novaUplata = uplataID == 0 ? new DodajUplatuVM() :
+                dbContext.Uplatas.Where(x => x.ID == uplataID).
+                Select(o => new DodajUplatuVM
+                {
+                    uplataID = uplataID,
+                    VrijednostUplate = (int) o.Stanje,
+                    RecepcijaID = o.Osoblje.ID,
+                    DatumUplate = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss"),
+                }).Single();
+
+            novaUplata.Studenti = studenti;
+            novaUplata.NaciniUplate = naciniUplate;
+
+            return View(novaUplata);
+        }
+
+        public async Task<IActionResult> SnimiUplatu(DodajUplatuVM novaUplata)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            var referent = dbContext.Osobljes.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
+            Uplata uplata;
+            if (novaUplata.uplataID == 0)
+            {
+                uplata = new Uplata();
+                uplata.Datum = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
+
+                dbContext.Add(uplata);
+            }
+            else
+            {
+                uplata = dbContext.Uplatas.Find(novaUplata.uplataID);
+            }
+
+            uplata.NacinUplateID = novaUplata.NacinUplateID;
+            uplata.Stanje = (float) novaUplata.VrijednostUplate;
+            uplata.OsobljeID = referent.Korisnik.Osoblje.ID;
+            uplata.UgovorID = novaUplata.StudentID;
+
+            dbContext.SaveChanges();
+
+            return Redirect("/Recepcija/PrikazUplata");
+        }
+
+        public IActionResult ObrisiUplatu(int uplataID)
+        {
+            var uplata = dbContext.Uplatas.Find(uplataID);
+
+            dbContext.Remove(uplata);
+            dbContext.SaveChanges();
+            return Redirect("/Recepcija/PrikazUplata");
+        }
+
+
     }
 }

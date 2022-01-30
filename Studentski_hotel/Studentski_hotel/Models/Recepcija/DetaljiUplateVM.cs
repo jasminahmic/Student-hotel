@@ -9,7 +9,9 @@ namespace Studentski_hotel.Models.Recepcija
     {
         public int uplataID { get; set; }
         public string ImeRecepcionera { get; set; }
-        public string Student { get; set; }
+        public int StudentID { get; set; }
+        public string StudentIme { get; set; }
+
         public string DatumUplate { get; set; }
 
         public string NacinUplate{ get; set; }

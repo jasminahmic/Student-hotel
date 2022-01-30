@@ -30,7 +30,7 @@
         <h2>Uplata/@Model.RazlogUplate</h2>
 
     <div class="sve">
-        <h3> Ime studenta : @Model.Student</h3>
+        <h3> Ime studenta : @Model.StudentIme</h3>
         <br/>
         <div>
             <label>Datum uplate : </label>
@@ -50,17 +50,8 @@
             <label> Iznos uplate: </label>
             <input asp-for="VrijednostUplate" readonly />
         </div>
-        <button class="btn btn-outline-info" onclick="window.location='/Recepcija/EditUplata?uplataID=' + @Model.uplataID">Edit uplata</button>
+        <button class="btn btn-outline-info" onclick="window.location='/Recepcija/EditUplate?uplataID=' + @Model.uplataID">Edit uplata</button>
 
     </div>
 
-@*<script>
-    function OtvoriFormu(obavijestID) {
-        var url = "/Recepcija/?obavijestID=" + obavijestID;
-        $.get(url, function (d) {
-            $
-        }
-        )
-    }
-</script>*@
 

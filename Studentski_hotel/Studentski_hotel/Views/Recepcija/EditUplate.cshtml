@@ -1,0 +1,30 @@
+﻿@using Studentski_hotel.Models.Recepcija
+
+@model DodajUplatuVM
+<style>
+    form {
+        margin-top: 5%;
+    }
+</style>
+<form asp-action="SnimiUplatu" asp-controller="Recepcija">
+    <div style="display:none">
+        <label></label>
+        <br />
+        <input asp-for="uplataID" />
+    </div>
+    <div class="form-group">
+        <label>Student : </label><br />
+        <select asp-for="StudentID" asp-items="@Model.Studenti" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label for="NacinUplate">NacinUplate</label>
+        <select asp-for="NacinUplateID" asp-items="@Model.NaciniUplate" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label for="stanje"> Vrijednost uplate</label>
+        @Html.EditorFor(m => m.VrijednostUplate)
+    </div>
+
+    <input type="submit" value="Snimi" class="btn btn-info" style="float:right" />
+</form>
