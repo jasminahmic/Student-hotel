@@ -4,11 +4,12 @@
         width: 147px;
     }
 
-    img, .has-photo {
+    .placeholder, .has-photo {
         border-radius: 50%;
         border: 1px solid royalblue;
         width: 160px;
         height: 160px;
+        overflow: hidden;
     }
 
     .form-control {
@@ -18,6 +19,7 @@
     .has-photo {
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 
     .slika {
@@ -30,7 +32,7 @@
 <div>
     @if (Model.SlikaStanara == null)
     {   
-       <img src="~/images/placeholder-image.svg" alt="Upload new Image" />
+       <img class="placeholder" src="~/images/placeholder-image.svg" alt="Upload new Image" />
         
     }
     else

@@ -527,7 +527,7 @@ namespace Studentski_hotel.Controllers
 
             dbContext.SaveChanges();
 
-            return Redirect("/Recepcija/PrikazUplata");
+            return Redirect("/Recepcija/FilterUplata");
         }
 
         public IActionResult ObrisiUplatu(int uplataID)
@@ -536,7 +536,7 @@ namespace Studentski_hotel.Controllers
 
             dbContext.Remove(uplata);
             dbContext.SaveChanges();
-            return Redirect("/Recepcija/PrikazUplata");
+            return Redirect("/Recepcija/FilterUplata");
         }
     }
 }

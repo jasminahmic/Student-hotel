@@ -1,19 +1,23 @@
 ﻿
 <style>
-    .sekcija {
+    .sekcija, .item {
         border-bottom: 1px solid lightblue;
     }
 
-    .tekst {
-        text-align: left;
-        margin-top: 35px;
-    }
+     .item:last-child {
+         border: none;
+     }
+
+        .tekst {
+            text-align: center;
+            margin-top: 35px;
+        }
 
     .sve {
         width: 70%;
         padding: 5px;
         margin: auto;
-        margin-top: 10%;
+        margin-top: 4%;
     }
 
     span {
@@ -35,7 +39,7 @@
 
 
     <ul class="sve">
-        @foreach (var group in Model.Data.GroupBy(x=> x.DatumUplate))
+        @foreach (var group in Model.Data.GroupBy(x=> DateTime.Parse(x.DatumUplate).ToString("MMMM yyyy")))
         {
             <li class="sekcija">
                 <h4>Uplate za studenta/@Html.Encode(group.Key)</h4>
@@ -44,11 +48,11 @@
             <div class="tekst">
                 @foreach ( var item in group)
                 {
-                <div>
-                  <p>@Html.Encode(item.ImeRecepcionera)</p>
-                  <p>@Html.Encode(item.NacinUplate)</p>
-                  <p>@Html.Encode(item.Iznos)</p>
-                  <p>@Html.Encode(item.DatumUplate)</p>
+                <div class="item">
+                    <p>@Html.Encode(item.ImeRecepcionera)</p>
+                    <p>@Html.Encode(item.NacinUplate)</p>
+                    <p>@Html.Encode(item.Iznos)</p>
+                    <p>@Html.Encode(item.DatumUplate)</p>
                 </div>
                 }
             </div>
