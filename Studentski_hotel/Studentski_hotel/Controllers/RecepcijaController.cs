@@ -419,12 +419,19 @@ namespace Studentski_hotel.Controllers
                
         }
 
-        public IActionResult PrikazUplata()
+        public IActionResult FilterUplata()
+        {
+            return View();
+        }
+        public IActionResult PrikazUplata(string pretraga)
         {
             PrikazUplataVm paymentList = new PrikazUplataVm();
-            paymentList.uplate = dbContext.Uplatas.Include(x => x.NacinUplate)
-                                                  .Include(x => x.Osoblje)
-                                                  .Include(x => x.Ugovor)
+            paymentList.uplate = dbContext.Uplatas
+                .Where(a => (pretraga == null || (a.Ugovor.Student.Ime + ' ' + a.Ugovor.Student.Prezime)
+                .ToLower().StartsWith(pretraga.ToLower())) || (a.Ugovor.Student.Ime + ' ' + a.Ugovor.Student.Ime).ToLower().StartsWith(pretraga.ToLower()))
+                .Include(x => x.NacinUplate)
+                .Include(x => x.Osoblje)
+                .Include(x => x.Ugovor)
             .Select(u => new PrikazUplataVm.Row
             {
                uplataID = u.ID,
@@ -531,7 +538,5 @@ namespace Studentski_hotel.Controllers
             dbContext.SaveChanges();
             return Redirect("/Recepcija/PrikazUplata");
         }
-
-
     }
 }

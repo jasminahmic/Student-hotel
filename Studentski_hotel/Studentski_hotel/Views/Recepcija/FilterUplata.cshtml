@@ -1,0 +1,42 @@
+﻿<style>
+    .search {
+        position: relative;
+        display: flex;
+        width: 15em;
+        height: 2.5em;
+        line-height: 2.5;
+        background: #567d5d;
+        overflow: hidden;
+        border-radius: .25em;
+        margin-right: 10px;
+    }
+
+    .payment-header {
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+</style>
+
+<p class="payment-header">Sve uplate:</p>
+
+<form class="form-inline">
+    <div class="search">
+        <input type="search" oninput="PrikazUplata()" placeholder="Pretrazi uplate" class="form-control" id="uplataID" />
+    </div>
+</form>
+
+<div id="Ajax">
+
+</div>
+<script src="/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    var PrikazUplata = () => {
+        var uplate = document.getElementById("uplataID").value;
+        $.get("/Recepcija/PrikazUplata", { pretraga: uplate }, function (data) {
+            $("#Ajax").html(data);
+        })
+    }
+    PrikazUplata();
+</script>

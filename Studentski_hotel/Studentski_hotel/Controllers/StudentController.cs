@@ -171,6 +171,44 @@ namespace Studentski_hotel.Controllers
             return Redirect(url: "/Student/PregledLicniPodataka");
         }
 
+        public async Task<IActionResult> PregledUplata(int pageNumber = 1, int pageSize = 3)
+        {
+            int ExcludeRecords = (pageSize * pageNumber) - pageSize;
+
+            var user = await _userManager.GetUserAsync(User);
+            var student = dbContext.Students.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
+
+            PregledUplataVM uplateStudenta = new PregledUplataVM();
+            uplateStudenta.uplate = dbContext.Uplatas
+                .Include(x => x.NacinUplate)
+                .Include(x => x.Osoblje)
+                .Include(x => x.Ugovor)
+                .Where(x => x.Ugovor.StudentID == student.ID)
+            .Select(u => new PregledUplataVM.Row
+            {
+                uplataID = u.ID,
+                ImeRecepcionera = u.Osoblje.Ime + " " + u.Osoblje.Prezime,
+                NacinUplate = u.NacinUplate.Naziv,
+                DatumUplate = DateTime.Parse(u.Datum).ToString("MMMM"),
+                Iznos = u.Stanje.ToString() + "KM"
+            }).Skip(ExcludeRecords).Take(pageSize).AsNoTracking().ToList();
+
+
+            int brojac = dbContext.Uplatas.Where(x => x.Ugovor.StudentID == student.ID).Count();
+
+            var result = new PagedResult<PregledUplataVM.Row>
+            {
+                Data = uplateStudenta.uplate,
+                PageNumber = pageNumber,
+                TotalItems = brojac,
+                PageSize = pageSize,
+            };
+
+
+            return View(result);
+        }
+
+
     }
 
 }

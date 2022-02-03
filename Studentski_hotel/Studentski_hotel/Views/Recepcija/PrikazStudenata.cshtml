@@ -27,24 +27,26 @@
     </thead>
     @foreach (var item in Model.Studenti)
     {
-        <tr>
-            <td>@item.Ime @item.Prezime</td>
-            @if (item.Uselio)
-            {
+<tr>
+    <td>@item.Ime @item.Prezime</td>
+    @if (item.Uselio)
+    {
 
 
-                <td>@item.Soba</td>
+        <td>@item.Soba</td>
 
 
-                <td>@item.BrojKartice</td>
-            }
-            else
-            {
-                <td>/</td>
-                <td>/</td>
-            }
-            <td><button class="btn btn-pregled" onclick="window.location='/Recepcija/DetaljiPrikazStudenata?StudentID='+@item.ID">Pregled</button></td>
-        </tr>
+        <td>@item.BrojKartice</td>
+    }
+    else
+    {
+        <td>/</td>
+        <td>/</td>
+    }
+    <td><button class="btn btn-pregled" onclick="window.location='/Recepcija/DetaljiPrikazStudenata?StudentID='+@item.ID">Pregled Osobni</button></td>
+    <td><button class="btn btn-pregled" onclick="window.location='/Recepcija/UplateStudenta?StudentID='+@item.ID">Pregled uplata</button></td>
+
+</tr>
     }
 
 

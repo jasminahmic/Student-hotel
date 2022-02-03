@@ -1,0 +1,59 @@
+﻿
+<style>
+    .sekcija {
+        border-bottom: 1px solid lightblue;
+    }
+
+    .tekst {
+        text-align: left;
+        margin-top: 35px;
+    }
+
+    .sve {
+        width: 70%;
+        padding: 5px;
+        margin: auto;
+        margin-top: 10%;
+    }
+
+    span {
+        color: grey;
+    }
+</style>
+
+@{
+    ViewData["Controller"] = "Student";
+    ViewData["Action"] = "PregledUplata";
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+}
+
+@model cloudscribe.Pagination.Models.PagedResult<Studentski_hotel.Models.Student.PregledUplataVM.Row>
+ @addTagHelper *, cloudscribe.Web.Pagination
+
+    <partial name="_BackButtonPartial" />
+
+
+    <ul class="sve">
+        @foreach (var group in Model.Data.GroupBy(x=> x.DatumUplate))
+        {
+            <li class="sekcija">
+                <h4>Uplate za studenta/@Html.Encode(group.Key)</h4>
+            </li>
+
+            <div class="tekst">
+                @foreach ( var item in group)
+                {
+                <div>
+                  <p>@Html.Encode(item.ImeRecepcionera)</p>
+                  <p>@Html.Encode(item.NacinUplate)</p>
+                  <p>@Html.Encode(item.Iznos)</p>
+                  <p>@Html.Encode(item.DatumUplate)</p>
+                </div>
+                }
+            </div>
+        }
+    </ul>
+
+    <partial name="_PaginationPartial" view-data="ViewData" model="Model" />
+
