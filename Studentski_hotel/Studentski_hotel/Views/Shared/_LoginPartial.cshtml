@@ -7,7 +7,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Recepcija/ListaZaNapomenuti" title="Manage">Obavijesti Studente</a>
+        <a class="nav-link" onclick="window.location='/Recepcija/ListaZaNapomenuti'">Obavijesti Studente</a>
         <a class="nav-link text-white" href="/Identity/Account/Manage">Moji podaci</a>
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
@@ -32,7 +32,7 @@ else
     }
 
     a:first-child {
-        color: #17a2b8;
+        color: #17a2b8 !important;
     }
 
     a:first-child:hover {

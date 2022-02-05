@@ -1,5 +1,62 @@
 ﻿@model Studentski_hotel.Models.Recepcija.FilterStudenataNeplacenoVM
 
+    <style>
+        .btn-pregled {
+            background-color: #567d5d;
+            color: white;
+        }
+
+            .btn-pregled:hover {
+                color: white;
+                background-color: #263829;
+            }
+
+        .btn-success {
+            float: right;
+        }
+
+        a.delete {
+            color: red;
+        }
+
+        .sub-header {
+            margin-bottom: 20px;
+        }
+
+        .studenti-fini {
+            color: royalblue;
+            font-size: 24px;
+        }
+    </style>
+
 <h2> Tretutni datum je : @Model.CurrentDate </h2>
 
-<h4>Lista studentata koji nisu platili ovaj mjesec</h4>
+<h4 class="sub-header">Lista studentata koji nisu platili ovaj mjesec</h4>
+
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Student</th>
+
+            <th>Mjesec zadnje uplate</th>
+        </tr>
+    </thead>
+    @if (Model.studentiNisuUplatili != null && Model != null) { 
+
+        @foreach (var uplata in Model.studentiNisuUplatili)
+        {
+            <tr>
+                <td>@uplata.ImeStudenta</td>
+
+                <td>@uplata.Mjesec</td>
+
+                <td><button class="btn btn-pregled" onclick="window.location=''">Obrisi s liste</button></td>
+            </tr>
+        }
+    } 
+    else {
+
+        <h4 class="studenti-fini">Svi su studenti izmirili svoje obveze</h4>
+    } 
+
+</table>

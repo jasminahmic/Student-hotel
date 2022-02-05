@@ -574,16 +574,44 @@ namespace Studentski_hotel.Controllers
 
         public IActionResult ListaZaNapomenuti()
         {
+            DateTime currently = DateTime.Now;
+
+            DateTime deadline = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 11);
+
+            var uplataDate = new DateTime();
+            var customDate = new DateTime();
+
+            foreach (var item in dbContext.Uplatas)
+            {
+                //ovo je datum zadnje uplate
+                uplataDate = Convert.ToDateTime(item.Datum.Substring(0));
+
+            }
+            //ako su custom date i  uplata date jednaki to znaci da student nije uplacivao nista do sad
+            var uplatePoStudentu = dbContext.Uplatas.Where(x=> uplataDate < deadline || uplataDate == customDate).GroupBy(u => u.Ugovor.StudentID)
+                .Select(e => new { e.Key, Count = e.Count() })
+                .ToDictionary(e => e.Key, e => e.Count);
+
+            
             FilterStudenataNeplacenoVM lista = new FilterStudenataNeplacenoVM();
-           
-            DateTime dtFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            DateTime dtTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
+          
+            foreach (var item in uplatePoStudentu) {
 
-            //var uplate = dbContext.Uplatas
-            //    .Where(x => DateTime.Parse(x.Datum) >= dtFrom && DateTime.Parse(x.Datum) <=dtTo).ToList();
+                if (uplataDate.Month != deadline.Month)
+                {
 
-            //lista.CurrentDate = currentDate;
+                    lista.studentiNisuUplatili = dbContext.Students.Where(x => x.ID == item.Key).Select(s => new FilterStudenataNeplacenoVM.Row
+                    {
+                        studentID = s.ID,
+                        ImeStudenta = s.Ime + " " + s.Prezime,
+                        Mjesec = uplataDate.Month.ToString()
+
+                    }).ToList();
+                }
+            }
+
+            lista.CurrentDate = currently.ToString("dd MMMM yyyy");
 
 
             return View(lista);
