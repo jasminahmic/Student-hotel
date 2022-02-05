@@ -538,5 +538,57 @@ namespace Studentski_hotel.Controllers
             dbContext.SaveChanges();
             return Redirect("/Recepcija/FilterUplata");
         }
+        public IActionResult UplateStudenta(int studentID, int pageNumber=1, int pageSize = 2)
+        {
+            int ExcludeRecords = (pageSize * pageNumber) - pageSize;
+
+            PregledUplataVM uplateStudenta = new PregledUplataVM();
+            uplateStudenta.uplateStudenta = dbContext.Uplatas
+                .Include(x => x.NacinUplate)
+                .Include(x => x.Osoblje)
+                .Include(x => x.Ugovor)
+                .Where(x => x.Ugovor.StudentID == studentID)
+            .Select(u => new PregledUplataVM.Row
+            {
+                uplataID = u.ID,
+                ImeRecepcionera = u.Osoblje.Ime + " " + u.Osoblje.Prezime,
+                NacinUplate = u.NacinUplate.Naziv,
+                DatumUplate = u.Datum,
+                Iznos = u.Stanje.ToString() + "KM"
+            }).OrderBy(u => u.DatumUplate).Skip(ExcludeRecords).Take(pageSize).AsNoTracking().ToList();
+
+
+            int brojac = dbContext.Uplatas.Where(x => x.Ugovor.StudentID == studentID).Count();
+
+            var result = new PagedResult<PregledUplataVM.Row>
+            {
+                Data = uplateStudenta.uplateStudenta,
+                PageNumber = pageNumber,
+                TotalItems = brojac,
+                PageSize = pageSize,
+            };
+
+
+            return View(result);
+        }
+
+        public IActionResult ListaZaNapomenuti()
+        {
+            FilterStudenataNeplacenoVM lista = new FilterStudenataNeplacenoVM();
+           
+            DateTime dtFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime dtTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
+
+            //var uplate = dbContext.Uplatas
+            //    .Where(x => DateTime.Parse(x.Datum) >= dtFrom && DateTime.Parse(x.Datum) <=dtTo).ToList();
+
+            //lista.CurrentDate = currentDate;
+
+
+            return View(lista);
+        }
+
+
     }
 }
