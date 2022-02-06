@@ -579,22 +579,20 @@ namespace Studentski_hotel.Controllers
             DateTime deadline = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 11);
 
             var uplataDate = new DateTime();
-            var customDate = new DateTime();
+
 
             foreach (var item in dbContext.Uplatas)
             {
                 //ovo je datum zadnje uplate
                 uplataDate = Convert.ToDateTime(item.Datum.Substring(0));
-
             }
-            //ako su custom date i  uplata date jednaki to znaci da student nije uplacivao nista do sad
-            var uplatePoStudentu = dbContext.Uplatas.Where(x=> uplataDate < deadline || uplataDate == customDate).GroupBy(u => u.Ugovor.StudentID)
+
+            var uplatePoStudentu = dbContext.Uplatas.Where(x=> uplataDate < deadline).GroupBy(u => u.Ugovor.StudentID)
                 .Select(e => new { e.Key, Count = e.Count() })
                 .ToDictionary(e => e.Key, e => e.Count);
 
             
             FilterStudenataNeplacenoVM lista = new FilterStudenataNeplacenoVM();
-
           
             foreach (var item in uplatePoStudentu) {
 
@@ -604,17 +602,35 @@ namespace Studentski_hotel.Controllers
                     lista.studentiNisuUplatili = dbContext.Students.Where(x => x.ID == item.Key).Select(s => new FilterStudenataNeplacenoVM.Row
                     {
                         studentID = s.ID,
-                        ImeStudenta = s.Ime + " " + s.Prezime,
+                        EmailStudenta = s.Email,
                         Mjesec = uplataDate.Month.ToString()
 
                     }).ToList();
                 }
             }
 
+
+            lista.studentiNisuUplatili = dbContext.Ugovors.Where(x => dbContext.Uplatas.All(u=> u.UgovorID !=x.ID))
+                                           .Select(s => new FilterStudenataNeplacenoVM.Row
+                                           {
+                                               studentID = s.StudentID,
+                                               EmailStudenta = s.Student.Email,
+                                               Mjesec = "October"
+                                           }).ToList();
+
             lista.CurrentDate = currently.ToString("dd MMMM yyyy");
 
 
             return View(lista);
+        }
+
+        public async Task<IActionResult> PosaljiUpozorenje(string mail, string razlog)
+        {
+            await _emailService.SendEmailAsync(mail, "Studentski hotel Mostar", "<h1>Upozorenje za placanje smjestaja i ishrane </h1>" +
+                     $"<p>E-mail : {mail}</p>" +
+                    $"<p>Razlog : {razlog}</p>");
+
+            return Redirect("/Recepcija/ListaZaNapomenuti");
         }
 
 

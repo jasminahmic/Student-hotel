@@ -27,36 +27,67 @@
             color: royalblue;
             font-size: 24px;
         }
+
+        .container {
+            max-width: 700px;
+        }
+
+        .email-data {
+            width: 60%;
+            border: 1px solid black;
+            padding: 20px;
+            justify-content: center;
+            border-radius: 20px;
+        }
     </style>
 
 <h2> Tretutni datum je : @Model.CurrentDate </h2>
 
 <h4 class="sub-header">Lista studentata koji nisu platili ovaj mjesec</h4>
 
-<table class="table table-borderless table-striped">
-    <thead>
-        <tr>
-            <th>Student</th>
+<fieldset class="d-flex small email-data">
+    <legend style="font-size:20px;width:120px;text-align:center">Box za slanje upozorenja</legend>
+    <div style="margin-right:30px">
+        <div class="form-group  ">
+            <label>Adresa</label>
+            <input asp-for="email" class="form-control form-control-sm" />
+        </div>
+        <div class="form-group">
+            <label>Sadrzaj Emaila</label>
+             <textarea asp-for="sadrzajEmaila" maxlength="1000" class="form-control" id="exampleFormControlTextarea1" rows="3" style="height:100px"></textarea>
+        </div>
 
-            <th>Mjesec zadnje uplate</th>
-        </tr>
-    </thead>
-    @if (Model.studentiNisuUplatili != null && Model != null) { 
+        <button class="btn btn-danger" onclick="window.location='/Recepcija/PosaljiUpozorenje'">Posalji mail</button>
+    </div>
 
-        @foreach (var uplata in Model.studentiNisuUplatili)
-        {
+ </fieldset>
+
+    <table class="table table-borderless table-striped">
+        <thead>
             <tr>
-                <td>@uplata.ImeStudenta</td>
+                <th>Student</th>
 
-                <td>@uplata.Mjesec</td>
-
-                <td><button class="btn btn-pregled" onclick="window.location=''">Obrisi s liste</button></td>
+                <th>Mjesec zadnje uplate</th>
             </tr>
+        </thead>
+        @if (Model.studentiNisuUplatili != null && Model != null)
+        {
+
+            @foreach (var uplata in Model.studentiNisuUplatili)
+            {
+                <tr>
+                    <td>@uplata.EmailStudenta</td>
+
+                    <td>@uplata.Mjesec</td>
+
+                    <td><button class="btn btn-pregled" onclick="window.location=''">Obrisi s liste</button></td>
+                </tr>
+            }
         }
-    } 
-    else {
+        else
+        {
 
-        <h4 class="studenti-fini">Svi su studenti izmirili svoje obveze</h4>
-    } 
+            <h4 class="studenti-fini">Svi su studenti izmirili svoje obveze</h4>
+        }
 
-</table>
+    </table>
