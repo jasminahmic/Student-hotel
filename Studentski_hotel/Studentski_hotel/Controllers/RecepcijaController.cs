@@ -624,11 +624,11 @@ namespace Studentski_hotel.Controllers
             return View(lista);
         }
 
-        public async Task<IActionResult> PosaljiUpozorenje(string mail, string razlog)
+        public async Task<IActionResult> PosaljiUpozorenje(string email, string sadrzajEmaila)
         {
-            await _emailService.SendEmailAsync(mail, "Studentski hotel Mostar", "<h1>Upozorenje za placanje smjestaja i ishrane </h1>" +
-                     $"<p>E-mail : {mail}</p>" +
-                    $"<p>Razlog : {razlog}</p>");
+            await _emailService.SendEmailAsync(email, "Studentski hotel Mostar", "<h1>Upozorenje za placanje smjestaja i ishrane </h1>" +
+                     $"<p>E-mail : {email}</p>" +
+                    $"<p>Razlog : {sadrzajEmaila}</p>");
 
             return Redirect("/Recepcija/ListaZaNapomenuti");
         }

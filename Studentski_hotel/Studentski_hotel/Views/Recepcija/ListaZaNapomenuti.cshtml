@@ -47,20 +47,20 @@
 
 <fieldset class="d-flex small email-data">
     <legend style="font-size:20px;width:120px;text-align:center">Box za slanje upozorenja</legend>
-    <div style="margin-right:30px">
+    <form asp-action="PosaljiUpozorenje" asp-controller="Recepcija" style="margin-right:30px">
         <div class="form-group  ">
             <label>Adresa</label>
             <input asp-for="email" class="form-control form-control-sm" />
         </div>
         <div class="form-group">
             <label>Sadrzaj Emaila</label>
-             <textarea asp-for="sadrzajEmaila" maxlength="1000" class="form-control" id="exampleFormControlTextarea1" rows="3" style="height:100px"></textarea>
+            <textarea asp-for="sadrzajEmaila" maxlength="1000" class="form-control" id="exampleFormControlTextarea1" rows="3" style="height:100px"></textarea>
         </div>
 
-        <button class="btn btn-danger" onclick="window.location='/Recepcija/PosaljiUpozorenje'">Posalji mail</button>
-    </div>
+        <input type="submit" class="btn btn-danger" value="Posalji mail" />
+    </form>
 
- </fieldset>
+</fieldset>
 
     <table class="table table-borderless table-striped">
         <thead>
