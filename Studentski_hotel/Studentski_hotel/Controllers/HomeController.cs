@@ -53,6 +53,11 @@ namespace Studentski_hotel.Controllers
                 {
                     return Redirect(url: "/Referent/PrijavePocetna");
                 }
+
+                if (osoblje.RolaID == 3)
+                {
+                    return Redirect(url: "/Kuhinja/Dashboard");
+                }
             }
 
 

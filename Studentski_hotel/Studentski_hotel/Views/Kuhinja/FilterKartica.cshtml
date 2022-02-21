@@ -1,0 +1,42 @@
+﻿<style>
+    .search {
+        position: relative;
+        display: flex;
+        width: 15em;
+        height: 2.5em;
+        line-height: 2.5;
+        background: #567d5d;
+        overflow: hidden;
+        border-radius: .25em;
+        margin-right: 10px;
+    }
+
+    .payment-header {
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+</style>
+
+<p class="payment-header">Sve kartice:</p>
+
+<form class="form-inline">
+    <div class="search">
+        <input type="search" oninput="PrikazKartica()" placeholder="Pretrazi kartice" class="form-control" id="karticaID" />
+    </div>
+</form>
+
+<div id="Ajax">
+
+</div>
+<script src="/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    var PrikazKartica = () => {
+        var kartice = document.getElementById("karticaID").value;
+        $.get("/Kuhinja/PrikazKartica", { pretraga: kartice }, function (data) {
+            $("#Ajax").html(data);
+        })
+    }
+    PrikazKartica();
+</script>

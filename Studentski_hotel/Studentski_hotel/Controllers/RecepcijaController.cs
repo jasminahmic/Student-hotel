@@ -626,8 +626,10 @@ namespace Studentski_hotel.Controllers
 
         public async Task<IActionResult> PosaljiUpozorenje(string email, string sadrzajEmaila)
         {
+            var user = await _userManager.GetUserAsync(User);
+
             await _emailService.SendEmailAsync(email, "Studentski hotel Mostar", "<h1>Upozorenje za placanje smjestaja i ishrane </h1>" +
-                     $"<p>E-mail : {email}</p>" +
+                     $"<p>E-mail : {user.Email}</p>" +
                     $"<p>Razlog : {sadrzajEmaila}</p>");
 
             return Redirect("/Recepcija/ListaZaNapomenuti");

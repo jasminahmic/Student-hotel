@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+@model Studentski_hotel.Models.Kuhinja.PrikazKarticaVM
+
+<style>
+    .btn-pregled {
+        background-color: #567d5d;
+        color: white;
+    }
+
+        .btn-pregled:hover {
+            color: white;
+            background-color: #263829;
+        }
+
+    .btn-success {
+        float: right;
+    }
+
+    a.delete {
+        color: red;
+    }
+</style>
+
+<div class="naslov">
+    <button class="btn btn-success" onclick="window.location='/Kuhinja/EditKartice'"> Dodaj karticu +</button>
+</div>
+
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Broj kartice</th>
+            <th>Stanje na kartici</th>
+        </tr>
+    </thead>
+    @foreach (var card in Model.kartice)
+    {
+<tr>
+    <td>@card.BrojKartice</td>
+
+    <td>@card.StanjeKartice</td>
+
+
+    <td><button class="btn btn-pregled" onclick="window.location='/Kuhinja/DetaljiKartice?karticaID='+@card.karticaID">Pregled</button></td>
+    <td><button class="btn btn-pregled" onclick="window.location='/Kuhinja/EditKartice?karticaID='+@card.karticaID">Edit iznos</button></td>
+</tr>
+    }
+
+</table>
