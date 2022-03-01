@@ -11,6 +11,7 @@ using Studentski_hotel.Data;
 using Studentski_hotel.notHub;
 using Studentski_hotel.Interface;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Studentski_hotel.Controllers
 {
@@ -48,13 +49,21 @@ namespace Studentski_hotel.Controllers
             PrikazKarticaVM cardList = new PrikazKarticaVM();
             cardList.kartice = dbContext.Karticas
                 .Where(a => (pretraga == null || (a.BrojKartice)
-                .ToLower().StartsWith(pretraga.ToLower())) || (a.BrojKartice).ToLower().StartsWith(pretraga.ToLower()))
+                .ToLower().StartsWith(pretraga.ToLower())) || 
+                a.BrojKartice.ToLower().StartsWith(pretraga.ToLower())
+                )
             .Select(u => new PrikazKarticaVM.Row
             {
                 karticaID = u.ID,
                 BrojKartice = u.BrojKartice,
                 StanjeKartice = (int) u.StanjeNaKartici
             }).ToList();
+
+            DateTime current = DateTime.Now;
+            if (current.Day == 1)
+            {
+                FaktorisanjeObroka();
+            }
 
             return View(cardList);
         }
@@ -80,8 +89,10 @@ namespace Studentski_hotel.Controllers
         public IActionResult SnimiKarticu(DodajKarticuVM kartica)
         {
 
+            bool cardNumberNotExist = dbContext.Karticas.All(x => x.BrojKartice != kartica.BrojKartice);
+
             Kartica card;
-            if (kartica.karticaID == 0)
+            if (kartica.karticaID == 0 && cardNumberNotExist)
             {
                 card = new Kartica();
 
@@ -92,19 +103,57 @@ namespace Studentski_hotel.Controllers
                 card = dbContext.Karticas.Find(kartica.karticaID);
             }
 
-
-            if (dbContext.Karticas.Any(x => x.BrojKartice == kartica.BrojKartice))
+            if (card !=null)
             {
-                ModelState.AddModelError(nameof(card.BrojKartice), "Kartica sa tim brojem vec postoji");
-
-
-            } else
-            {
+                ViewData["Success"] = "Success";
                 card.BrojKartice = kartica.BrojKartice;
+          
                 card.StanjeNaKartici = kartica.StanjeKartice;
                 dbContext.SaveChanges();
-            }
                 return Redirect("/Kuhinja/FilterKartica");
+            }
+            ViewBag.ErrorMessage = "Kartica sa tim brojem vec postoji";
+
+            return Redirect("/Kuhinja/EditKartice");
+        }
+
+        public IActionResult DetaljiKartice(int karticaID)
+        {
+            var kartica = dbContext.Karticas
+                .Where(u => u.ID == karticaID).FirstOrDefault();
+
+            var ugovor = dbContext.Ugovors
+                .Include(x => x.Student)
+                .ThenInclude(x => x.TipKandidata)
+                .Where(s => s.KarticaID == karticaID && s.DatumIseljenja == null).FirstOrDefault();
+
+            DetaljiKarticeVM selected = new DetaljiKarticeVM();
+            if(ugovor != null)
+            {
+                selected.karticaID = kartica.ID;
+                selected.StanjeKartice = kartica.StanjeNaKartici.ToString();
+                selected.BrojKartice = kartica.BrojKartice;
+                selected.StudentID = ugovor.StudentID;
+                selected.StudentIme = ugovor.Student.Ime + " " + ugovor.Student.Ime;
+                selected.TipStudenta = ugovor.Student.TipKandidata.Naziv;
+                selected.RedFlag = true;
+            }
+            
+            return View(selected);
+        }
+
+        public void FaktorisanjeObroka()
+        {
+            foreach (var student in dbContext.Ugovors)
+            {
+                if (student.DatumIseljenja == null)
+                {
+                    var kartica = dbContext.Karticas.Where(x => x.ID == student.KarticaID).FirstOrDefault();
+
+                    kartica.StanjeNaKartici = 176;
+                    dbContext.SaveChanges();
+                }
+            }
         }
     }
 }

@@ -1,0 +1,65 @@
+﻿
+@using Studentski_hotel.Models.Kuhinja
+
+@model DetaljiKarticeVM
+
+<style>
+    .card-data {
+        width: 45%;
+        padding: 30px;
+        border: 1px solid black;
+        border-radius: 20px;
+        margin-bottom: 20px;
+    }
+
+    .card-data div {
+        margin-bottom: 5px;
+    }
+
+    .upozorenje {
+        width: 100%;
+        padding: 12px 10px 12px 14px;
+        line-height: 17px;
+        border-radius: 12px;
+        background: #efedf8;
+        border: 1px solid red;
+        margin-top: 16px;
+    }
+
+    .info {
+        color: #5d44b6;
+    }
+</style>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+
+    <fieldset class="d-flex small card-data">
+        <legend style="font-size:20px;width:120px;text-align:center">Detalji kartice</legend>
+        <div style="margin-right:30px">
+            <div class="form-group">
+                <label>Broj kartice</label>
+                <input readonly asp-for="BrojKartice" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Student</label>
+                <input readonly asp-for="StudentIme" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Tip studenta</label>
+                <input readonly asp-for="TipStudenta" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Stanje na kartici</label>
+                <input readonly asp-for="StanjeKartice" class="form-control form-control-sm" />
+            </div>
+            @if (Model.RedFlag)
+            {
+                <div class="form-group upozorenje">
+                    <p class="info"> *Student nije izmirio svoje obaveze prema domu do desetog u mjesecu</p>
+                </div>
+            }
+
+
+        </div>
+
+    </fieldset>
