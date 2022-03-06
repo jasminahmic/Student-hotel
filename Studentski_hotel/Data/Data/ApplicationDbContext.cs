@@ -45,6 +45,9 @@ namespace Studentski_hotel.Data
         public DbSet<Student> Students { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Rola> Rolas { get; set; }
+        public DbSet<Artikal> Artikals { get; set; }
+        public DbSet<ArtikalCijena> ArtikalCijenas { get; set; }
+        public DbSet<ArtikalObrok> ArtikalObroks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -55,6 +58,18 @@ namespace Studentski_hotel.Data
             foreach (var fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
 
+
+            modelBuilder.Entity<ArtikalObrok>().HasKey(sc => new { sc.ArtikalID, sc.ObrokID });
+
+            modelBuilder.Entity<ArtikalObrok>()
+            .HasOne<Obrok>(sc => sc.Obrok)
+            .WithMany(s => s.ArtikalObroks)
+            .HasForeignKey(sc => sc.ObrokID);
+
+            modelBuilder.Entity<ArtikalObrok>()
+            .HasOne<Artikal>(sc => sc.Artikal)
+            .WithMany(s => s.ArtikalObroks)
+            .HasForeignKey(sc => sc.ArtikalID);
 
 
             base.OnModelCreating(modelBuilder);

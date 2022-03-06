@@ -4,15 +4,11 @@ using System.Text;
 
 namespace DBdata.EntityModels
 {
-   public class Obrok
+    public class Artikal
     {
-
+   
         public int ID { get; set; }
-        public string Datum { get; set; }
-        public float Iznos { get; set; }
-        public Osoblje Osoblje { get; set; }
-        public int OsobljeID { get; set; }
-
+        public string NazivArtikla { get; set; }
         public IList<ArtikalObrok> ArtikalObroks { get; set; }
 
     }

@@ -127,6 +127,14 @@ namespace Studentski_hotel.Controllers
                 .ThenInclude(x => x.TipKandidata)
                 .Where(s => s.KarticaID == karticaID && s.DatumIseljenja == null).FirstOrDefault();
 
+
+            var trenutniMjesec = DateTime.Now.Month.ToString();
+
+
+            var zadnjaUplata = dbContext.Uplatas
+                .Where(u => u.UgovorID == ugovor.ID && u.Stanje > 20
+                ).OrderBy(x=> x.Datum).FirstOrDefault();
+
             DetaljiKarticeVM selected = new DetaljiKarticeVM();
             if(ugovor != null)
             {
@@ -136,7 +144,7 @@ namespace Studentski_hotel.Controllers
                 selected.StudentID = ugovor.StudentID;
                 selected.StudentIme = ugovor.Student.Ime + " " + ugovor.Student.Ime;
                 selected.TipStudenta = ugovor.Student.TipKandidata.Naziv;
-                selected.RedFlag = true;
+                selected.RedFlag = zadnjaUplata.Datum.Substring(4, 3) != trenutniMjesec ? true: false;
             }
             
             return View(selected);
