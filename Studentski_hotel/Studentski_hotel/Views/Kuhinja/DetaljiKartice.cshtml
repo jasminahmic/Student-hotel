@@ -29,10 +29,33 @@
     .info {
         color: #5d44b6;
     }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        width: auto !important;
+    }
+
+    #iznos {
+        border: 0;
+        outline: 0;
+    }
+
+    #iznos:focus {
+        outline: 0 !important;
+        border-width: 0px;
+    }
+
+    .submit {
+        text-align: right;
+        margin-top: 12px;
+    }
+
+
 </style>
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/site.css" />
-
+  <form class="container">
     <fieldset class="d-flex small card-data">
         <legend style="font-size:20px;width:120px;text-align:center">Detalji kartice</legend>
         <div style="margin-right:30px">
@@ -58,8 +81,30 @@
                     <p class="info"> *Student nije izmirio svoje obaveze prema domu do desetog u mjesecu</p>
                 </div>
             }
-
-
         </div>
 
     </fieldset>
+
+    <fieldset class="d-flex small card-data">
+        <legend style="font-size:20px;width:120px;text-align:center">Detalji obroka</legend>
+        <div style="margin-right:30px">
+            <div style="display: none" class="form-group">
+                <label>Obrok id</label>
+                <input asp-for="ObrokID" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Detalji obroka</label>
+                @* pazi na id ovjde *@
+                @*<select asp-for="DetaljiObroka" asp-items="@Model.DetaljiObroka" class="form-control form-control-sm" id="KantonID"></select>*@
+                <input asp-for="DetaljiObroka" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Iznos obroka</label>
+                <input id="iznos" readonly value="0" asp-for="IznosObroka" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group submit">
+                <input type="submit" class="btn-success" />
+            </div>
+        </div>
+    </fieldset>
+  </form>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DBdata.EntityModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,5 +16,16 @@ namespace Studentski_hotel.Models.Kuhinja
         public string TipStudenta { get; set; }
         public string StanjeKartice { get; set; }
         public bool RedFlag { get; set; }
+        // za lijevu formu data
+        public int ObrokID { get; set; }
+        public string Datum { get; set; }
+
+        public float IznosObroka { get; set; }
+
+        public List<ArtikalObrok> DetaljiObroka { get; set; }
+
+        public int OsobljeID { get; set; }
+
+        public Osoblje Osoblje { get; set; }
     }
 }

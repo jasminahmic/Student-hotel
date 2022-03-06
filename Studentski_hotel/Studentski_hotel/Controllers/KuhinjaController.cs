@@ -119,6 +119,7 @@ namespace Studentski_hotel.Controllers
 
         public IActionResult DetaljiKartice(int karticaID)
         {
+
             var kartica = dbContext.Karticas
                 .Where(u => u.ID == karticaID).FirstOrDefault();
 
