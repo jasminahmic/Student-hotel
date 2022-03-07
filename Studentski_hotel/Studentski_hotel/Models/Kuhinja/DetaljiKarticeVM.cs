@@ -14,7 +14,7 @@ namespace Studentski_hotel.Models.Kuhinja
         public string BrojKartice { get; set; }
 
         public string TipStudenta { get; set; }
-        public string StanjeKartice { get; set; }
+        public float StanjeKartice { get; set; }
         public bool RedFlag { get; set; }
         // za lijevu formu data
         public int ObrokID { get; set; }

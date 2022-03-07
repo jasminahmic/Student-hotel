@@ -51,6 +51,21 @@
         margin-top: 12px;
     }
 
+    .red {
+        color: red !important;
+    }
+
+    .btn-disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+        background: lightgray;
+        color: red;
+        opacity: 0.65;
+        filter: alpha(opacity=65);
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
 
 </style>
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -73,7 +88,14 @@
             </div>
             <div class="form-group">
                 <label>Stanje na kartici</label>
-                <input readonly asp-for="StanjeKartice" class="form-control form-control-sm" />
+                @if (Model.StanjeKartice < 2 || Model.RedFlag)
+                {
+                    <input readonly asp-for="StanjeKartice" class="form-control form-control-sm red" />
+
+                } else
+                {
+                    <input readonly asp-for="StanjeKartice" class="form-control form-control-sm" />
+                }
             </div>
             @if (Model.RedFlag)
             {
@@ -103,7 +125,7 @@
                 <input id="iznos" readonly value="0" asp-for="IznosObroka" class="form-control form-control-sm" />
             </div>
             <div class="form-group submit">
-                <input type="submit" class="btn-success" />
+                <button class="@((Model.StanjeKartice < 2 || Model.RedFlag ? "btn-disabled": "btn-sucess"))">Skini obrok</button>
             </div>
         </div>
     </fieldset>

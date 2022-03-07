@@ -130,22 +130,27 @@ namespace Studentski_hotel.Controllers
 
 
             var trenutniMjesec = DateTime.Now.Month.ToString();
-
-
-            var zadnjaUplata = dbContext.Uplatas
-                .Where(u => u.UgovorID == ugovor.ID && u.Stanje > 20
-                ).OrderBy(x=> x.Datum).FirstOrDefault();
-
             DetaljiKarticeVM selected = new DetaljiKarticeVM();
-            if(ugovor != null)
+
+            if (ugovor != null)
             {
-                selected.karticaID = kartica.ID;
-                selected.StanjeKartice = kartica.StanjeNaKartici.ToString();
-                selected.BrojKartice = kartica.BrojKartice;
-                selected.StudentID = ugovor.StudentID;
-                selected.StudentIme = ugovor.Student.Ime + " " + ugovor.Student.Ime;
-                selected.TipStudenta = ugovor.Student.TipKandidata.Naziv;
-                selected.RedFlag = zadnjaUplata.Datum.Substring(4, 3) != trenutniMjesec ? true: false;
+                bool imaUplatu = dbContext.Uplatas.Any(u => u.UgovorID == ugovor.ID);
+
+                if (imaUplatu)
+                {
+                    var zadnjaUplata = dbContext.Uplatas
+                        .Where(u => u.UgovorID == ugovor.ID && u.Stanje > 20
+                        ).OrderBy(x => x.Datum).FirstOrDefault();
+
+
+                    selected.karticaID = kartica.ID;
+                    selected.StanjeKartice = kartica.StanjeNaKartici;
+                    selected.BrojKartice = kartica.BrojKartice;
+                    selected.StudentID = ugovor.StudentID;
+                    selected.StudentIme = ugovor.Student.Ime + " " + ugovor.Student.Ime;
+                    selected.TipStudenta = ugovor.Student.TipKandidata.Naziv;
+                    selected.RedFlag = zadnjaUplata.Datum.Substring(4, 3) != trenutniMjesec || zadnjaUplata == null ? true : false;
+                }
             }
             
             return View(selected);

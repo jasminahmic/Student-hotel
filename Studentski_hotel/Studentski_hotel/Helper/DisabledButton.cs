@@ -9,7 +9,7 @@ namespace Studentski_hotel.Helper
 {
     public static class DisabledButton
     {
-        public static HtmlString DisabledIf(this HtmlHelper html, bool condition)
+        public static HtmlString DisabledIf(bool condition)
         {
             return new HtmlString(condition ? "disabled=\"disabled\"" : "");
         }
