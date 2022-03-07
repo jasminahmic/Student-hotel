@@ -1,4 +1,5 @@
 ﻿using DBdata.EntityModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace Studentski_hotel.Models.Kuhinja
         public float IznosObroka { get; set; }
 
         public List<ArtikalObrok> DetaljiObroka { get; set; }
+
+        public MultiSelectList PonudaArtikli { get; set; }
 
         public int OsobljeID { get; set; }
 

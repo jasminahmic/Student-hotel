@@ -12,9 +12,9 @@
         margin-bottom: 20px;
     }
 
-    .card-data div {
-        margin-bottom: 5px;
-    }
+        .card-data div {
+            margin-bottom: 5px;
+        }
 
     .upozorenje {
         width: 100%;
@@ -41,10 +41,10 @@
         outline: 0;
     }
 
-    #iznos:focus {
-        outline: 0 !important;
-        border-width: 0px;
-    }
+        #iznos:focus {
+            outline: 0 !important;
+            border-width: 0px;
+        }
 
     .submit {
         text-align: right;
@@ -65,12 +65,11 @@
         -webkit-box-shadow: none;
         box-shadow: none;
     }
-
-
 </style>
+
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/site.css" />
-  <form class="container">
+<form class="container">
     <fieldset class="d-flex small card-data">
         <legend style="font-size:20px;width:120px;text-align:center">Detalji kartice</legend>
         <div style="margin-right:30px">
@@ -92,7 +91,8 @@
                 {
                     <input readonly asp-for="StanjeKartice" class="form-control form-control-sm red" />
 
-                } else
+                }
+                else
                 {
                     <input readonly asp-for="StanjeKartice" class="form-control form-control-sm" />
                 }
@@ -117,8 +117,9 @@
             <div class="form-group">
                 <label>Detalji obroka</label>
                 @* pazi na id ovjde *@
-                @*<select asp-for="DetaljiObroka" asp-items="@Model.DetaljiObroka" class="form-control form-control-sm" id="KantonID"></select>*@
-                <input asp-for="DetaljiObroka" class="form-control form-control-sm" />
+                @Html.DropDownList("ArtikalID", Model.PonudaArtikli as MultiSelectList, "Odaberi artikal",
+                new { @class = "chosen-article"}
+               )
             </div>
             <div class="form-group">
                 <label>Iznos obroka</label>
@@ -129,4 +130,14 @@
             </div>
         </div>
     </fieldset>
-  </form>
+</form>
+
+@* Ima problem sa ovim pluginom, not sure kako rijesit *@
+<script src="/lib/jquery/dist/jquery.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $(".chosen-article").chosen();
+    })
+</script>

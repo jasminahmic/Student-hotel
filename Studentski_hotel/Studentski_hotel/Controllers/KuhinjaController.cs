@@ -12,6 +12,7 @@ using Studentski_hotel.notHub;
 using Studentski_hotel.Interface;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Studentski_hotel.Controllers
 {
@@ -152,7 +153,20 @@ namespace Studentski_hotel.Controllers
                     selected.RedFlag = zadnjaUplata.Datum.Substring(4, 3) != trenutniMjesec || zadnjaUplata == null ? true : false;
                 }
             }
-            
+
+            var artikli = from a in dbContext.Artikals
+                          join ac in dbContext.ArtikalCijenas on a.ID equals ac.ArtikalID
+                          select new
+                          {
+                              ArtikalID = a.ID,
+                              //NazivArtikla = a.NazivArtikla,
+                              NazivCijenaArtikla = a.NazivArtikla + " " + ac.Cijena
+                          };
+
+            MultiSelectList listItems = new MultiSelectList(artikli, "ArtikalID", "NazivCijenaArtikla");
+
+            selected.PonudaArtikli = listItems;
+
             return View(selected);
         }
 
