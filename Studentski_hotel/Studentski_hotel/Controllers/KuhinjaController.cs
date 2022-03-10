@@ -159,8 +159,8 @@ namespace Studentski_hotel.Controllers
                           select new
                           {
                               ArtikalID = a.ID,
-                              //NazivArtikla = a.NazivArtikla,
-                              NazivCijenaArtikla = a.NazivArtikla + " " + ac.Cijena
+                              NazivCijenaArtikla = a.NazivArtikla + " " + ac.Cijena,
+                              CijenaArtikla = ac.Cijena
                           };
 
             MultiSelectList listItems = new MultiSelectList(artikli, "ArtikalID", "NazivCijenaArtikla");

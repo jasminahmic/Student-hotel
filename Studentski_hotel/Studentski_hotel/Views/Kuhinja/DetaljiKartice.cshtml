@@ -65,6 +65,10 @@
         -webkit-box-shadow: none;
         box-shadow: none;
     }
+
+    .chosen-container {
+        width: 220px !important;
+    }
 </style>
 
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -109,16 +113,16 @@
 
     <fieldset class="d-flex small card-data">
         <legend style="font-size:20px;width:120px;text-align:center">Detalji obroka</legend>
-        <div style="margin-right:30px">
+        <div>
             <div style="display: none" class="form-group">
                 <label>Obrok id</label>
                 <input asp-for="ObrokID" class="form-control form-control-sm" />
             </div>
             <div class="form-group">
                 <label>Detalji obroka</label>
-                @* pazi na id ovjde *@
-                @Html.DropDownList("ArtikalID", Model.PonudaArtikli as MultiSelectList, "Odaberi artikal",
-                new { @class = "chosen-article"}
+                <br/>
+                @Html.ListBox("ArtikalID", Model.PonudaArtikli as MultiSelectList,
+                new { @class = "chosen-article" }
                )
             </div>
             <div class="form-group">
@@ -132,12 +136,13 @@
     </fieldset>
 </form>
 
-@* Ima problem sa ovim pluginom, not sure kako rijesit *@
+<link rel="stylesheet" href="~/lib/Chosen/dist/css/chosen.min.css" />
 <script src="/lib/jquery/dist/jquery.js"></script>
-
+<script src="~/lib/Chosen/dist/js/chosen.jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-    $(function () {
-        $(".chosen-article").chosen();
-    })
+    (function ($) {
+        $('.chosen-article').chosen();
+    })(jQuery);
 </script>
+
