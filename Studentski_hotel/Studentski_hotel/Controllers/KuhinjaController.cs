@@ -141,16 +141,16 @@ namespace Studentski_hotel.Controllers
                 {
                     var zadnjaUplata = dbContext.Uplatas
                         .Where(u => u.UgovorID == ugovor.ID && u.Stanje > 20
-                        ).OrderBy(x => x.Datum).FirstOrDefault();
+                        ).OrderByDescending(x => x.ID).FirstOrDefault();
 
 
                     selected.karticaID = kartica.ID;
                     selected.StanjeKartice = kartica.StanjeNaKartici;
                     selected.BrojKartice = kartica.BrojKartice;
                     selected.StudentID = ugovor.StudentID;
-                    selected.StudentIme = ugovor.Student.Ime + " " + ugovor.Student.Ime;
+                    selected.StudentIme = ugovor.Student.Ime + " " + ugovor.Student.Prezime;
                     selected.TipStudenta = ugovor.Student.TipKandidata.Naziv;
-                    selected.RedFlag = zadnjaUplata.Datum.Substring(4, 3) != trenutniMjesec || zadnjaUplata == null ? true : false;
+                    selected.RedFlag = zadnjaUplata.Datum.Substring(5, 1) != trenutniMjesec || zadnjaUplata == null ? true : false;
                 }
             }
 
@@ -163,7 +163,7 @@ namespace Studentski_hotel.Controllers
                               CijenaArtikla = ac.Cijena
                           };
 
-            MultiSelectList listItems = new MultiSelectList(artikli, "ArtikalID", "NazivCijenaArtikla");
+            MultiSelectList listItems = new MultiSelectList(artikli, "CijenaArtikla", "NazivCijenaArtikla");
 
             selected.PonudaArtikli = listItems;
 

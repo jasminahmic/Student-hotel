@@ -69,6 +69,9 @@
     .chosen-container {
         width: 220px !important;
     }
+    .d-flex {
+        justify-content: center !important;
+    }
 </style>
 
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -105,6 +108,7 @@
             {
                 <div class="form-group upozorenje">
                     <p class="info"> *Student nije izmirio svoje obaveze prema domu do desetog u mjesecu</p>
+                    <span>@Model.StudentID</span>
                 </div>
             }
         </div>
@@ -121,7 +125,7 @@
             <div class="form-group">
                 <label>Detalji obroka</label>
                 <br/>
-                @Html.ListBox("ArtikalID", Model.PonudaArtikli as MultiSelectList,
+                @Html.ListBox("CijenaArtikla", Model.PonudaArtikli as MultiSelectList,
                 new { @class = "chosen-article" }
                )
             </div>
@@ -142,7 +146,25 @@
 
 <script type="text/javascript">
     (function ($) {
-        $('.chosen-article').chosen();
+
+        $('.chosen-article').chosen()
+        var iznos = document.getElementById("iznos");
+        $('.chosen-article').change(function () {
+            var selektovaniNiz = $('.chosen-article').chosen().val();
+            if (!selektovaniNiz.length) {
+                iznos.value = 0
+            } else {
+                let accumulator = 0;
+                for (let i = 0; i < selektovaniNiz.length; i++) {
+                    let trenutniEl = selektovaniNiz[i].replace(",", ".")
+                    accumulator += parseFloat(trenutniEl);
+                }
+                iznos.value = accumulator;
+            }
+        });
+
     })(jQuery);
+
+
 </script>
 
