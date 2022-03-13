@@ -106,14 +106,12 @@ namespace Studentski_hotel.Controllers
 
             if (card !=null)
             {
-                ViewData["Success"] = "Success";
                 card.BrojKartice = kartica.BrojKartice;
           
                 card.StanjeNaKartici = kartica.StanjeKartice;
                 dbContext.SaveChanges();
                 return Redirect("/Kuhinja/FilterKartica");
             }
-            ViewBag.ErrorMessage = "Kartica sa tim brojem vec postoji";
 
             return Redirect("/Kuhinja/EditKartice");
         }
@@ -156,18 +154,54 @@ namespace Studentski_hotel.Controllers
 
             var artikli = from a in dbContext.Artikals
                           join ac in dbContext.ArtikalCijenas on a.ID equals ac.ArtikalID
-                          select new
+                          select new ObrokListOption
                           {
                               ArtikalID = a.ID,
                               NazivCijenaArtikla = a.NazivArtikla + " " + ac.Cijena,
                               CijenaArtikla = ac.Cijena
                           };
 
-            MultiSelectList listItems = new MultiSelectList(artikli, "CijenaArtikla", "NazivCijenaArtikla");
+            var obrokLista = new List<ObrokListOption>(artikli);
 
-            selected.PonudaArtikli = listItems;
+           
+            selected.ObrokListOptions = obrokLista;
 
             return View(selected);
+        }
+
+        public async Task<IActionResult> SkiniObrok(SkiniObrokVM obrok)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            var radnik = dbContext.Osobljes.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
+
+            var stringIznos = obrok.IznosObroka.ToString();
+            var lastDigit = stringIznos.Substring(stringIznos.Length - 1);
+            var correctIznosValue = float.Parse(stringIznos.Insert(stringIznos.Length - 1, ","));
+            Obrok obrok1 = new Obrok();
+            obrok1.Datum = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss");
+            obrok1.Iznos = correctIznosValue;
+            obrok1.OsobljeID = radnik.ID;
+            obrok1.Osoblje = radnik;
+            dbContext.Add(obrok1);
+            dbContext.SaveChanges();
+
+            for (int i=0; i<obrok.SelectedArtikals.Count(); i++)
+            {
+                dbContext.ArtikalObroks.Add(new ArtikalObrok
+                {
+                    ObrokID = obrok1.ID,
+                    ArtikalID = obrok.SelectedArtikals[i]
+                });
+
+            }
+
+            var kartica = dbContext.Karticas.Where(x => x.BrojKartice == obrok.brojKartice).FirstOrDefault();
+            kartica.StanjeNaKartici = kartica.StanjeNaKartici - obrok1.Iznos;
+
+            dbContext.SaveChanges();
+
+            return Redirect("/Kuhinja/FilterKartica");
         }
 
         public void FaktorisanjeObroka()

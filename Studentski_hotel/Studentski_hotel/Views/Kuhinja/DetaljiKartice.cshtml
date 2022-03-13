@@ -76,7 +76,7 @@
 
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/site.css" />
-<form class="container">
+<form class="container" asp-action="SkiniObrok" asp-controller="Kuhinja">
     <fieldset class="d-flex small card-data">
         <legend style="font-size:20px;width:120px;text-align:center">Detalji kartice</legend>
         <div style="margin-right:30px">
@@ -125,7 +125,7 @@
             <div class="form-group">
                 <label>Detalji obroka</label>
                 <br/>
-                @Html.ListBox("CijenaArtikla", Model.PonudaArtikli as MultiSelectList,
+                @Html.ListBoxFor(m=> m.selectedArtikals, new MultiSelectList(Model.ObrokListOptions, "ArtikalID", "NazivCijenaArtikla"),
                 new { @class = "chosen-article" }
                )
             </div>
@@ -150,21 +150,18 @@
         $('.chosen-article').chosen()
         var iznos = document.getElementById("iznos");
         $('.chosen-article').change(function () {
-            var selektovaniNiz = $('.chosen-article').chosen().val();
-            if (!selektovaniNiz.length) {
-                iznos.value = 0
-            } else {
-                let accumulator = 0;
-                for (let i = 0; i < selektovaniNiz.length; i++) {
-                    let trenutniEl = selektovaniNiz[i].replace(",", ".")
-                    accumulator += parseFloat(trenutniEl);
-                }
-                iznos.value = accumulator;
-            }
+            let accumulator = 0;
+
+            $(this).find('option:selected').each(function () {
+                var selected = $(this).text();
+                var emptySpaceIndex = selected.lastIndexOf(" ");
+                var takeNumberValue = selected.substring(selected.length, emptySpaceIndex + 1);
+                accumulator += parseFloat(takeNumberValue);
+            });
+
+            iznos.value = accumulator;
         });
 
     })(jQuery);
-
-
 </script>
 

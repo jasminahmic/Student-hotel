@@ -19,16 +19,11 @@ namespace Studentski_hotel.Models.Kuhinja
         public bool RedFlag { get; set; }
         // za lijevu formu data
         public int ObrokID { get; set; }
-        public string Datum { get; set; }
 
         public float IznosObroka { get; set; }
 
-        public List<ArtikalObrok> DetaljiObroka { get; set; }
+        public List<ObrokListOption> ObrokListOptions { get; set; }
+        public List<int> selectedArtikals { get; set; }
 
-        public MultiSelectList PonudaArtikli { get; set; }
-
-        public int OsobljeID { get; set; }
-
-        public Osoblje Osoblje { get; set; }
     }
 }
