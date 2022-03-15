@@ -197,11 +197,46 @@ namespace Studentski_hotel.Controllers
             }
 
             var kartica = dbContext.Karticas.Where(x => x.BrojKartice == obrok.brojKartice).FirstOrDefault();
-            kartica.StanjeNaKartici = kartica.StanjeNaKartici - obrok1.Iznos;
+            if (kartica.StanjeNaKartici >= 2)
+            {
+                kartica.StanjeNaKartici = kartica.StanjeNaKartici - obrok1.Iznos;
+            }
 
             dbContext.SaveChanges();
 
             return Redirect("/Kuhinja/FilterKartica");
+        }
+
+        public IActionResult PrikazPrisutniStudenata()
+        {
+            var sviStudenti = dbContext.Ugovors.Include(x => x.Student).Select(p => new PrikazPrisutniStudenataVM.Row
+            {
+                ID = p.ID,
+                Ime = p.Student.Ime,
+                Prezime = p.Student.Prezime,
+                Uselio = p.Student.Uselio,
+                Soba = dbContext.Ugovors.Where(c => c.StudentID == p.ID && c.DatumIseljenja == null).Select(a => a.Soba.BrojSobe).FirstOrDefault(),
+                BrojKartice = dbContext.Ugovors.Where(c => c.StudentID == p.ID).Select(a => a.Kartica.BrojKartice).FirstOrDefault(),
+            }).ToList();
+          
+
+            var model = new PrikazPrisutniStudenataVM();
+            foreach (var item in sviStudenti)
+            {
+                if (dbContext.NajavaOdlaskas.Any(x=> x.UgovorID == item.ID && x.DatumPovratka != null))
+                {
+                    item.Prisutan = false;
+                } else
+                {
+                    item.Prisutan = true;
+                }
+            }
+
+            var prisutniStudenti = sviStudenti.Where(x => x.Prisutan).ToList();
+
+            model.Studenti = prisutniStudenti;
+
+            return View(model);
         }
 
         public void FaktorisanjeObroka()

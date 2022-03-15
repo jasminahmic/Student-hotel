@@ -1,0 +1,44 @@
+﻿@model Studentski_hotel.Models.Student.NajavaOdlaskaVM
+
+<style>
+    .input-box {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .najava-data {
+        width: 70%;
+        padding: 30px;
+        border: 1px solid black;
+        border-radius: 20px;
+    }
+    .btn-info {
+        float: right;
+    }
+</style>
+<form class="container" asp-action="SnimiNajavu" method="post">
+    <fieldset class="najava-data">
+        <legend style="font-size:20px;width:120px;text-align:center">Najava Odlaska</legend>
+        <div class="input-box">
+            <div style="display: none" class="form-group">
+                <label>Id studenta</label>
+                <input asp-for="ID" class="form-control form-control-sm" />
+            </div>
+            <div style="display: none" class="form-group">
+                <label>Id studenta</label>
+                <input asp-for="UgovorID" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group">
+                <label>Datum odlaska</label>
+                <input asp-for="DatumPolaska" class="form-control form-control-sm" />
+            </div>
+            <br/>
+            <div class="form-group">
+                <label>Datum povratka</label>
+                <input asp-for="DatumPovratka" class="form-control form-control-sm" />
+            </div>
+        </div>
+
+        <button class="btn btn-info">Potrdi</button>
+    </fieldset>
+</form>

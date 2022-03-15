@@ -15,6 +15,7 @@ using cloudscribe.Pagination.Models;
 using Studentski_hotel.Interface;
 using Studentski_hotel.notHub;
 using Microsoft.AspNetCore.SignalR;
+using Studentski_hotel.Models.Kuhinja;
 
 namespace Studentski_hotel.Controllers
 {
@@ -633,6 +634,57 @@ namespace Studentski_hotel.Controllers
                     $"<p>Razlog : {sadrzajEmaila}</p>");
 
             return Redirect("/Recepcija/ListaZaNapomenuti");
+        }
+
+        public IActionResult PrikazStudenataKojiNisuTU()
+        {
+            var sviStudenti = dbContext.Ugovors.Include(x => x.Student).Select(p => new PrikazPrisutniStudenataVM.Row
+            {
+                ID = p.ID,
+                Ime = p.Student.Ime,
+                Prezime = p.Student.Prezime,
+                Uselio = p.Student.Uselio,
+                Soba = dbContext.Ugovors.Where(c => c.StudentID == p.ID && c.DatumIseljenja == null).Select(a => a.Soba.BrojSobe).FirstOrDefault(),
+                BrojKartice = dbContext.Ugovors.Where(c => c.StudentID == p.ID).Select(a => a.Kartica.BrojKartice).FirstOrDefault(),
+            }).ToList();
+
+
+            var model = new PrikazPrisutniStudenataVM();
+            foreach (var item in sviStudenti)
+            {
+                if (dbContext.NajavaOdlaskas.Any(x => x.UgovorID == item.ID && x.DatumPovratka != null))
+                {
+                    item.Prisutan = false;
+                }
+                else
+                {
+                    item.Prisutan = true;
+                }
+            }
+
+            var nisuPrisutni = sviStudenti.Where(x => !x.Prisutan).ToList();
+
+            model.Studenti = nisuPrisutni;
+
+            return View(model);
+        }
+
+        public IActionResult OznaciPrisutnim(string ime)
+        {
+            var student = dbContext.Students.Where(x => x.Ime == ime).FirstOrDefault();
+            var ugovor = dbContext.Ugovors.Where(x => x.StudentID == student.ID).FirstOrDefault();
+            var objectForDeleting = dbContext.NajavaOdlaskas.Where(x => x.UgovorID == ugovor.ID)
+                .OrderByDescending(a => a.ID).FirstOrDefault();
+
+            if (objectForDeleting != null)
+            {
+                dbContext.Remove(objectForDeleting);
+                dbContext.SaveChanges();
+            }
+
+
+
+            return Redirect("/Recepcija/PrikazStudenataKojiNisuTU");
         }
 
 

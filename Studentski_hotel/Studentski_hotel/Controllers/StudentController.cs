@@ -208,7 +208,54 @@ namespace Studentski_hotel.Controllers
             return View(result);
         }
 
+        public async Task<IActionResult> NajavaOdlaskaBox()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var student = dbContext.Students.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
 
+            var ugovor = dbContext.Ugovors.Where(x => x.StudentID == student.ID && x.DatumIseljenja == null).FirstOrDefault();
+
+            NajavaOdlaskaVM najavljeniStudent = new NajavaOdlaskaVM();
+            najavljeniStudent.ID = 0;
+            najavljeniStudent.UgovorID = ugovor.ID;
+            najavljeniStudent.DatumPolaska = DateTime.Now;
+            najavljeniStudent.DatumPovratka = DateTime.Now;
+
+            return View(najavljeniStudent);
+        }
+
+        public IActionResult SnimiNajavu(NajavaOdlaskaVM najava)
+        {
+            NajavaOdlaska nova = new NajavaOdlaska();
+            nova.UgovorID = najava.UgovorID;
+            nova.DatumPolaska = najava.DatumPolaska.ToString("dd/MM/yyyy H:mm:ss");
+            nova.DatumPovratka = najava.DatumPovratka.ToString("dd/MM/yyyy H:mm:ss");
+
+            dbContext.Add(nova);
+
+            dbContext.SaveChanges();
+
+            return Redirect("/Student/PrikazObavijesti");
+        }
+
+        public async Task<IActionResult> OznaciPrisutnim()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var student = dbContext.Students.Where(a => a.KorisnikID == user.Id).FirstOrDefault();
+            var ugovor = dbContext.Ugovors.Where(x => x.StudentID == student.ID).FirstOrDefault();
+
+            var objectForDeleting = dbContext.NajavaOdlaskas.Where(x => x.UgovorID == ugovor.ID)
+                .OrderByDescending(a => a.ID).FirstOrDefault();
+
+            if (objectForDeleting != null)
+            {
+                dbContext.Remove(objectForDeleting);
+                dbContext.SaveChanges();
+            }
+
+
+
+            return Redirect("/Student/PrikazObavijesti");
+        }
     }
-
 }

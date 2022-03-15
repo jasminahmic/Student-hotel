@@ -1,0 +1,32 @@
+﻿
+@model Studentski_hotel.Models.Kuhinja.PrikazPrisutniStudenataVM
+
+<style>
+</style>
+<h4>Lista prisutni studenata</h4>
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Ime i prezime</th>
+
+            <th>Broj sobe</th>
+            <th>Broj kartice</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Studenti)
+    {
+        @if (item.Uselio)
+        {
+            <tr>
+                <td>@item.Ime @item.Prezime</td>
+                <td>@item.Soba</td>
+
+                <td>@item.BrojKartice</td>
+            </tr>
+        }
+     }
+
+
+</table>
