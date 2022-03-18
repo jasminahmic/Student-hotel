@@ -40,5 +40,10 @@ namespace DBdata.EntityModels
         public bool Uselio { get; set; }
         public Korisnik Korisnik { get; set; }
         public string KorisnikID { get; set; }
+
+        public BlackList BlackList { get; set; }
+        public int BlackListID { get; set; }
+
+        public string RazlogZaBlackListu { get; set; }
     }
 }

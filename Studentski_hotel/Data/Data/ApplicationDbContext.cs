@@ -48,6 +48,8 @@ namespace Studentski_hotel.Data
         public DbSet<Artikal> Artikals { get; set; }
         public DbSet<ArtikalCijena> ArtikalCijenas { get; set; }
         public DbSet<ArtikalObrok> ArtikalObroks { get; set; }
+        public DbSet<BlackList> BlackLists { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -91,8 +93,6 @@ namespace Studentski_hotel.Data
             .HasOne<Admin>(s => s.Admin)
             .WithOne(ad => ad.Korisnik)
             .HasForeignKey<Admin>(ad => ad.KorisnikID);
-
- 
         }
 
     }

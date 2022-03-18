@@ -7,6 +7,20 @@
   <ItemGroup>
     <Compile Remove="Migrations\20220122184908_SlikaAtribut.cs" />
     <Compile Remove="Migrations\20220122184908_SlikaAtribut.Designer.cs" />
+    <Compile Remove="Migrations\20220317215054_Blacklist.cs" />
+    <Compile Remove="Migrations\20220317215054_Blacklist.Designer.cs" />
+    <Compile Remove="Migrations\20220317215403_Blacklist.cs" />
+    <Compile Remove="Migrations\20220317215403_Blacklist.Designer.cs" />
+    <Compile Remove="Migrations\20220317215953_Blacklist.cs" />
+    <Compile Remove="Migrations\20220317215953_Blacklist.Designer.cs" />
+    <Compile Remove="Migrations\20220317221213_Blacklist.cs" />
+    <Compile Remove="Migrations\20220317221213_Blacklist.Designer.cs" />
+    <Compile Remove="Migrations\20220317221824_BlackListStudent.cs" />
+    <Compile Remove="Migrations\20220317221824_BlackListStudent.Designer.cs" />
+    <Compile Remove="Migrations\20220317223438_CrnaLista.cs" />
+    <Compile Remove="Migrations\20220317223438_CrnaLista.Designer.cs" />
+    <Compile Remove="Migrations\20220317231214_NovaLista.cs" />
+    <Compile Remove="Migrations\20220317231214_NovaLista.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,49 @@
+﻿@using Studentski_hotel.Models.Recepcija
+@model BlackListItemsVM
+
+<style>
+    .btn-pregled {
+        background-color: #567d5d;
+        color: white;
+    }
+
+        .btn-pregled:hover {
+            color: white;
+            background-color: #263829;
+        }
+
+    .btn-success {
+        float: right;
+    }
+
+    a.delete {
+        color: red;
+    }
+</style>
+
+<h4>Blacklista studentskog doma: </h4>
+
+<div class="naslov">
+    <button class="btn btn-success" onclick="window.location='/Recepcija/EditBlackListe'"> Dodaj studenta +</button>
+</div>
+
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Razlog</th>
+        </tr>
+    </thead>
+    @foreach (var uplata in Model.studenti)
+    {
+        <tr>
+            <td>@uplata.studentID</td>
+
+            <td>@uplata.ImeStudenta</td>
+            <td>@uplata.Razlog</td>
+
+            <td><a class="delete" href="/Recepcija/SkloniStudenta?studentID=@uplata.studentID">Ukloni sa liste</a></td>
+        </tr>
+    }
+
+</table>

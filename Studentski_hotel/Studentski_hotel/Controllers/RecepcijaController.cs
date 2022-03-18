@@ -682,10 +682,41 @@ namespace Studentski_hotel.Controllers
                 dbContext.SaveChanges();
             }
 
-
-
             return Redirect("/Recepcija/PrikazStudenataKojiNisuTU");
         }
+
+        public IActionResult PregledBlackListe()
+        {
+            
+            BlackListItemsVM lista = new BlackListItemsVM();
+            lista.studenti = dbContext.Students.Where(x => x.BlackListID != 0).Select(s => new BlackListItemsVM.Row
+            {
+                ImeStudenta = s.Ime + " " + s.Prezime,
+                Razlog = s.RazlogZaBlackListu,
+                studentID = s.ID
+
+            }).ToList();
+          
+            return View(lista);
+
+        }
+
+        //public IActionResult EditBlackListe(int studentID)
+        //{
+        //    DodajObavijestVM notification = studentID == 0 ? new DodajObavijestVM() :
+        //        dbContext.Obavijests.Where(x => x.ID == obavijestID).
+        //        Select(o => new DodajObavijestVM
+        //        {
+        //            obavijestID = o.ID,
+        //            Naslov = o.Naslov,
+        //            Text = o.Text.Trim(),
+        //            RecepcionerID = o.OsobljeID,
+        //            datum_dodavanja = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss"),
+        //        }).Single();
+
+
+        //    return View(notification);
+        //}
 
 
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Studentski_hotel.Data;
 
 namespace DBdata.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220317232110_NovaTabelaBlackList")]
+    partial class NovaTabelaBlackList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -669,9 +671,6 @@ namespace DBdata.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BlackListID")
-                        .HasColumnType("int");
-
                     b.Property<string>("BrojIndeksa")
                         .HasColumnType("nvarchar(max)");
 
@@ -720,9 +719,6 @@ namespace DBdata.Migrations
                     b.Property<string>("Prezime")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RazlogZaBlackListu")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Slika")
                         .HasColumnType("nvarchar(max)");
 
@@ -736,8 +732,6 @@ namespace DBdata.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("BlackListID");
 
                     b.HasIndex("CiklusStudijaID");
 
@@ -1291,12 +1285,6 @@ namespace DBdata.Migrations
 
             modelBuilder.Entity("DBdata.EntityModels.Student", b =>
                 {
-                    b.HasOne("DBdata.EntityModels.BlackList", "BlackList")
-                        .WithMany()
-                        .HasForeignKey("BlackListID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("DBdata.EntityModels.CiklusStudija", "CiklusStudija")
                         .WithMany()
                         .HasForeignKey("CiklusStudijaID")
