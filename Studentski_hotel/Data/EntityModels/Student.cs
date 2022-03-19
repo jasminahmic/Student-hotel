@@ -42,7 +42,7 @@ namespace DBdata.EntityModels
         public string KorisnikID { get; set; }
 
         public BlackList BlackList { get; set; }
-        public int BlackListID { get; set; }
+        public int? BlackListID { get; set; }
 
         public string RazlogZaBlackListu { get; set; }
     }

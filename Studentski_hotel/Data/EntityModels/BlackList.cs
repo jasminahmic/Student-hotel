@@ -6,7 +6,7 @@ namespace DBdata.EntityModels
 {
     public class BlackList
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
         
         public string Naziv { get; set; }
     }

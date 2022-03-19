@@ -24,7 +24,7 @@
 <h4>Blacklista studentskog doma: </h4>
 
 <div class="naslov">
-    <button class="btn btn-success" onclick="window.location='/Recepcija/EditBlackListe'"> Dodaj studenta +</button>
+    <button class="btn btn-success" onclick="window.location='/Recepcija/EditBlackList'"> Dodaj studenta +</button>
 </div>
 
 <table class="table table-borderless table-striped">
@@ -34,15 +34,16 @@
             <th>Razlog</th>
         </tr>
     </thead>
-    @foreach (var uplata in Model.studenti)
+    @foreach (var student in Model.studenti)
     {
         <tr>
-            <td>@uplata.studentID</td>
+            <td>@student.studentID</td>
 
-            <td>@uplata.ImeStudenta</td>
-            <td>@uplata.Razlog</td>
+            <td>@student.ImeStudenta</td>
+            <td>@student.Razlog</td>
 
-            <td><a class="delete" href="/Recepcija/SkloniStudenta?studentID=@uplata.studentID">Ukloni sa liste</a></td>
+            <td><a class="delete" href="/Recepcija/SkloniStudenta?studentID=@student.studentID">Ukloni sa liste</a></td>
+            <td><button class="btn btn-success" onclick="window.location='/Recepcija/EditBlackList?studentID=@student.studentID'"> Edit studenta</button></td>
         </tr>
     }
 

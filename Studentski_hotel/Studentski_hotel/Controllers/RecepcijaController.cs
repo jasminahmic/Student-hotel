@@ -689,7 +689,7 @@ namespace Studentski_hotel.Controllers
         {
             
             BlackListItemsVM lista = new BlackListItemsVM();
-            lista.studenti = dbContext.Students.Where(x => x.BlackListID != 0).Select(s => new BlackListItemsVM.Row
+            lista.studenti = dbContext.Students.Where(x => x.BlackListID != null).Select(s => new BlackListItemsVM.Row
             {
                 ImeStudenta = s.Ime + " " + s.Prezime,
                 Razlog = s.RazlogZaBlackListu,
@@ -701,22 +701,58 @@ namespace Studentski_hotel.Controllers
 
         }
 
-        //public IActionResult EditBlackListe(int studentID)
-        //{
-        //    DodajObavijestVM notification = studentID == 0 ? new DodajObavijestVM() :
-        //        dbContext.Obavijests.Where(x => x.ID == obavijestID).
-        //        Select(o => new DodajObavijestVM
-        //        {
-        //            obavijestID = o.ID,
-        //            Naslov = o.Naslov,
-        //            Text = o.Text.Trim(),
-        //            RecepcionerID = o.OsobljeID,
-        //            datum_dodavanja = DateTime.Now.ToString("dd/MM/yyyy H:mm:ss"),
-        //        }).Single();
+        public IActionResult EditBlackList(int studentID)
+        {
+            List<SelectListItem> studenti = dbContext.Students.Select(s => new SelectListItem
+            {
+                Value = s.ID.ToString(),
+                Text = s.Ime + " " + s.Prezime
+            }).ToList();
 
+            List<SelectListItem> bl = dbContext.BlackLists.Select(a => new SelectListItem
+            {
+                Value = a.ID.ToString(),
+                Text = a.Naziv
+            }).ToList();
 
-        //    return View(notification);
-        //}
+            EditBlackListVM editBl = new EditBlackListVM();
+
+                if (studentID != 0)
+                {
+                    editBl = dbContext.Students.Where(x => x.ID == studentID).
+                    Select(o => new EditBlackListVM
+                    {
+                        StudentID = o.ID,
+                        Razlog = o.RazlogZaBlackListu,
+                        BlackListID = (int) o.BlackListID
+                    }).Single();
+
+                }
+
+            editBl.Studenti = studenti;
+            editBl.BlackList = bl;
+
+            return View(editBl);
+        }
+
+        public IActionResult SnimiRazlog(EditBlackListVM noviStudent)
+        {
+            var student = dbContext.Students.Where(x => x.ID == noviStudent.StudentID).FirstOrDefault();
+            student.RazlogZaBlackListu = noviStudent.Razlog;
+            student.BlackListID = noviStudent.BlackListID;
+            dbContext.SaveChanges();
+            return Redirect("/Recepcija/PregledBlackListe");
+        }
+
+        public IActionResult SkloniStudenta(int studentID)
+        {
+            var student = dbContext.Students.Where(x => x.ID == studentID).FirstOrDefault();
+
+            student.RazlogZaBlackListu = null;
+            student.BlackListID = null;
+            dbContext.SaveChanges();
+            return Redirect("/Recepcija/PregledBlackListe");
+        }
 
 
     }
