@@ -42,6 +42,7 @@ namespace Studentski_hotel
             services.AddRazorPages();
            
             services.AddTransient<IKonkursService, KonkursService>();
+            services.AddTransient<IRecepcijaService, RecepcijaService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IAdminService, AdminService>();
 
@@ -54,7 +55,10 @@ namespace Studentski_hotel
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
+            //app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
+            //ovo je za vue defaultni gore je za react app
+            app.UseCors(options => options.WithOrigins("http://localhost:8080").AllowAnyHeader().AllowAnyMethod());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
