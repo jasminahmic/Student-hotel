@@ -63,14 +63,14 @@ namespace Studentski_hotel.Services
             vm.Opstina = opstine;
             return vm;
         }
-        public async void AddOsobljaAsync(DodajNastavnikaVM osoblje)
+        public async void AddOsobljaAsync(DodajOsobljeVM osoblje)
         {
             var korisnik = new Korisnik();
             korisnik.Email = osoblje.email;
             korisnik.UserName = osoblje.email;
             korisnik.EmailConfirmed = true;
             korisnik.PhoneNumber = osoblje.mobitel;
-            var password = GenerateRandomPassword.GeneratePassword();
+            var password = "dadadaffjsdvjdgdfdsfddfg";
 
             IdentityResult result = _userManager.CreateAsync(korisnik, password).Result;
             if (!result.Succeeded)
@@ -107,9 +107,9 @@ namespace Studentski_hotel.Services
                      $"<p>E-mail : {osoblje.email}</p>" +
                     $"<p>Sifra : {password}</p>");
         }
-        public DodajNastavnikaVM GetOsoblja(int ID)
+        public DodajOsobljeVM GetOsoblja(int ID)
         {
-            var osoblje = _context.Osobljes.Where(a => a.ID == ID).Select(a => new DodajNastavnikaVM
+            var osoblje = _context.Osobljes.Where(a => a.ID == ID).Select(a => new DodajOsobljeVM
             {
                 ID = a.ID,
                 Ime = a.Ime,
@@ -127,7 +127,7 @@ namespace Studentski_hotel.Services
             osoblje.KantonID = lokacija.KantonID;
             return osoblje;
         }
-        public void EditOsoblja(DodajNastavnikaVM vm)
+        public void EditOsoblja(DodajOsobljeVM vm)
         {
             var osoblje = _context.Osobljes.Where(a => a.ID == vm.ID).FirstOrDefault();
             osoblje.Ime = vm.Ime;

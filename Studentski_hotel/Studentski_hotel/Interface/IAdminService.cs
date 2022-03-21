@@ -12,9 +12,9 @@ namespace Studentski_hotel.Interface
     {
         AdminApiVM PrikazOsoblja();
         public Lista GetList();
-        void AddOsobljaAsync(DodajNastavnikaVM osoblje);
-        DodajNastavnikaVM GetOsoblja(int ID);
-        void EditOsoblja(DodajNastavnikaVM vm);
+        void AddOsobljaAsync(DodajOsobljeVM osoblje);
+        DodajOsobljeVM GetOsoblja(int ID);
+        void EditOsoblja(DodajOsobljeVM vm);
 
     }
 }

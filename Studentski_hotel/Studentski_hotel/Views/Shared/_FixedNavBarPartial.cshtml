@@ -6,13 +6,26 @@
 <div class="sidenav">
     <span class="nav-link" style="font-size:x-large;" href="/Recepcija/PrikazObavijesti">StudentHotel</span>
     <a class="nav-link" href="/Recepcija/PrikazObavijesti">Obavijesti</a>
-    <a class="nav-link" href="/Recepcija/FilterSoba">Pregled</a>
-    <a class="nav-link" href="/Recepcija/FilterUplata">Uplate</a>
-    <a class="nav-link" href="/Kuhinja/FilterKartica">Kartice</a>
-    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Postavke</a>
-    <a class="nav-link" href="/Kuhinja/PrikazPrisutniStudenata">Prisutni studenti</a>
-    <a class="nav-link" href="/Recepcija/PrikazStudenataKojiNisuTU">Studenti nisu prisutni</a>
-    <a class="nav-link" href="/Student/NajavaOdlaskaBox">Najavi odlazak</a>
+    @if (User.Identity.Name == "alen.recepcija@gmail.com")
+    {
+        <a class="nav-link" href="/Recepcija/FilterSoba">Pregled soba</a>
+        <a class="nav-link" href="/Kuhinja/FilterKartica">Kartice</a>
+        <a class="nav-link" href="/Kuhinja/PrikazPrisutniStudenata">Prisutni studenti</a>
+        <a class="nav-link" href="/Recepcija/PrikazStudenataKojiNisuTU">Studenti nisu prisutni</a>
+        <a class="nav-link" href="/Recepcija/FilterUplata">Uplate</a>
+    }
+
+    @if (User.Identity.Name == "emina.hadzic@gmail.com")
+    {
+        <a class="nav-link" href="/Kuhinja/FilterKartica">Kartice</a>
+        <a class="nav-link" href="/Kuhinja/PrikazPrisutniStudenata">Prisutni studenti</a>
+    }
+
+    @if (User.Identity.Name == "admir.numanovic@edu.fit.ba")
+    {
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Postavke</a>
+        <a class="nav-link" href="/Student/NajavaOdlaskaBox">Najavi odlazak</a>
+    }
 
 </div>
 

@@ -7,14 +7,21 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a class="nav-link zuti" href="/Student/OznaciPrisutnim">Potvrdi da si tu</a>
-        <a class="nav-link zuti" href="/Recepcija/ListaZaNapomenuti">Obavijesti Studente</a>
-        <a class="nav-link text-white" href="/Identity/Account/Manage">Moji podaci</a>
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
-        </form>
+        @if (User.Identity.Name == "alen.recepcija@gmail.com")
+        {
+            <a class="nav-link zuti" href="/Recepcija/ListaZaNapomenuti">Obavijesti Studente</a>
+        }
 
-    </li>
+        @if (User.Identity.Name == "admir.numanovic@edu.fit.ba")
+        {
+            <a class="nav-link zuti" href="/Student/OznaciPrisutnim">Potvrdi da si tu</a>
+            <a class="nav-link text-white" href="/Identity/Account/Manage">Moji podaci</a>
+        }
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+            </form>
+
+        </li>
 }
 else
 {

@@ -34,14 +34,14 @@ namespace Studentski_hotel.Controllers
         }
         [HttpPost]
         [Route("AddOsoblja")]
-        public IActionResult AddOsoblja(DodajNastavnikaVM osoblje)
+        public IActionResult AddOsoblja(DodajOsobljeVM osoblje)
         {
             _adminservice.AddOsobljaAsync(osoblje);
             return Ok();
         }
         [HttpPut]
         [Route("EditAdmina")]
-        public IActionResult EditAdmina(DodajNastavnikaVM osoblje)
+        public IActionResult EditAdmina(DodajOsobljeVM osoblje)
         {
             _adminservice.EditOsoblja(osoblje);
             return Ok();
@@ -54,4 +54,4 @@ namespace Studentski_hotel.Controllers
         }
     }
 }
-}
+

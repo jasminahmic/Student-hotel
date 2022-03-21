@@ -10,15 +10,16 @@
         <tr>
             <th>Student</th>
             <th>Razlog</th>
-            <th>Ukloni sa liste</th>
+            <th>Ukloni</th>
+            <th></th>
         </tr>
     </thead>
       <tr v-for="(student, index) in studenti" :key="index">
           <td> {{ student.imeStudenta }}</td>
           <td> {{ student.razlog }}</td>
 
-          <td><a class="delete" @click.prevent="removeFromList(student.studentID)">Ukloni sa liste</a></td>
-          <td><button class="btn btn-success" @click="openEditMode(student.studentID)"> Edit studenta</button></td>
+          <td><a class="delete" @click.prevent="removeFromList(student.studentID)">Ukloni</a></td>
+          <td><button class="btn btn-success" @click="openEditMode(student.studentID)">Uredi</button></td>
       </tr>
 </table>
 </template>
@@ -108,16 +109,13 @@ export default defineComponent({
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  margin-top: 100px;
 }
 
 table td,table th {
   border: 1px solid #ddd;
   padding: 8px;
 }
-
-table tr:nth-child(even){background-color: #f2f2f2;}
-
-table tr:hover {background-color: #ddd;}
 
 table th {
   padding-top: 12px;
