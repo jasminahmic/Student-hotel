@@ -17,7 +17,7 @@
           <td> {{ student.imeStudenta }}</td>
           <td> {{ student.razlog }}</td>
 
-          <td><a class="delete" @click="removeFromList(student.studentID)">Ukloni sa liste</a></td>
+          <td><a class="delete" @click.prevent="removeFromList(student.studentID)">Ukloni sa liste</a></td>
           <td><button class="btn btn-success" @click="openEditMode(student.studentID)"> Edit studenta</button></td>
       </tr>
 </table>
@@ -38,7 +38,6 @@ export default defineComponent({
     })
 
     function openEditMode(id) {
-      console.log(id)
       router.push({ path: 'edit', query: { studentId: id }})
     }
 
@@ -48,8 +47,8 @@ export default defineComponent({
 
     async function removeFromList(studentID) {
       console.log(studentID)
-      await axios.delete("https://localhost:44328/RecepcijaApi/SkloniStudenta", studentID).then(res=>console.log(res)).catch(err=>console.log(err))
-      await router.push({ path: "/"})
+      await axios.delete(`https://localhost:44328/RecepcijaApi/SkloniStudenta?studentID=${studentID}`).then(res=>console.log(res)).catch(err=>console.log(err))
+      studenti.value = (await axios.get("https://localhost:44328/RecepcijaApi/PregledBlackListe")).data.studenti;
     }
 
     return {

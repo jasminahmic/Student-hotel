@@ -40,7 +40,7 @@ namespace Studentski_hotel.Services
         public RecepcijaApiVM GetAllStudents()
         {
             RecepcijaApiVM lista = new RecepcijaApiVM();
-            lista.studenti = _dbContext.Students.Select(s => new RecepcijaApiVM.Row
+            lista.studenti = _dbContext.Students.Where(s=> s.BlackListID == null).Select(s => new RecepcijaApiVM.Row
             {
                 ImeStudenta = s.Ime + " " + s.Prezime,
                 Razlog = s.RazlogZaBlackListu,
@@ -77,12 +77,15 @@ namespace Studentski_hotel.Services
         public bool SkloniStudenta(int studentID)
         {
             var student = _dbContext.Students.Where(x => x.ID == studentID).FirstOrDefault();
+            if (student != null)
+            {
+                student.RazlogZaBlackListu = null;
+                student.BlackListID = null;
+                _dbContext.SaveChanges();
+                return true;
+            }
 
-            student.RazlogZaBlackListu = null;
-            student.BlackListID = null;
-            _dbContext.SaveChanges();
-
-            return true;
+            return false;
         }
 
     }
