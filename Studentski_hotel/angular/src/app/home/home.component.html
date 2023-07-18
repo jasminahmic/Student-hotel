@@ -1,0 +1,62 @@
+<div class="wrapper">
+    <section>
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
+                <div class="container">
+                    <a class="navbar-brand">
+                        <span style="font-family:'Times New Roman';color:white; font-size: 24px;"> STUDENT HOTEL </span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                  <button class="btn btn-outline-light" type="button" 
+                                      (click)="login()" style="font-size: 20px;">
+                                    Login
+                                  </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="info-wrapper">
+            <div class="info-content">
+                <h3 style="margin-bottom:40px;">Studentski hotel Mostar</h3>
+                <p>Studentski hotel Mostar raspolaže smještajnim kapacitetom od 960 ležajeva.
+                    Studentski dom ima 192 dvokrevetne i 192 trokrevetne sobe koje raspolažu vlastitim higijensko-sanitarnim
+                    čvorom. Kvadratura dvokrevetnih soba je 14,40 m2 a trokrevetnih 18 m2. U domu postoji prostor za
+                    edukativne sadržaje, čitaonica, biblioteka, multimedijalni centar sa priručnom bibliotekom, fitnes,
+                    vešeraj, kopirnica, stomatološka ordinacija, studentska ambulanta, uredno uređeni parkovi,
+                    prostor za obavljanje vjerskih aktivnosti i restoran sa kuhinjom.
+                </p>
+            </div>
+  
+            <div class="info-content">
+                <h3 style="margin-bottom:40px;">Sadržaj doma:</h3>
+                <ul>
+                    <li>čitaonica</li>
+                    <li>biblioteka</li>
+                    <li>multimedijalni centar sa priručnom bibliotekom</li>
+                    <li>fitnes</li>
+                    <li>vešeraj</li>
+                    <li>kopirnica</li>
+                    <li>prostor za obavljanje vjerskih aktivnosti</li>
+                    <li>caffe bar</li>
+                    <li>restoran</li>
+                </ul>
+            </div>
+        </div>
+  
+        <button class="btn btn-primary" (click)="register()" style="width: 15%; margin: 0 auto 2.5vh auto; font-size: larger; font-weight: 500;">Postani stanar</button>
+  
+        <footer class="text-muted">
+            &copy; 2021 - Studentski_hotel - Privacy
+        </footer>
+    </section>
+  </div>
+
+  <router-outlet></router-outlet>

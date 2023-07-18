@@ -1,0 +1,145 @@
+<form class="container">
+    <div class="data">
+        <div class="applicantData">
+            <fieldset class="d-flex small applicant-data">
+                <h3>Lični podaci</h3>
+                <div class="personal">
+                    <div class="data1">
+                        <div class="form-group">
+                            <label>Ime</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="kandidat.Ime" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Prezime</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="kandidat.Prezime" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Ime oca</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="kandidat.ImeOca" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Mjesto rođenja</label>
+                            <select class="form-control form-control-sm" [(ngModel)]="kandidat.MjestoRodjenjaID" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let o of getOpstine" [ngValue]="o.value">
+                                    {{o.text}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Zanimanje roditelja</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="kandidat.ZanimanjeRoditelja" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input style="width: 200%;" class="form-control form-control-sm" [(ngModel)]="kandidat.Email" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                    </div>
+
+                    <div class="data2">
+                        <div class="form-group">
+                            <label>JMBG</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="kandidat.JMBG" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Lična karta</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="kandidat.LicnaKarta" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Datum rođenja</label>
+                            <input type="date" class="form-control form-control-sm" [(ngModel)]="kandidat.DatumRodjenja" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Mobitel</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="kandidat.Mobitel" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Pol</label>
+                            <select class="form-control form-control-sm" [(ngModel)]="kandidat.PolID" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let o of getPolovi" [ngValue]="o.value">
+                                    {{o.text}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    
+        <div class="schoolData">
+            <fieldset class="d-flex small town-data">
+                <h3>Prebivalište</h3>
+                <div>
+                    <div class="form-group  ">
+                        <label>Adresa</label>
+                        <input class="form-control form-control-sm" [(ngModel)]="kandidat.Adresa" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                    <div class="form-group">
+                        <label>Opština</label>
+                        <select class="form-control form-control-sm" [(ngModel)]="kandidat.MjestoStanovanjaID"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let o of getOpstinaInKanton" [ngValue]="o.value">
+                                {{o.text}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kanton</label>
+                        <select class="form-control form-control-sm" [(ngModel)]="kandidat.KantonID" (click)="opstineInKanton(kandidat.KantonID)"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let o of getKanton" [ngValue]="o.value">
+                                {{o.text}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+    
+            <fieldset class="d-flex small school-data">
+                <h3>Školovanje</h3>
+                <div class="form-group  ">
+                    <label>Fakultet</label>
+                    <select class="form-control form-control-sm" [(ngModel)]="kandidat.FakultetID" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let o of getFakultet" [ngValue]="o.value">
+                            {{o.text}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tip kandidata</label>
+                    <select class="form-control form-control-sm" [(ngModel)]="kandidat.TipKandidataID" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let o of getTipKandidata" [ngValue]="o.value">
+                            {{o.text}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Broj indeksa</label>
+                    <input class="form-control form-control-sm" [(ngModel)]="kandidat.BrojIndeksa" [ngModelOptions]="{standalone: true}" />
+                </div>
+                
+                <div class="school-bottom">
+                    <div class="form-group">
+                        <label>Ciklus studija</label>
+                        <select class="form-control form-control-sm" [(ngModel)]="kandidat.CiklusStudijaID" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let o of getCiklusStudija" [ngValue]="o.value">
+                                {{o.text}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Godina studija</label>
+                        <select style="width: 100%;" class="form-control form-control-sm" [(ngModel)]="kandidat.GodinaStudijaID" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let o of getGodinaStudija" [ngValue]="o.value">
+                                {{o.text}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="button">
+        <!-- <input type="submit" class="btn btn-danger" value="Submit" /> -->
+        <button class="btn btn-danger" (click)="snimiKandidata(kandidat)">Submit</button>
+    </div>
+</form>

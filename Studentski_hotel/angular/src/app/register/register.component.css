@@ -1,0 +1,114 @@
+.data {
+    width: 100%;
+    height: 80vh;
+    margin-top: 2.5vh;
+    display: flex;
+}
+
+h3 {
+    text-align: center;
+}
+
+.applicantData {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 60%;
+}
+
+.data1, .data2 {
+    width: 50%;
+} 
+
+.personal {
+    display: flex;
+}
+
+.applicant-data {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+    margin: .25vh;
+    padding: 11vh 2.5vh;
+    border:1px solid black;
+    border-radius: 25px;
+}
+
+.applicant-data label {
+    font-size: 16px;
+}
+
+.data1 input, .data1 select {
+    width: 95%;
+    font-size: 16px;
+}
+
+.data2 input, .data2 select {
+    width: 100%;
+    font-size: 16px;
+}
+
+.schoolData {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: 75vh;
+}
+
+.town-data {
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+    margin: .25vh .25vh;
+    padding: 20px;
+    border:1px solid black;
+    border-radius: 25px;
+}
+
+.town-data label, .town-data input, .town-data select {
+    font-size: 16px;
+}
+
+.school-data {
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    margin: .25vh .25vh;
+    padding: 20px;
+    border:1px solid black;
+    border-radius: 25px;
+}
+
+.school-data label, .school-data input, .school-data select {
+    font-size: 16px;
+}
+
+.school-bottom {
+    display: flex;
+}
+
+.school-bottom select {
+    width: 95%;
+}
+
+.school-bottom .form-group {
+    width: 100%;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1vh;
+}
+
+.button button {
+    width: 20%;
+    padding: 12px;
+    text-align: center;
+    font-size: large;
+}
